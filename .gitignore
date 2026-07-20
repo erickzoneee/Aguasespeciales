@@ -1,0 +1,12 @@
+# Sistema operativo / editores
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
+
+# Dependencias / temporales (no se usan, pero por si acaso)
+node_modules/
+.cache/
+.tmp/
+.netlify/
+.vercel/
