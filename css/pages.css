@@ -204,9 +204,69 @@ html[data-theme="dark"] .catcard__meta { color: var(--c-aqua); }
 .section__cta { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-top: 44px; }
 
 /* ---------- Página de producto ---------- */
-.prodhead { display: grid; grid-template-columns: 1fr 300px; gap: clamp(24px, 4vw, 52px); align-items: center; }
+.prodhead { display: grid; grid-template-columns: 1fr 320px; gap: clamp(24px, 4vw, 52px); align-items: center; }
 .prodhead__visual { display: grid; place-items: center; }
 .bottle { width: min(210px, 60vw); filter: drop-shadow(0 24px 40px rgba(0, 0, 0, .35)); }
+
+/* ---------- Visor 3D de producto ---------- */
+/* Alto fijo y ancho flexible: la cámara del modelo se encarga de encuadrar,
+   así el mismo hueco sirve para la botella alta y para el frasco ancho. */
+.visor3d {
+  position: relative;
+  width: min(320px, 80vw);
+  height: clamp(300px, 44vh, 440px);
+  margin-inline: auto;
+  filter: drop-shadow(0 26px 44px rgba(0, 0, 0, .4));
+}
+.visor3d__canvas {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  cursor: grab; touch-action: pan-y;           /* deja pasar el scroll vertical */
+  opacity: 0; transition: opacity .6s var(--ease);
+}
+.visor3d.is-ready .visor3d__canvas { opacity: 1; }
+.visor3d.is-dragging .visor3d__canvas { cursor: grabbing; }
+
+.visor3d__fallback {
+  position: absolute; inset: 0; margin: auto;
+  max-width: 100%; max-height: 100%; width: auto; height: auto;
+  transition: opacity .5s var(--ease);
+}
+.visor3d.is-ready .visor3d__fallback { opacity: 0; pointer-events: none; }
+
+/* Aviso de arrastre: solo cuando el 3D está vivo */
+.visor3d__hint {
+  position: absolute; left: 50%; bottom: -6px; transform: translateX(-50%);
+  display: none; align-items: center; gap: 7px; white-space: nowrap;
+  padding: 6px 14px; border-radius: 999px;
+  background: rgba(255, 255, 255, .12); border: 1px solid rgba(255, 255, 255, .22);
+  backdrop-filter: blur(6px);
+  font-size: .78rem; font-weight: 600; color: #eaf8fc;
+  opacity: 0; transition: opacity .5s var(--ease);
+}
+.visor3d.is-ready .visor3d__hint { display: inline-flex; opacity: .92; }
+.visor3d.is-dragging .visor3d__hint { opacity: 0; }
+.visor3d__hint svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Indicador de carga mientras se descarga Three.js */
+.visor3d.is-loading::after {
+  content: ""; position: absolute; left: 50%; bottom: 4px;
+  width: 26px; height: 26px; margin-left: -13px; border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, .25); border-top-color: var(--c-mint);
+  animation: visorGira .9s linear infinite;
+}
+@keyframes visorGira { to { transform: rotate(360deg); } }
+
+/* Sin WebGL: se queda la fotografía, sin huecos ni mensajes de error */
+.visor3d.sin-3d .visor3d__fallback { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .visor3d__canvas, .visor3d__fallback { transition: none; }
+  .visor3d.is-loading::after { animation: none; }
+}
+@media print {
+  .visor3d__canvas, .visor3d__hint { display: none !important; }
+  .visor3d__fallback { opacity: 1 !important; }
+}
 .prodhead__tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
 .prodhead__tags li {
   list-style: none; font-size: .82rem; font-weight: 500; padding: 6px 13px; border-radius: 999px;

@@ -127,6 +127,11 @@ table { border-collapse: collapse; width: 100%; }
   width: 5px; height: 5px; border-radius: 50%; background: var(--s-cyan);
 }
 
+/* Foto del producto: flota a la derecha para no alargar la hoja */
+.sheet__foto { float: right; width: 21mm; margin: 0 0 4px 5mm; }
+.sheet__foto img { display: block; width: 100%; height: auto; }
+.sheet__sec::after { content: ""; display: block; clear: both; }
+
 .sheet__pills { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; }
 .sheet__pills li {
   font-size: .6rem; font-weight: 600; padding: 3px 8px; border-radius: 999px;

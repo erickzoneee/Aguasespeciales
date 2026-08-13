@@ -108,35 +108,18 @@
             <a href="#fichas" class="btn btn--ghost btn--lg">Solicitar especificaciones</a>
           </div>
         </div>
-        <div class="prodhead__visual" aria-hidden="true">
-          <svg class="bottle" viewBox="0 0 160 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Envase de Agua purificada">
-            <defs>
-              <linearGradient id="liq-ficada" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#9ff5e7"/><stop offset="1" stop-color="#0c7ea0"/>
-              </linearGradient>
-              <linearGradient id="gls-ficada" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0" stop-color="#fff" stop-opacity=".55"/>
-                <stop offset=".42" stop-color="#fff" stop-opacity=".06"/>
-                <stop offset="1" stop-color="#fff" stop-opacity=".34"/>
-              </linearGradient>
-            </defs>
-            <rect x="57" y="4" width="46" height="28" rx="8" fill="#08526b"/>
-            <rect x="57" y="4" width="46" height="28" rx="8" fill="url(#gls-ficada)"/>
-            <path d="M62 32h36v22c0 6 6 9 10 16 4 7 6 16 6 27v195c0 12-9 22-21 22H65c-12 0-21-10-21-22V97c0-11 2-20 6-27 4-7 10-10 10-16V32Z"
-                  fill="url(#liq-ficada)" opacity=".82"/>
-            <path d="M62 32h36v22c0 6 6 9 10 16 4 7 6 16 6 27v195c0 12-9 22-21 22H65c-12 0-21-10-21-22V97c0-11 2-20 6-27 4-7 10-10 10-16V32Z"
-                  fill="url(#gls-ficada)"/>
-            <path d="M62 32h36v22c0 6 6 9 10 16 4 7 6 16 6 27v195c0 12-9 22-21 22H65c-12 0-21-10-21-22V97c0-11 2-20 6-27 4-7 10-10 10-16V32Z"
-                  fill="none" stroke="rgba(255,255,255,.55)" stroke-width="2"/>
-            <rect x="44" y="150" width="72" height="96" rx="4" fill="#f6fbfd" opacity=".95"/>
-            <rect x="44" y="150" width="72" height="26" rx="4" fill="#0c5e78"/>
-            <path d="M80 156c0 0-6 7-6 10a6 6 0 0 0 12 0c0-3-6-10-6-10Z" fill="#7ef0dc"/>
-            <rect x="52" y="186" width="56" height="7" rx="3.5" fill="#0c5e78"/>
-            <rect x="52" y="200" width="42" height="5" rx="2.5" fill="#8ab6c6"/>
-            <rect x="52" y="212" width="50" height="5" rx="2.5" fill="#8ab6c6"/>
-            <rect x="52" y="228" width="30" height="5" rx="2.5" fill="#8ab6c6"/>
-            <ellipse cx="80" cy="312" rx="30" ry="6" fill="rgba(0,0,0,.18)"/>
-          </svg>
+        <div class="prodhead__visual">
+          <div class="visor3d" data-visor3d="pet" data-etiqueta="img/etiqueta-purificada.jpg">
+            <picture>
+              <source srcset="img/render-agua-purificada.webp" type="image/webp" />
+              <img class="visor3d__fallback" src="img/render-agua-purificada.png"
+                   alt="Botella de 1 L de agua purificada de Aguas Especiales" width="640" height="880" decoding="async" fetchpriority="high" />
+            </picture>
+            <span class="visor3d__hint" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M8 9l-3 3 3 3"/><path d="M16 9l3 3-3 3"/><path d="M5 12h14"/></svg>
+              Arrastra para girar
+            </span>
+          </div>
         </div>
       </div>
     </section>
@@ -331,5 +314,6 @@
   <script src="js/site.js"></script>
   <script src="js/specs.js"></script>
   <script src="js/product.js"></script>
+  <script src="js/viewer3d.js"></script>
 </body>
 </html>

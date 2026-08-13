@@ -26,6 +26,9 @@ Pagina AguasEspeciales/
 │   ├── he-agua-desmineralizada.html    # Hoja de especificac.  HE-AE-04
 │   ├── ht-agua-bidestilada.html        # Hoja técnica          HT-AE-02
 │   └── he-agua-bidestilada.html        # Hoja de especificac.  HE-AE-05
+├── img/
+│   ├── etiqueta-*.jpg                  # Texturas de etiqueta para los modelos 3D
+│   └── render-agua-*.webp/.png         # Imágenes de respaldo, sacadas del propio 3D
 ├── css/
 │   ├── styles.css                      # Sistema de diseño + tema claro/oscuro
 │   ├── pages.css                       # Catálogo, servicios y páginas de producto
@@ -36,7 +39,10 @@ Pagina AguasEspeciales/
     ├── main.js                         # Interactividad de la portada
     ├── pages.js                        # Catálogo y servicios
     ├── specs.js                        # Tablas de especificaciones y descargas
-    └── product.js                      # Páginas de producto
+    ├── product.js                      # Páginas de producto
+    ├── viewer3d.js                     # Arranque diferido del visor 3D
+    ├── bottle3d.js                     # Modelos 3D (módulo ES)
+    └── vendor/three.module.js          # Three.js, servido desde el propio sitio
 ```
 
 ## ✏️ Cómo editar el contenido
@@ -82,6 +88,25 @@ Son páginas HTML con formato carta. El botón **«Descargar / imprimir PDF»** 
 - La hoja siempre sale en claro, aunque el visitante tenga el sitio en tema oscuro.
 - Para cambiar código, versión o fecha: edita el encabezado de cada archivo en `fichas/`.
 
+## 🧊 Modelos 3D de producto
+
+Las páginas de **agua purificada** y **agua desmineralizada** muestran el envase como modelo 3D que gira solo y se puede arrastrar.
+
+**No son formas inventadas.** El perfil de la botella PET se midió píxel a píxel sobre la fotografía del producto y se revoluciona con `LatheGeometry`, así que la silueta coincide con la real desde cualquier ángulo. La etiqueta es la de la foto, desenvuelta cilíndricamente para que el texto quede recto al envolverla en el modelo. El frasco de laboratorio, al ser cuadrado, se modela como prisma de esquinas redondeadas con la etiqueta pegada en la cara frontal.
+
+| Aspecto | Cómo funciona |
+|---|---|
+| **Carga** | Three.js no se descarga hasta que el visor está a punto de entrar en pantalla |
+| **Calidad** | En equipos modestos se baja la resolución y se sustituye la refracción por reflejo + transparencia, mucho más barato |
+| **Sin WebGL** | Se queda la imagen de `img/render-agua-*.webp`; nunca aparece un hueco ni un error |
+| **Impresión** | El canvas se oculta y se imprime la imagen |
+| **Menos animación** | Con `prefers-reduced-motion` no hay autogiro, pero se sigue pudiendo arrastrar |
+| **Táctil** | El canvas usa `touch-action: pan-y`: arrastrar en horizontal gira, en vertical desplaza la página |
+
+**Para cambiar una etiqueta**: sustituye el JPG correspondiente en `img/` manteniendo la proporción (la textura envuelve 360°, con el diseño centrado). El atributo `data-etiqueta` de cada `producto-*.html` apunta al archivo.
+
+**Para regenerar las imágenes de respaldo**: salen del propio modelo, así que siempre coinciden con el 3D. Se obtienen llamando a `instantanea(ancho, alto, giro)` sobre el visor y guardando el PNG resultante.
+
 ## 🔧 Personalización rápida
 
 | Qué | Dónde |
@@ -97,6 +122,7 @@ Son páginas HTML con formato carta. El botón **«Descargar / imprimir PDF»** 
 
 ## ⚠️ Pendientes por confirmar
 
+- **Subtítulo de la etiqueta de agua purificada.** Las dos fotos originales tenían impreso «AGUA DESMINERALIZADA». En la botella PET se rehízo el nombre de producto para que diga **AGUA PURIFICADA**, pero se dejó intacto el resto de la etiqueta: sigue diciendo *«ALTA PUREZA · BAJA CONDUCTIVIDAD»*, que es una afirmación propia del agua desmineralizada. Si el agua purificada necesita otro descriptor, indícalo y se cambia. La tipografía es Montserrat Bold, muy parecida a la original pero no idéntica: conviene revisarla antes de darla por buena.
 - **Domicilio completo.** En las hojas que sirvieron de base, la calle y el número quedan tapados por un botón de la imagen. El sitio dice *«Francisco Chilpan, Tultitlán, Estado de México, C.P. 54940»*; falta completar calle y número, y ajustar el mapa.
 - **Número de WhatsApp.** Los botones apuntan a **55 5899 0125**. Confirma que ese número (y no el 55 5899 6566) tenga WhatsApp activo.
 - **Códigos de las hojas de agua bidestilada.** HT-AE-01 y HE-AE-04 vienen de los documentos originales. Para bidestilada se asignaron **HT-AE-02** y **HE-AE-05**; confirma que correspondan a tu control de documentos.
