@@ -1,99 +1,19 @@
 /* =========================================================
-   AGUAS ESPECIALES — Interactividad
+   AGUAS ESPECIALES — Interactividad de la página de inicio
+   (lo común a todas las páginas vive en js/site.js)
    ========================================================= */
 (function () {
   "use strict";
-  const $ = (s, ctx = document) => ctx.querySelector(s);
-  const $$ = (s, ctx = document) => Array.from(ctx.querySelectorAll(s));
-  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  /* Acceso seguro a localStorage (evita que un SecurityError rompa todo el script) */
-  const safeGet = (k) => { try { return localStorage.getItem(k); } catch { return null; } };
-  const safeSet = (k, v) => { try { localStorage.setItem(k, v); } catch { /* almacenamiento no disponible */ } };
-
-  /* ---------- Año en el footer ---------- */
-  const yearEl = $("#year");
-  if (yearEl) yearEl.textContent = new Date().getFullYear();
-
-  /* ---------- Tema claro / oscuro ---------- */
-  const html = document.documentElement;
-  const themeToggle = $("#themeToggle");
-  const stored = safeGet("ae-theme");
-  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  html.setAttribute("data-theme", stored || (prefersDark ? "dark" : "light"));
-  if (themeToggle) {
-    themeToggle.addEventListener("click", () => {
-      const next = html.getAttribute("data-theme") === "dark" ? "light" : "dark";
-      html.setAttribute("data-theme", next);
-      safeSet("ae-theme", next);
-    });
-  }
-
-  /* ---------- Barra de progreso + nav sticky + back to top ---------- */
-  const progress = $("#scrollProgress");
-  const nav = $("#nav");
-  const backTop = $("#backTop");
-  const onScroll = () => {
-    const st = window.scrollY;
-    const h = document.documentElement.scrollHeight - window.innerHeight;
-    if (progress) progress.style.width = (h > 0 ? (st / h) * 100 : 0) + "%";
-    if (nav) nav.classList.toggle("is-stuck", st > 10);
-    if (backTop) backTop.classList.toggle("is-visible", st > 600);
-  };
-  window.addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
-  if (backTop) backTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: prefersReduced ? "auto" : "smooth" }));
-
-  /* ---------- Menú móvil ---------- */
-  const burger = $("#navBurger");
-  const navLinks = $("#navLinks");
-  const setMenu = (open, returnFocus) => {
-    if (!burger || !navLinks) return;
-    navLinks.classList.toggle("is-open", open);
-    burger.classList.toggle("is-open", open);
-    burger.setAttribute("aria-expanded", String(open));
-    if (open) {
-      const first = $("a", navLinks);
-      if (first) first.focus();
-    } else if (returnFocus) {
-      burger.focus();
-    }
-  };
-  if (burger && navLinks) {
-    burger.addEventListener("click", () => setMenu(!navLinks.classList.contains("is-open")));
-    $$("a", navLinks).forEach((a) => a.addEventListener("click", () => setMenu(false)));
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && navLinks.classList.contains("is-open")) setMenu(false, true);
-    });
-  }
-
-  /* ---------- Reveal on scroll ---------- */
-  const revealEls = $$("[data-reveal]");
-  if ("IntersectionObserver" in window && !prefersReduced) {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) { e.target.classList.add("is-in"); io.unobserve(e.target); }
-      });
-    }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
-    revealEls.forEach((el) => io.observe(el));
-  } else {
-    revealEls.forEach((el) => el.classList.add("is-in"));
-  }
-
-  /* ---------- Nav activa según sección ---------- */
-  const sections = $$("main section[id]");
-  const navAnchors = $$('#navLinks a[href^="#"]');
-  if ("IntersectionObserver" in window) {
-    const spy = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) {
-          const id = e.target.id;
-          navAnchors.forEach((a) => a.classList.toggle("is-active", a.getAttribute("href") === "#" + id));
-        }
-      });
-    }, { threshold: 0.5 });
-    sections.forEach((s) => spy.observe(s));
-  }
+  const AE = window.AE || {};
+  const $ = AE.$ || ((s, ctx = document) => ctx.querySelector(s));
+  const $$ = AE.$$ || ((s, ctx = document) => Array.from(ctx.querySelectorAll(s)));
+  const prefersReduced = AE.prefersReduced !== undefined
+    ? AE.prefersReduced
+    : window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const toast = AE.toast || function () {};
+  const CATALOG = window.AE_CATALOG || { categories: [], services: [], waters: {} };
+  const WA = (CATALOG.contact && CATALOG.contact.whatsapp) || "525558990125";
+  const MAIL = (CATALOG.contact && CATALOG.contact.email) || "ventas@aguasespeciales.com.mx";
 
   /* ---------- Contadores animados ---------- */
   const counters = $$("[data-count]");
@@ -161,6 +81,7 @@
       tag: "Uso médico crítico",
       title: "Agua ultrapura para hemodiálisis",
       desc: "Agua con estricto control microbiológico y de endotoxinas, con la puntualidad y calidad que la diálisis exige.",
+      href: "productos.html#aguas-laboratorio",
       specs: [
         ["🧪", "Pureza tipo I", "≈ 18.2 MΩ·cm de resistividad"],
         ["🦠", "Control microbiológico", "Baja carga bacteriana y endotoxinas"],
@@ -171,6 +92,7 @@
       tag: "Laboratorio y análisis",
       title: "Agua Tipo I y Tipo II",
       desc: "Para técnicas críticas (biología molecular, HPLC) y preparación de reactivos y soluciones de uso general.",
+      href: "productos.html#aguas-laboratorio",
       specs: [
         ["💧", "Agua Tipo I", "Ultrapura, ≈ 18.2 MΩ·cm"],
         ["⚗️", "Agua Tipo II", "Pura, para reactivos y uso general"],
@@ -181,6 +103,7 @@
       tag: "Industria farmacéutica",
       title: "Agua purificada para procesos",
       desc: "Soluciones hídricas ajustadas a especificaciones químicas y microbiológicas, bajo condiciones controladas.",
+      href: "producto-agua-purificada.html",
       specs: [
         ["🏭", "A tu especificación", "Parámetros a la medida del proceso"],
         ["🛡️", "Inocuidad", "Producción controlada y segura"],
@@ -191,6 +114,7 @@
       tag: "Cosméticos",
       title: "Agua desmineralizada y purificada",
       desc: "Base ideal para formulación cosmética, con baja concentración de iones y calidad constante.",
+      href: "producto-agua-desmineralizada.html",
       specs: [
         ["🧴", "Desmineralizada", "Baja concentración de iones"],
         ["✨", "Calidad constante", "Lote a lote uniforme"],
@@ -201,6 +125,7 @@
       tag: "Alimentos y bebidas",
       title: "Agua purificada e inocua",
       desc: "Agua elaborada bajo condiciones controladas de higiene, calidad y seguridad para uso alimentario.",
+      href: "producto-agua-purificada.html",
       specs: [
         ["🍶", "Inocuidad garantizada", "Higiene y seguridad controladas"],
         ["✅", "A la medida", "Ajustada a tu proceso"],
@@ -209,11 +134,12 @@
     },
     industrial: {
       tag: "Industrial",
-      title: "Agua desmineralizada y destilada",
-      desc: "Para baterías, calderas, enjuagues y procesos industriales que requieren agua libre de minerales.",
+      title: "Agua desmineralizada y acondicionada",
+      desc: "Para baterías, calderas, chillers y procesos industriales que requieren agua libre de minerales.",
+      href: "producto-agua-desmineralizada.html",
       specs: [
         ["⚙️", "Desmineralizada", "Libre de sales minerales"],
-        ["🔥", "Destilada", "Para procesos y equipos sensibles"],
+        ["❄️", "Acondicionada", "TENSOS 40 y 38 para sistemas cerrados"],
         ["🚚", "Suministro puntual", "Volumen según demanda"],
       ],
     },
@@ -228,9 +154,12 @@
         <span class="result-card__tag">${d.tag}</span>
         <h3>${d.title}</h3>
         <p>${d.desc}</p>
-        <a href="#cotizar" class="btn btn--primary">Cotizar esta solución
-          <svg viewBox="0 0 24 24" class="ico"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
+        <div class="result-card__actions">
+          <a href="#cotizar" class="btn btn--primary">Cotizar esta solución
+            <svg viewBox="0 0 24 24" class="ico"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a href="${d.href}" class="btn btn--ghost">Ver detalle</a>
+        </div>
       </div>
       <div class="result-specs">
         ${d.specs.map((s) => `
@@ -247,7 +176,7 @@
       renderWater(chip.dataset.key);
     });
   });
-  renderWater("dialisis");
+  if (selResult) renderWater("dialisis");
 
   /* ---------- Escala de pureza (unidad unificada: resistividad MΩ·cm) ---------- */
   const PURITY = [
@@ -274,42 +203,42 @@
     } else paint();
   }
 
-  /* ---------- Productos ---------- */
-  const PRODUCTS = [
-    { cat: "agua", emoji: "💧", badge: "Ultrapura", name: "Agua Tipo I", desc: "Agua de máxima pureza para técnicas críticas de laboratorio e investigación.", tags: ["Biología molecular", "HPLC", "Diálisis"] },
-    { cat: "agua", emoji: "⚗️", badge: "Pura", name: "Agua Tipo II", desc: "Agua pura para preparación de reactivos, buffers y uso general de laboratorio.", tags: ["Reactivos", "Buffers", "Uso general"] },
-    { cat: "agua", emoji: "🔥", badge: "Destilada", name: "Agua destilada", desc: "Agua tratada por destilación para procesos y equipos que requieren baja mineralización.", tags: ["Equipos", "Enjuagues", "Procesos"] },
-    { cat: "agua", emoji: "🧊", badge: "Desmineralizada", name: "Agua desmineralizada", desc: "Libre de sales minerales, ideal para baterías, calderas, cosméticos e industria.", tags: ["Baterías", "Cosméticos", "Industria"] },
-    { cat: "reactivos", emoji: "🧪", badge: "Reactivos", name: "Reactivos químicos", desc: "Reactivos para análisis y procesos, con la calidad y trazabilidad que tu operación necesita.", tags: ["Análisis", "Procesos", "Calidad"] },
-    { cat: "analisis", emoji: "🔬", badge: "Servicio", name: "Análisis de agua", desc: "Análisis químicos, microbiológicos y fisicoquímicos para diagnosticar y resolver.", tags: ["Químico", "Microbiológico", "Fisicoquímico"] },
-    { cat: "analisis", emoji: "🧫", badge: "Kit rápido", name: "Kits de análisis", desc: "Kits rápidos para que diagnostiques parámetros clave por tu cuenta, con respaldo técnico.", tags: ["Rápido", "In situ", "Fácil"] },
-    { cat: "insumos", emoji: "🧴", badge: "Insumo", name: "Desinfectantes", desc: "Desinfectantes para mantener condiciones controladas de higiene y seguridad.", tags: ["Higiene", "Sanitización", "Seguridad"] },
-    { cat: "insumos", emoji: "📦", badge: "Insumo", name: "Envases", desc: "Envases y presentaciones adecuadas para el transporte y conservación de cada producto.", tags: ["Transporte", "Conservación", "Presentaciones"] },
-  ];
+  /* ---------- Índice de categorías del catálogo ---------- */
+  const countItems = (cat) =>
+    (cat.items ? cat.items.length : 0) +
+    (cat.groups ? cat.groups.reduce((n, g) => n + g.items.length, 0) : 0);
+
   const grid = $("#productGrid");
-  const renderProducts = (filter = "all") => {
+  const renderCategories = (filter = "all") => {
     if (!grid) return;
-    const list = filter === "all" ? PRODUCTS : PRODUCTS.filter((p) => p.cat === filter);
-    grid.innerHTML = list.map((p, i) => `
-      <article class="product" style="animation-delay:${i * 60}ms">
-        <div class="product__top">
-          <span class="product__badge">${p.badge}</span>
-          <div class="product__emoji" aria-hidden="true">${p.emoji}</div>
-          <h3>${p.name}</h3>
-          <p class="product__desc">${p.desc}</p>
-        </div>
-        <div class="product__apps">
-          <span>Aplicaciones</span>
-          <ul class="product__tags">${p.tags.map((t) => `<li>${t}</li>`).join("")}</ul>
-        </div>
-      </article>`).join("");
+    const list = filter === "all"
+      ? CATALOG.categories
+      : CATALOG.categories.filter((c) => c.group === filter);
+    if (!list.length) {
+      grid.innerHTML = `<p class="empty-msg">No hay categorías en este filtro.</p>`;
+      return;
+    }
+    grid.innerHTML = list.map((c, i) => {
+      const n = countItems(c);
+      return `
+      <a class="catcard" href="productos.html#${c.id}" style="animation-delay:${i * 60}ms">
+        <span class="catcard__num">${c.num}</span>
+        <span class="catcard__emoji" aria-hidden="true">${c.icon}</span>
+        <h3>${c.name}</h3>
+        <p>${c.lead}</p>
+        <span class="catcard__meta">
+          ${n} ${n === 1 ? "producto" : "productos"}
+          <svg viewBox="0 0 24 24" class="ico"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
+      </a>`;
+    }).join("");
   };
-  renderProducts();
+  renderCategories();
   $$("#productFilters .filter").forEach((btn) => {
     btn.addEventListener("click", () => {
       $$("#productFilters .filter").forEach((b) => { b.classList.remove("is-active"); b.setAttribute("aria-pressed", "false"); });
       btn.classList.add("is-active"); btn.setAttribute("aria-pressed", "true");
-      renderProducts(btn.dataset.filter);
+      renderCategories(btn.dataset.filter);
     });
   });
 
@@ -392,6 +321,21 @@
       if (prev) showStep(Number(prev.dataset.prev));
     });
 
+    /* Preselección desde otra página: productos.html?/producto-*.html envían
+       ?interes=Nombre del producto → llega como #cotizar con el dato guardado. */
+    try {
+      const pending = sessionStorage.getItem("ae-interes");
+      if (pending) {
+        sessionStorage.removeItem("ae-interes");
+        const extra = $("#q-mensaje");
+        if (extra) extra.value = "Me interesa: " + pending + (extra.value ? "\n" + extra.value : "");
+        const match = $$('input[name="producto"]', form)
+          .find((i) => i.value.toLowerCase() === pending.toLowerCase());
+        if (match) match.checked = true;
+        toast("Añadimos «" + pending + "» a tu solicitud 💧");
+      }
+    } catch { /* sessionStorage no disponible */ }
+
     const FIELDS = [
       { id: "q-nombre", err: "err-nombre", msg: "Escribe tu nombre." },
       { id: "q-correo", err: "err-correo", msg: "Escribe un correo válido." },
@@ -400,6 +344,7 @@
     const setError = (f, show) => {
       const el = $("#" + f.id);
       const errEl = $("#" + f.err);
+      if (!el) return;
       el.classList.toggle("is-invalid", show);
       el.setAttribute("aria-invalid", show ? "true" : "false");
       if (errEl) {
@@ -417,6 +362,7 @@
       let firstInvalid = null;
       FIELDS.forEach((f) => {
         const el = $("#" + f.id);
+        if (!el) return;
         const valid = el.value.trim() !== "" && (el.type !== "email" || /.+@.+\..+/.test(el.value));
         setError(f, !valid);
         if (!valid && !firstInvalid) firstInvalid = el;
@@ -458,9 +404,9 @@
       if (channel === "mail") {
         const subject = encodeURIComponent("Solicitud de cotización — Aguas Especiales");
         const body = encodeURIComponent(message.replace(/\*/g, ""));
-        window.location.href = `mailto:ventas@tensos.com?subject=${subject}&body=${body}`;
+        window.location.href = `mailto:${MAIL}?subject=${subject}&body=${body}`;
       } else {
-        window.open(`https://wa.me/525553053590?text=${encodeURIComponent(message)}`, "_blank", "noopener");
+        window.open(`https://wa.me/${WA}?text=${encodeURIComponent(message)}`, "_blank", "noopener");
         toast("Abriendo WhatsApp con tu cotización 💧");
       }
     };
@@ -475,16 +421,5 @@
 
     const mailBtn = $("#sendMail");
     if (mailBtn) mailBtn.addEventListener("click", () => finalize("mail"));
-  }
-
-  /* ---------- Toast ---------- */
-  let toastTimer;
-  function toast(msg) {
-    const t = $("#toast");
-    if (!t) return;
-    t.textContent = msg;
-    t.classList.add("is-visible");
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => t.classList.remove("is-visible"), 3600);
   }
 })();

@@ -22,9 +22,17 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-  <!-- Marca la disponibilidad de JS para que la animación de aparición sea una mejora, no un requisito -->
-  <script>document.documentElement.classList.add("js");</script>
+  <!-- Marca la disponibilidad de JS y aplica el tema guardado antes de pintar (evita el parpadeo) -->
+  <script>
+    document.documentElement.classList.add("js");
+    try {
+      var t = localStorage.getItem("ae-theme");
+      document.documentElement.setAttribute("data-theme",
+        t || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+    } catch (e) { document.documentElement.setAttribute("data-theme", "light"); }
+  </script>
   <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/pages.css" />
 </head>
 <body>
   <!-- Enlace de salto al contenido (accesibilidad) -->
@@ -38,13 +46,13 @@
     <div class="container topbar__inner">
       <p class="topbar__slogan">💧 Sirviendo a la Industria con Resultados Óptimos</p>
       <div class="topbar__contact">
-        <a href="tel:+525553053590" aria-label="Llamar">
+        <a href="tel:+525558990125" aria-label="Llamar">
           <svg viewBox="0 0 24 24" class="ico"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.24 11 11 0 0 0 3.5.56 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11 11 0 0 0 .56 3.5 1 1 0 0 1-.24 1Z"/></svg>
-          55 5305 3590
+          55 5899 0125
         </a>
-        <a href="mailto:ventas@tensos.com" aria-label="Enviar correo">
+        <a href="mailto:ventas@aguasespeciales.com.mx" aria-label="Enviar correo">
           <svg viewBox="0 0 24 24" class="ico"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm0 4 8 5 8-5"/></svg>
-          ventas@tensos.com
+          ventas@aguasespeciales.com.mx
         </a>
         <button class="theme-toggle" id="themeToggle" type="button" aria-label="Cambiar tema claro/oscuro" title="Cambiar tema">
           <svg class="ico ico-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
@@ -69,9 +77,9 @@
       <nav class="nav__links" id="navLinks" aria-label="Navegación principal">
         <a href="#inicio">Inicio</a>
         <a href="#nosotros">Nosotros</a>
+        <a href="productos.html">Productos</a>
+        <a href="servicios.html">Servicios</a>
         <a href="#selector">Encuentra tu agua</a>
-        <a href="#productos">Productos</a>
-        <a href="#proceso">Proceso</a>
         <a href="#contacto">Contacto</a>
         <a href="#cotizar" class="btn btn--primary nav__cta">Cotizar ahora</a>
       </nav>
@@ -300,20 +308,30 @@
       <div class="container">
         <header class="section__head reveal" data-reveal>
           <span class="eyebrow">Catálogo</span>
-          <h2 class="section__title">Nuestros <span class="grad-text">productos y servicios</span></h2>
-          <p class="section__sub">Filtra por categoría y explora cada solución. Toca una tarjeta para ver aplicaciones y detalles.</p>
+          <h2 class="section__title">Nuestros <span class="grad-text">productos</span></h2>
+          <p class="section__sub">Nueve categorías: aguas especiales y de laboratorio, soluciones acuosas, reactivos de fabricación propia, kits, equipo, envases y presentaciones. Filtra y entra a la que te interesa.</p>
         </header>
 
         <div class="filters reveal" data-reveal id="productFilters" role="group" aria-label="Filtrar productos por categoría">
-          <button class="filter is-active" type="button" aria-pressed="true" data-filter="all">Todos</button>
-          <button class="filter" type="button" aria-pressed="false" data-filter="agua">Aguas</button>
-          <button class="filter" type="button" aria-pressed="false" data-filter="analisis">Análisis</button>
-          <button class="filter" type="button" aria-pressed="false" data-filter="reactivos">Reactivos</button>
-          <button class="filter" type="button" aria-pressed="false" data-filter="insumos">Insumos</button>
+          <button class="filter is-active" type="button" aria-pressed="true" data-filter="all">Todas</button>
+          <button class="filter" type="button" aria-pressed="false" data-filter="aguas">Aguas y presentaciones</button>
+          <button class="filter" type="button" aria-pressed="false" data-filter="reactivos">Reactivos y kits</button>
+          <button class="filter" type="button" aria-pressed="false" data-filter="equipo">Equipo y envases</button>
         </div>
 
         <div class="products" id="productGrid">
-          <!-- Rellenado por JS -->
+          <!-- Rellenado por JS desde js/catalog.js -->
+          <noscript>
+            <p class="empty-msg">Consulta el <a href="productos.html">catálogo completo de productos</a> y nuestros <a href="servicios.html">servicios de análisis</a>.</p>
+          </noscript>
+        </div>
+
+        <div class="section__cta reveal" data-reveal>
+          <a href="productos.html" class="btn btn--primary btn--lg">
+            Ver catálogo completo
+            <svg viewBox="0 0 24 24" class="ico"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a href="servicios.html" class="btn btn--ghost btn--lg">Servicios de análisis</a>
         </div>
       </div>
     </section>
@@ -430,7 +448,7 @@
           </details>
           <details class="faq__item reveal" data-reveal>
             <summary>¿Cómo solicito una cotización?</summary>
-            <div class="faq__body"><p>Puedes usar nuestro <a href="#cotizar">cotizador interactivo</a> para armar tu solicitud en segundos y enviarla por WhatsApp o correo, o llamarnos al <a href="tel:+525553053590">55 5305 3590</a>.</p></div>
+            <div class="faq__body"><p>Puedes usar nuestro <a href="#cotizar">cotizador interactivo</a> para armar tu solicitud en segundos y enviarla por WhatsApp o correo, o llamarnos al <a href="tel:+525558990125">55 5899 0125</a>.</p></div>
           </details>
         </div>
       </div>
@@ -449,8 +467,9 @@
             <li><svg viewBox="0 0 24 24" class="ico"><path d="m5 13 4 4L19 7"/></svg> Soluciones a la medida de tu proceso</li>
           </ul>
           <div class="cta__contactcard">
-            <a href="tel:+525553053590"><svg viewBox="0 0 24 24" class="ico"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.24 11 11 0 0 0 3.5.56 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11 11 0 0 0 .56 3.5 1 1 0 0 1-.24 1Z"/></svg> 55 5305 3590</a>
-            <a href="mailto:ventas@tensos.com"><svg viewBox="0 0 24 24" class="ico"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm0 4 8 5 8-5"/></svg> ventas@tensos.com</a>
+            <a href="tel:+525558990125"><svg viewBox="0 0 24 24" class="ico"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.24 11 11 0 0 0 3.5.56 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11 11 0 0 0 .56 3.5 1 1 0 0 1-.24 1Z"/></svg> 55 5899 0125</a>
+            <a href="tel:+525558996566"><svg viewBox="0 0 24 24" class="ico"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.24 11 11 0 0 0 3.5.56 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11 11 0 0 0 .56 3.5 1 1 0 0 1-.24 1Z"/></svg> 55 5899 6566</a>
+            <a href="mailto:ventas@aguasespeciales.com.mx"><svg viewBox="0 0 24 24" class="ico"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm0 4 8 5 8-5"/></svg> ventas@aguasespeciales.com.mx</a>
           </div>
         </div>
 
@@ -459,15 +478,18 @@
           <div class="quote__step is-active" data-step="1">
             <p class="quote__steplabel" tabindex="-1">Paso 1 de 3 · ¿Qué necesitas?</p>
             <div class="quote__pickgrid" id="quotePick">
-              <label class="pickbox"><input type="checkbox" name="producto" value="Agua Tipo I (ultrapura)"><span>Agua Tipo I</span></label>
-              <label class="pickbox"><input type="checkbox" name="producto" value="Agua Tipo II"><span>Agua Tipo II</span></label>
-              <label class="pickbox"><input type="checkbox" name="producto" value="Agua destilada"><span>Agua destilada</span></label>
+              <label class="pickbox"><input type="checkbox" name="producto" value="Agua purificada"><span>Agua purificada</span></label>
               <label class="pickbox"><input type="checkbox" name="producto" value="Agua desmineralizada"><span>Agua desmineralizada</span></label>
-              <label class="pickbox"><input type="checkbox" name="producto" value="Reactivos químicos"><span>Reactivos químicos</span></label>
-              <label class="pickbox"><input type="checkbox" name="producto" value="Análisis de agua"><span>Análisis de agua</span></label>
-              <label class="pickbox"><input type="checkbox" name="producto" value="Kits de análisis"><span>Kits de análisis</span></label>
-              <label class="pickbox"><input type="checkbox" name="producto" value="Desinfectantes"><span>Desinfectantes</span></label>
-              <label class="pickbox"><input type="checkbox" name="producto" value="Envases"><span>Envases</span></label>
+              <label class="pickbox"><input type="checkbox" name="producto" value="Agua destilada o bidestilada"><span>Destilada / bidestilada</span></label>
+              <label class="pickbox"><input type="checkbox" name="producto" value="Agua para laboratorio (ASTM / ISO)"><span>Agua de laboratorio</span></label>
+              <label class="pickbox"><input type="checkbox" name="producto" value="Soluciones acuosas y salmueras"><span>Soluciones y salmueras</span></label>
+              <label class="pickbox"><input type="checkbox" name="producto" value="Agua acondicionada para chillers"><span>Agua acondicionada</span></label>
+              <label class="pickbox"><input type="checkbox" name="producto" value="Reactivos para análisis de agua"><span>Reactivos</span></label>
+              <label class="pickbox"><input type="checkbox" name="producto" value="Soluciones buffer de pH"><span>Buffers de pH</span></label>
+              <label class="pickbox"><input type="checkbox" name="producto" value="Kits para análisis de agua"><span>Kits de análisis</span></label>
+              <label class="pickbox"><input type="checkbox" name="producto" value="Material y equipo de laboratorio"><span>Material y equipo</span></label>
+              <label class="pickbox"><input type="checkbox" name="producto" value="Envases plásticos"><span>Envases plásticos</span></label>
+              <label class="pickbox"><input type="checkbox" name="producto" value="Servicio de análisis de agua"><span>Análisis de agua</span></label>
             </div>
             <div class="quote__nav">
               <span></span>
@@ -563,18 +585,18 @@
           <ul class="contact__list">
             <li>
               <span class="contact__ico"><svg viewBox="0 0 24 24" class="ico"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
-              <div><strong>Dirección</strong>Xochicalco 10, Cerro Grande,<br />52920 Cdad. López Mateos, Méx.</div>
+              <div><strong>Dirección</strong>Francisco Chilpan,<br />Tultitlán, Estado de México, C.P. 54940</div>
             </li>
             <li>
               <span class="contact__ico"><svg viewBox="0 0 24 24" class="ico"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.24 11 11 0 0 0 3.5.56 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11 11 0 0 0 .56 3.5 1 1 0 0 1-.24 1Z"/></svg></span>
-              <div><strong>Teléfono</strong><a href="tel:+525553053590">55 5305 3590</a></div>
+              <div><strong>Teléfono</strong><a href="tel:+525558990125">55 5899 0125</a><br /><a href="tel:+525558996566">55 5899 6566</a></div>
             </li>
             <li>
               <span class="contact__ico"><svg viewBox="0 0 24 24" class="ico"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm0 4 8 5 8-5"/></svg></span>
-              <div><strong>Correo</strong><a href="mailto:ventas@tensos.com">ventas@tensos.com</a></div>
+              <div><strong>Correo</strong><a href="mailto:ventas@aguasespeciales.com.mx">ventas@aguasespeciales.com.mx</a></div>
             </li>
           </ul>
-          <a href="https://wa.me/525553053590?text=Hola%2C%20me%20interesa%20conocer%20m%C3%A1s%20sobre%20sus%20productos%20de%20agua%20de%20alta%20pureza." class="btn btn--whatsapp" target="_blank" rel="noopener">
+          <a href="https://wa.me/525558990125?text=Hola%2C%20me%20interesa%20conocer%20m%C3%A1s%20sobre%20sus%20productos%20de%20agua%20de%20alta%20pureza." class="btn btn--whatsapp" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" class="ico"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Z"/></svg>
             Escríbenos por WhatsApp
           </a>
@@ -582,7 +604,7 @@
         <div class="contact__map reveal" data-reveal>
           <iframe
             title="Ubicación de Aguas Especiales en el mapa"
-            src="https://www.google.com/maps?q=Xochicalco%2010,%20Cerro%20Grande,%2052920%20Ciudad%20L%C3%B3pez%20Mateos,%20M%C3%A9x.&output=embed"
+            src="https://www.google.com/maps?q=Francisco%20Chilpan%2C%20Tultitl%C3%A1n%2C%20Estado%20de%20M%C3%A9xico%2C%20C.P.%2054940&output=embed"
             loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
       </div>
@@ -603,23 +625,26 @@
         <h3>Navegación</h3>
         <a href="#nosotros">Nosotros</a>
         <a href="#selector">Encuentra tu agua</a>
-        <a href="#productos">Productos</a>
+        <a href="productos.html">Catálogo de productos</a>
+        <a href="servicios.html">Servicios de análisis</a>
         <a href="#proceso">Proceso</a>
         <a href="#faq">Preguntas frecuentes</a>
       </nav>
       <nav class="footer__col" aria-label="Productos">
         <h3>Productos</h3>
-        <a href="#productos">Agua Tipo I y II</a>
-        <a href="#productos">Agua destilada</a>
-        <a href="#productos">Agua desmineralizada</a>
-        <a href="#productos">Reactivos y kits</a>
-        <a href="#productos">Análisis de agua</a>
+        <a href="producto-agua-purificada.html">Agua purificada</a>
+        <a href="producto-agua-desmineralizada.html">Agua desmineralizada</a>
+        <a href="producto-agua-bidestilada.html">Agua bidestilada</a>
+        <a href="productos.html#aguas-laboratorio">Aguas para laboratorio</a>
+        <a href="productos.html#reactivos">Reactivos y buffers</a>
+        <a href="productos.html#kits">Kits para análisis</a>
       </nav>
       <div class="footer__col">
         <h3>Contacto</h3>
-        <a href="tel:+525553053590">55 5305 3590</a>
-        <a href="mailto:ventas@tensos.com">ventas@tensos.com</a>
-        <p class="footer__addr">Xochicalco 10, Cerro Grande, 52920 Cdad. López Mateos, Méx.</p>
+        <a href="tel:+525558990125">55 5899 0125</a>
+        <a href="tel:+525558996566">55 5899 6566</a>
+        <a href="mailto:ventas@aguasespeciales.com.mx">ventas@aguasespeciales.com.mx</a>
+        <p class="footer__addr">Francisco Chilpan, Tultitlán, Estado de México, C.P. 54940</p>
       </div>
     </div>
     <div class="footer__bar">
@@ -631,7 +656,7 @@
   </footer>
 
   <!-- Botón flotante WhatsApp -->
-  <a href="https://wa.me/525553053590?text=Hola%2C%20me%20interesa%20conocer%20m%C3%A1s%20sobre%20sus%20productos%20de%20agua%20de%20alta%20pureza." class="fab-whatsapp" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+  <a href="https://wa.me/525558990125?text=Hola%2C%20me%20interesa%20conocer%20m%C3%A1s%20sobre%20sus%20productos%20de%20agua%20de%20alta%20pureza." class="fab-whatsapp" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
     <svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.15-1.8-.9-2.1-1-.28-.1-.48-.15-.68.15-.2.3-.78 1-.96 1.2-.18.2-.36.22-.66.08-.3-.15-1.28-.47-2.44-1.5-.9-.8-1.5-1.8-1.68-2.1-.18-.3-.02-.46.13-.6.14-.14.3-.36.45-.54.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.08-.15-.68-1.63-.93-2.24-.24-.58-.5-.5-.68-.51h-.58c-.2 0-.53.08-.8.38-.28.3-1.05 1.03-1.05 2.5s1.08 2.9 1.23 3.1c.15.2 2.12 3.24 5.14 4.55.72.3 1.28.5 1.72.64.72.23 1.38.2 1.9.12.58-.08 1.8-.73 2.05-1.44.25-.7.25-1.3.18-1.44-.07-.13-.27-.2-.57-.35Z"/><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.16l-.3-.18-3 .78.8-2.92-.2-.3A8.2 8.2 0 1 1 12 20.2Z"/></svg>
   </a>
 
@@ -643,6 +668,8 @@
   <!-- Toast -->
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+  <script src="js/catalog.js"></script>
+  <script src="js/site.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

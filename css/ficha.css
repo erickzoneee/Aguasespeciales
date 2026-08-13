@@ -1,0 +1,203 @@
+/* =========================================================
+   AGUAS ESPECIALES — Hojas técnicas y de especificaciones
+   Documento tamaño carta, pensado para «Guardar como PDF».
+   Hoja independiente: no usa el tema claro/oscuro del sitio,
+   un documento impreso siempre va en claro.
+   ========================================================= */
+
+:root {
+  --s-deep: #062f45;
+  --s-navy: #0c5e78;
+  --s-primary: #0c7ea0;
+  --s-cyan: #17b6d6;
+  --s-aqua: #35d6e0;
+  --s-mint: #7ef0dc;
+  --s-ink: #10333f;
+  --s-muted: #55707c;
+  --s-line: #cfe3ec;
+  --s-tint: #f2f9fc;
+  --s-font: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --s-display: "Sora", var(--s-font);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+
+body {
+  font-family: var(--s-font);
+  color: var(--s-ink);
+  background: #dde8ee;
+  line-height: 1.38;
+  font-size: 10pt;
+  padding: 0 0 40px;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+h1, h2, h3, h4 { font-family: var(--s-display); line-height: 1.15; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+table { border-collapse: collapse; width: 100%; }
+
+/* ---------- Barra de acciones (no se imprime) ---------- */
+.sheetbar {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  background: var(--s-deep); color: #dff2f8;
+  padding: 12px clamp(14px, 4vw, 34px);
+  font-size: .92rem; flex-wrap: wrap;
+}
+.sheetbar__back { color: #cfeaf2; text-decoration: none; font-weight: 500; }
+.sheetbar__back:hover { color: var(--s-mint); text-decoration: underline; }
+.sheetbar__print {
+  display: inline-flex; align-items: center; gap: 9px; cursor: pointer;
+  border: none; border-radius: 999px; padding: 10px 20px;
+  font-family: var(--s-display); font-weight: 700; font-size: .92rem;
+  background: linear-gradient(120deg, #0aa2c0, #35d6e0); color: #04222f;
+}
+.sheetbar__print:hover { filter: brightness(1.07); }
+.sheetbar__print svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ---------- Página ---------- */
+.sheet-page { padding: clamp(14px, 3vw, 30px); display: flex; justify-content: center; }
+.sheet {
+  width: 216mm; min-height: 279mm;
+  background: #fff;
+  box-shadow: 0 18px 50px -20px rgba(6, 47, 69, .5);
+  padding: 13mm 14mm 0;
+  display: flex; flex-direction: column;
+  position: relative;
+}
+
+/* ---------- Encabezado ---------- */
+.sheet__head { display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center; }
+.sheet__brand { display: flex; align-items: center; gap: 9px; }
+.sheet__logo {
+  width: 40px; height: 40px; flex: none; display: grid; place-items: center;
+  border-radius: 11px; background: linear-gradient(135deg, #0aa2c0, #35d6e0);
+}
+.sheet__logo svg { width: 24px; height: 24px; fill: #fff; }
+.sheet__logo--sm { width: 26px; height: 26px; border-radius: 8px; }
+.sheet__logo--sm svg { width: 16px; height: 16px; }
+.sheet__brandtext { display: flex; flex-direction: column; line-height: 1.05; font-family: var(--s-display); }
+.sheet__brandtext strong { font-size: 1.05rem; font-weight: 800; color: var(--s-deep); letter-spacing: .02em; }
+.sheet__brandtext > span { font-size: .68rem; font-weight: 700; letter-spacing: .22em; color: var(--s-primary); }
+.sheet__brandtext em { font-style: normal; font-size: .52rem; letter-spacing: .06em; color: var(--s-muted); margin-top: 3px; }
+
+.sheet__title { text-align: center; }
+.sheet__title h1 { font-size: 1.32rem; font-weight: 800; color: var(--s-primary); letter-spacing: .01em; }
+.sheet__title h2 { font-size: 1.05rem; font-weight: 700; color: var(--s-deep); margin-top: 2px; }
+.sheet__title p { font-size: .58rem; letter-spacing: .14em; color: var(--s-muted); margin-top: 5px; font-weight: 600; }
+
+.sheet__meta { width: 56mm; font-size: .62rem; border: 1px solid var(--s-line); }
+.sheet__meta th, .sheet__meta td { border: 1px solid var(--s-line); padding: 3px 6px; text-align: left; }
+.sheet__meta th { background: var(--s-tint); color: var(--s-deep); font-weight: 700; width: 55%; }
+.sheet__meta td { color: var(--s-muted); }
+
+.sheet__wave {
+  height: 5px; margin: 8px 0 11px; border-radius: 3px;
+  background: linear-gradient(90deg, #0c5e78, #0aa2c0 35%, #35d6e0 70%, #7ef0dc);
+}
+
+/* ---------- Secciones ---------- */
+.sheet__cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0 9mm; align-items: start; }
+.sheet__cols > * { min-width: 0; }
+.sheet__twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 0 9mm; align-items: start; }
+.sheet__twocol > * { min-width: 0; }
+.sheet__sec { margin-bottom: 3.5mm; break-inside: avoid; }
+.sheet__sec h3 {
+  display: flex; align-items: baseline; gap: 6px;
+  font-size: .78rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--s-primary); border-bottom: 1.5px solid var(--s-line);
+  padding-bottom: 3px; margin-bottom: 6px;
+}
+.sheet__sec h3 span { color: var(--s-cyan); }
+.sheet__sec h4 { font-size: .7rem; font-weight: 700; color: var(--s-deep); margin-bottom: 5px; }
+.sheet__sec p { font-size: .72rem; color: var(--s-ink); text-align: justify; }
+.sheet__small { font-size: .62rem; color: var(--s-muted); margin-top: 5px; }
+
+.sheet__check li, .sheet__bullets li {
+  position: relative; padding-left: 15px; font-size: .72rem; margin-bottom: 2.5px; color: var(--s-ink);
+}
+.sheet__check li::before {
+  content: ""; position: absolute; left: 1px; top: 4px;
+  width: 6px; height: 3px; border-left: 1.6px solid var(--s-cyan); border-bottom: 1.6px solid var(--s-cyan);
+  transform: rotate(-45deg);
+}
+.sheet__bullets li::before {
+  content: ""; position: absolute; left: 2px; top: 6px;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--s-cyan);
+}
+
+.sheet__pills { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; }
+.sheet__pills li {
+  font-size: .6rem; font-weight: 600; padding: 3px 8px; border-radius: 999px;
+  background: var(--s-tint); border: 1px solid var(--s-line); color: var(--s-navy);
+}
+
+.sheet__flow { display: grid; gap: 4px; counter-reset: f; }
+.sheet__flow li {
+  counter-increment: f; display: flex; align-items: center; gap: 8px;
+  font-size: .7rem; font-weight: 600; color: var(--s-deep);
+  background: var(--s-tint); border: 1px solid var(--s-line); border-radius: 7px; padding: 4px 9px;
+}
+.sheet__flow li::before {
+  content: counter(f); flex: none; width: 17px; height: 17px; border-radius: 50%;
+  display: grid; place-items: center; font-size: .58rem; font-weight: 800;
+  background: linear-gradient(120deg, #0aa2c0, #35d6e0); color: #04222f;
+}
+
+/* ---------- Tablas de especificaciones (las inyecta js/specs.js) ---------- */
+.tablewrap { overflow-x: auto; }
+.spectable { font-size: .62rem; border: 1px solid var(--s-line); }
+.spectable caption { caption-side: top; text-align: left; font-size: .58rem; color: var(--s-muted); padding-bottom: 3px; }
+.spectable thead th {
+  background: var(--s-navy); color: #fff; font-family: var(--s-display);
+  font-size: .58rem; letter-spacing: .05em; text-transform: uppercase; font-weight: 700;
+  padding: 4px 7px; text-align: left; border: 1px solid var(--s-navy);
+}
+.spectable tbody th, .spectable tbody td { border: 1px solid var(--s-line); padding: 2.5px 7px; text-align: left; }
+.spectable tbody th { font-weight: 600; color: var(--s-ink); width: 52%; }
+.spectable tbody td { color: var(--s-muted); }
+.spectable tbody tr:nth-child(even) { background: var(--s-tint); }
+.panel__note { font-size: .66rem; color: var(--s-muted); font-style: italic; }
+
+/* ---------- Firmas ---------- */
+.sheet__signs { display: grid; grid-template-columns: 1fr 1fr; gap: 16mm; margin: 10mm auto 6mm; max-width: 150mm; text-align: center; }
+.sheet__signs > div { display: flex; flex-direction: column; gap: 2px; }
+.sheet__signline { display: block; height: 1px; background: var(--s-ink); margin-bottom: 6px; }
+.sheet__signs strong { font-family: var(--s-display); font-size: .68rem; letter-spacing: .1em; color: var(--s-deep); }
+.sheet__signs span { font-size: .62rem; color: var(--s-muted); }
+
+/* ---------- Pie ---------- */
+.sheet__foot {
+  margin-top: auto; display: grid; grid-template-columns: repeat(3, 1fr) auto; gap: 10px;
+  border-top: 2px solid var(--s-primary); padding: 6px 0 8mm; font-size: .58rem; color: var(--s-muted);
+}
+.sheet__footcol strong { display: block; font-family: var(--s-display); font-size: .58rem; color: var(--s-deep); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 2px; }
+.sheet__footbrand { display: flex; align-items: center; gap: 7px; }
+.sheet__footbrand > span:last-child { display: flex; flex-direction: column; line-height: 1.05; font-family: var(--s-display); }
+.sheet__footbrand strong { font-size: .66rem; font-weight: 800; color: var(--s-deep); }
+.sheet__footbrand span span { font-size: .44rem; letter-spacing: .2em; color: var(--s-primary); font-weight: 700; }
+
+/* ---------- Pantallas pequeñas ---------- */
+@media (max-width: 900px) {
+  .sheet { width: 100%; min-height: 0; padding: 20px 18px 0; }
+  .sheet__head { grid-template-columns: 1fr; text-align: left; gap: 12px; }
+  .sheet__title { text-align: left; }
+  .sheet__meta { width: 100%; }
+  .sheet__cols, .sheet__twocol { grid-template-columns: 1fr; }
+  .sheet__twocol > * + * { margin-top: 14px; }
+  .sheet__signs { grid-template-columns: 1fr; gap: 26px; margin-top: 26px; }
+  .sheet__foot { grid-template-columns: 1fr 1fr; }
+}
+
+/* ---------- Impresión ---------- */
+@page { size: letter portrait; margin: 9mm; }
+@media print {
+  body { background: #fff; padding: 0; font-size: 10pt; }
+  .noprint { display: none !important; }
+  .sheet-page { padding: 0; display: block; }
+  .sheet { width: auto; min-height: 0; box-shadow: none; padding: 0; }
+  .sheet__sec, .sheet__signs { break-inside: avoid; }
+  .sheet__foot { break-inside: avoid; padding-bottom: 0; }
+  a { color: inherit; text-decoration: none; }
+}
