@@ -31,7 +31,7 @@
   var visores = [];
   window.AE_VISORES = visores;
 
-  var nodos = Array.prototype.slice.call(document.querySelectorAll("[data-visor3d]"));
+  var nodos = Array.prototype.slice.call(document.querySelectorAll("[data-visor3d], [data-logo3d]"));
   if (!nodos.length) return;
 
   if (!haySoporte()) {
@@ -45,20 +45,25 @@
     if (el.dataset.iniciado) return;
     el.dataset.iniciado = "1";
     el.classList.add("is-loading");
-    import(BASE + "bottle3d.js")
+    // El isotipo y los envases son piezas distintas y viven en módulos
+    // distintos: cada página se descarga solo el que necesita.
+    var esLogo = el.hasAttribute("data-logo3d");
+    import(BASE + (esLogo ? "logo3d.js" : "bottle3d.js"))
       .then(function (mod) {
-        var v = mod.crearVisor(el, {
-          modelo: el.dataset.visor3d,
-          etiqueta: el.dataset.etiqueta,
-          calidadAlta: calidadAlta(),
-          autogiro: !reducido,
-        });
+        var v = esLogo
+          ? mod.crearLogo3D(el, { calidadAlta: calidadAlta(), autogiro: !reducido })
+          : mod.crearVisor(el, {
+              modelo: el.dataset.visor3d,
+              etiqueta: el.dataset.etiqueta,
+              calidadAlta: calidadAlta(),
+              autogiro: !reducido,
+            });
         v.nodo = el;
         visores.push(v);
         el.classList.remove("is-loading");
       })
       .catch(function (err) {
-        // Sin 3D el usuario sigue viendo la foto del producto
+        // Sin 3D se queda lo que ya había en el HTML (foto o animación)
         el.classList.remove("is-loading");
         el.classList.add("sin-3d");
         if (window.console) console.warn("Visor 3D no disponible:", err);

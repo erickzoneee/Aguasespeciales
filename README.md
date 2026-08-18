@@ -27,6 +27,8 @@ Pagina AguasEspeciales/
 │   ├── ht-agua-bidestilada.html        # Hoja técnica          HT-AE-02
 │   └── he-agua-bidestilada.html        # Hoja de especificac.  HE-AE-05
 ├── img/
+│   ├── logo-aguas-especiales.svg       # Isotipo a todo color (imprenta, proveedores)
+│   ├── favicon.svg                     # Isotipo macizo, legible a 16 px
 │   ├── etiqueta-*.jpg                  # Texturas de etiqueta para los modelos 3D
 │   └── render-agua-*.webp/.png         # Imágenes de respaldo, sacadas del propio 3D
 ├── css/
@@ -40,8 +42,9 @@ Pagina AguasEspeciales/
     ├── pages.js                        # Catálogo y servicios
     ├── specs.js                        # Tablas de especificaciones y descargas
     ├── product.js                      # Páginas de producto
-    ├── viewer3d.js                     # Arranque diferido del visor 3D
-    ├── bottle3d.js                     # Modelos 3D (módulo ES)
+    ├── viewer3d.js                     # Arranque diferido de los visores 3D
+    ├── bottle3d.js                     # Envases en 3D (módulo ES)
+    ├── logo3d.js                       # Isotipo en 3D (módulo ES)
     └── vendor/three.module.js          # Three.js, servido desde el propio sitio
 ```
 
@@ -88,6 +91,26 @@ Son páginas HTML con formato carta. El botón **«Descargar / imprimir PDF»** 
 - La hoja siempre sale en claro, aunque el visitante tenga el sitio en tema oscuro.
 - Para cambiar código, versión o fecha: edita el encabezado de cada archivo en `fichas/`.
 
+## 🛡️ El isotipo
+
+El logo es un **escudo con una gota dentro**, reconstruido en vector desde la hoja
+técnica. Vive en un solo sitio y se reutiliza en los 20 puntos donde aparece:
+
+- Cada página lleva, justo después de `<body>`, un sprite `.ae-defs` con los degradados
+  y un `<symbol id="ae-logo">`. Cada uso es una línea: `<svg><use href="#ae-logo"/></svg>`.
+  Así el isotipo se define **una vez por página** y no se repiten los `id` de los degradados.
+- Los colores se cambian por contexto con variables CSS (`--ae-escudo`, `--ae-gota`),
+  porque un selector de fuera no puede entrar en el símbolo de `<use>` pero las
+  variables heredadas sí lo atraviesan. Sobre fondo oscuro (pie de página y tema
+  oscuro) se usa la versión clara; el azul profundo se apagaría.
+- Si el CSS no llega a cargar, los atributos en línea dejan colores planos de marca:
+  nunca se ve un logo sin color.
+
+**Para cambiar la forma del isotipo** hay que tocarla en tres sitios, porque los tres
+salen de la misma geometría: el `<symbol>` de cada HTML, `img/logo-aguas-especiales.svg`
+y `img/favicon.svg`. El favicon lleva el escudo macizo a propósito: a 16 px un contorno
+de 3 px se pierde.
+
 ## 🧊 Modelos 3D de producto
 
 Las páginas de **agua purificada** y **agua desmineralizada** muestran el envase como modelo 3D que gira solo y se puede arrastrar.
@@ -106,6 +129,19 @@ Las páginas de **agua purificada** y **agua desmineralizada** muestran el envas
 **Para cambiar una etiqueta**: sustituye el JPG correspondiente en `img/` manteniendo la proporción (la textura envuelve 360°, con el diseño centrado). El atributo `data-etiqueta` de cada `producto-*.html` apunta al archivo.
 
 **Para regenerar las imágenes de respaldo**: salen del propio modelo, así que siempre coinciden con el 3D. Se obtienen llamando a `instantanea(ancho, alto, giro)` sobre el visor y guardando el PNG resultante.
+
+### El isotipo en 3D de la portada
+
+El hero muestra el mismo escudo con volumen (`js/logo3d.js`). Tampoco es una forma
+inventada: el contorno del escudo se muestrea sobre la curva exacta del SVG y se
+extruye, y la gota se revoluciona con `LatheGeometry` sobre su propio perfil, así que
+de frente la silueta calca la del logo plano. El marco se obtiene desplazando el
+contorno hacia dentro una distancia constante, no escalándolo: solo así el grosor
+del trazo queda uniforme también en las esquinas.
+
+La animación de la molécula H₂O **sigue ahí, debajo**, como respaldo. Sin WebGL, en
+equipos antiguos o si falla la descarga, se ve exactamente lo de siempre. En móvil
+(`.hero__visual` está oculto por debajo de 1024 px) el 3D ni se descarga.
 
 ## 🔧 Personalización rápida
 
@@ -128,6 +164,12 @@ Las páginas de **agua purificada** y **agua desmineralizada** muestran el envas
 - **Códigos de las hojas de agua bidestilada.** HT-AE-01 y HE-AE-04 vienen de los documentos originales. Para bidestilada se asignaron **HT-AE-02** y **HE-AE-05**; confirma que correspondan a tu control de documentos.
 - **Microbiológicos de agua bidestilada.** No se proporcionaron; las hojas dicen «disponibles bajo solicitud».
 - **Agua purificada.** Su página no lleva tabla de especificaciones ni descarga hasta que se definan los parámetros.
+- **Especificaciones de agua desmineralizada.** Se actualizaron el 18/08/2026 con los
+  valores de la hoja técnica HT-AE-01 v01 que envió Erick (pH 5.0–7.0, conductividad
+  ≤ 10 µS/cm, TDS ≤ 10 mg/L, y los parámetros nuevos de sodio, hierro y turbidez).
+  Sustituyen a las cifras anteriores, que venían de un documento previo con el mismo
+  código y versión. Si el control de documentos exige subir la versión a 02 o poner
+  fecha de revisión, dilo y se cambia el encabezado de las hojas.
 
 ## 🌐 Poner el sitio en línea
 

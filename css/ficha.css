@@ -70,13 +70,15 @@ table { border-collapse: collapse; width: 100%; }
 /* ---------- Encabezado ---------- */
 .sheet__head { display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center; }
 .sheet__brand { display: flex; align-items: center; gap: 9px; }
+/* Sprite del isotipo: solo define degradados y símbolo, no se dibuja */
+.ae-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+/* La hoja siempre va sobre papel blanco, así que basta la versión a color */
 .sheet__logo {
-  width: 40px; height: 40px; flex: none; display: grid; place-items: center;
-  border-radius: 11px; background: linear-gradient(135deg, #0aa2c0, #35d6e0);
+  width: 42px; height: 42px; flex: none; display: grid; place-items: center;
+  --ae-escudo: url(#aeEscudo); --ae-gota: url(#aeGota);
 }
-.sheet__logo svg { width: 24px; height: 24px; fill: #fff; }
-.sheet__logo--sm { width: 26px; height: 26px; border-radius: 8px; }
-.sheet__logo--sm svg { width: 16px; height: 16px; }
+.sheet__logo svg { width: 100%; height: 100%; }
+.sheet__logo--sm { width: 30px; height: 30px; }
 .sheet__brandtext { display: flex; flex-direction: column; line-height: 1.05; font-family: var(--s-display); }
 .sheet__brandtext strong { font-size: 1.05rem; font-weight: 800; color: var(--s-deep); letter-spacing: .02em; }
 .sheet__brandtext > span { font-size: .68rem; font-weight: 700; letter-spacing: .22em; color: var(--s-primary); }
@@ -183,8 +185,12 @@ table { border-collapse: collapse; width: 100%; }
 .sheet__footbrand strong { font-size: .66rem; font-weight: 800; color: var(--s-deep); }
 .sheet__footbrand span span { font-size: .44rem; letter-spacing: .2em; color: var(--s-primary); font-weight: 700; }
 
-/* ---------- Pantallas pequeñas ---------- */
-@media (max-width: 900px) {
+/* ---------- Pantallas pequeñas ----------
+   Va acotado a «screen» a propósito. El área útil de una carta son 198 mm,
+   que en píxeles CSS son 748: por debajo del punto de quiebre. Sin el «screen»
+   estas reglas se aplican también al imprimir, el encabezado se apila y las
+   dos columnas se colapsan en una, con lo que la hoja se va a dos páginas. */
+@media screen and (max-width: 900px) {
   .sheet { width: 100%; min-height: 0; padding: 20px 18px 0; }
   .sheet__head { grid-template-columns: 1fr; text-align: left; gap: 12px; }
   .sheet__title { text-align: left; }

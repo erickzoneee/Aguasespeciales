@@ -161,9 +161,17 @@ html[data-theme="dark"] .theme-toggle .ico-moon { display: block; }
 }
 .nav.is-stuck { border-color: var(--line); box-shadow: var(--shadow-sm); }
 .nav__inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; gap: 24px; }
+/* Sprite del isotipo: solo define degradados y símbolo, no se dibuja */
+.ae-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
 .brand { display: inline-flex; align-items: center; gap: 11px; }
-.brand__mark { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 12px; background: var(--grad); box-shadow: 0 8px 18px -8px rgba(23,182,214,.9); }
-.brand__mark svg { width: 22px; height: 22px; fill: #fff; }
+/* El isotipo ya trae su propio escudo, así que va sin recuadro de fondo.
+   Los colores se cambian por contexto con variables: un selector de fuera no
+   entra en el símbolo de <use>, pero las variables heredadas sí lo atraviesan. */
+.brand__mark { width: 42px; height: 42px; flex: none; display: grid; place-items: center; --ae-escudo: url(#aeEscudo); --ae-gota: url(#aeGota); }
+.brand__mark svg { width: 100%; height: 100%; }
+/* Sobre fondo oscuro (pie de página y tema oscuro) el azul profundo se apaga */
+.brand--light .brand__mark,
+html[data-theme="dark"] .brand__mark { --ae-escudo: url(#aeEscudoClaro); --ae-gota: url(#aeGotaClaro); }
 .brand__text { display: flex; flex-direction: column; line-height: 1; font-family: var(--font-display); }
 .brand__text strong { font-size: 1.05rem; font-weight: 800; letter-spacing: .02em; color: var(--ink); }
 .brand__text span { font-size: .68rem; letter-spacing: .32em; color: var(--c-primary); font-weight: 600; }
@@ -225,6 +233,32 @@ html[data-theme="dark"] .nav__links > a.is-active { color: var(--c-aqua); }
 .atom--1 { top: 4%; left: 50%; transform: translateX(-50%); animation: float 5s ease-in-out infinite; }
 .atom--2 { bottom: 12%; left: 8%; animation: float 5.5s ease-in-out .4s infinite; }
 .atom--3 { bottom: 12%; right: 8%; animation: float 6.2s ease-in-out .8s infinite; }
+
+/* ---------- Isotipo en 3D del hero ----------
+   Ocupa el mismo hueco que la molécula, que se queda debajo de respaldo:
+   sin WebGL nunca se ve un vacío, se ve la animación de siempre. */
+.logo3d { position: relative; width: min(400px, 80vw); aspect-ratio: 1; display: grid; place-items: center; }
+.logo3d__canvas { position: absolute; inset: 0; width: 100%; height: 100%; cursor: grab; touch-action: pan-y; opacity: 0; transition: opacity .7s var(--ease); }
+.logo3d.is-ready .logo3d__canvas { opacity: 1; }
+.logo3d.is-dragging .logo3d__canvas { cursor: grabbing; }
+.logo3d .molecule { transition: opacity .6s var(--ease); }
+.logo3d.is-ready .molecule { opacity: 0; pointer-events: none; }
+/* Aviso de arrastre: solo cuando el 3D está vivo */
+.logo3d__hint { position: absolute; left: 50%; bottom: -6px; transform: translateX(-50%); display: none; align-items: center; gap: 7px; white-space: nowrap; padding: 6px 14px; border-radius: 999px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.22); backdrop-filter: blur(6px); font-size: .78rem; font-weight: 600; color: #eaf8fc; opacity: 0; transition: opacity .5s var(--ease); }
+.logo3d.is-ready .logo3d__hint { display: inline-flex; opacity: .92; }
+.logo3d.is-dragging .logo3d__hint { opacity: 0; }
+.logo3d__hint svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+/* Mientras se descarga Three.js */
+.logo3d.is-loading::after { content: ""; position: absolute; left: 50%; bottom: -4px; width: 26px; height: 26px; margin-left: -13px; border-radius: 50%; border: 2px solid rgba(255,255,255,.25); border-top-color: var(--c-mint); animation: logoGira .9s linear infinite; }
+@keyframes logoGira { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .logo3d__canvas, .logo3d .molecule { transition: none; }
+  .logo3d.is-loading::after { animation: none; }
+}
+@media print {
+  .logo3d__canvas, .logo3d__hint { display: none !important; }
+  .logo3d .molecule { opacity: 1 !important; }
+}
 
 .hero__scroll { position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%); z-index: 3; width: 26px; height: 42px; border: 2px solid rgba(255,255,255,.4); border-radius: 14px; display: grid; justify-items: center; padding-top: 7px; }
 .hero__scroll span { width: 4px; height: 8px; border-radius: 2px; background: var(--c-mint); animation: scrollDot 1.6s infinite; }
