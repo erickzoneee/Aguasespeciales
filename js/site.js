@@ -62,7 +62,29 @@
     burger.setAttribute("aria-expanded", String(open));
     if (open) {
       const first = $("a", navLinks);
-      if (first) first.focus();
+      /* El panel se abre con una transición de 0.4 s y el navegador mantiene
+         visibility:hidden hasta que termina, así que enfocar antes no surte
+         efecto: no se puede enfocar un elemento oculto. Se espera al final de
+         la transición, con un temporizador de respaldo por si no llega (con
+         las animaciones reducidas no hay transición), y solo se mueve el foco
+         si el menú sigue abierto y el usuario no se lo ha llevado a otro sitio. */
+      if (first) {
+        let pendiente = true;
+        const alTerminar = (e) => { if (e.target === navLinks) enfoca(); };
+        const enfoca = () => {
+          if (!pendiente) return;
+          pendiente = false;
+          navLinks.removeEventListener("transitionend", alTerminar);
+          if (!navLinks.classList.contains("is-open")) return;
+          const foco = document.activeElement;
+          if (!foco || foco === burger || foco === document.body) first.focus();
+        };
+        if (getComputedStyle(navLinks).visibility === "visible") enfoca();
+        else {
+          navLinks.addEventListener("transitionend", alTerminar);
+          setTimeout(enfoca, 450);
+        }
+      }
     } else if (returnFocus) {
       burger.focus();
     }
