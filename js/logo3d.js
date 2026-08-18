@@ -1,115 +1,98 @@
 /* =========================================================
    AGUAS ESPECIALES — Isotipo en 3D
    ---------------------------------------------------------
-   No es un logo distinto: es el mismo. El contorno del escudo se
-   muestrea sobre la curva exacta del SVG (viewBox 0 0 64 64) y se
-   extruye; la gota se revoluciona con LatheGeometry sobre su propio
-   perfil. Visto de frente, la silueta calca la del logo plano.
+   No es un logo distinto: es el mismo. La «A» se extruye desde el
+   contorno de su trazo (calculado con desplazamiento de inglete,
+   para que el grosor se mantenga también en el vértice) y la gota
+   se revoluciona con pocos segmentos y sombreado plano, así que
+   sale tallada en caras, como el cristal del logo plano.
 
    Si no hay WebGL este módulo ni se descarga: js/viewer3d.js deja
    la animación de respaldo que ya estaba en el HTML.
    ========================================================= */
 import * as THREE from "./vendor/three.module.js";
 
-/* ---------- Geometría del logo, en coordenadas del SVG ---------- */
-const GROSOR = 3.2;          // ancho del trazo del escudo, igual que en el SVG
-const AGUA = new THREE.Color(0x7fd4ea);
+/* ---------- Medidas, en coordenadas del SVG (viewBox 0 0 64 64) ---------- */
+const A_IZQ = [12, 58], A_VERTICE = [38, 8], A_DER = [62, 58];
+const A_TRAZO = 4.5;
+const TRAVE_Y = 44, TRAVE_X1 = 19.3, TRAVE_X2 = 55.3;
 
-/* SVG (0..64, Y hacia abajo) → escena centrada en el origen con Y hacia arriba */
-const aEscena = (x, y) => new THREE.Vector2((x - 32) / 32, (32 - y) / 32);
+const GOTA_PUNTA = 14;                        // altura de la punta
+const GOTA_CENTRO = 42, GOTA_RADIO = 12.5;    // casquete inferior
+const GOTA_EJE = 21;                          // eje de revolución, en X
 
-/* Recorre el contorno del escudo en el mismo orden que el atributo d */
-function contornoEscudo() {
-  const p = [];
-  const punto = (x, y) => p.push(aEscena(x, y));
-  // Los tramos empiezan en i = 1: el punto inicial ya lo dejó el tramo anterior
-  // y repetirlo crearía un lado de longitud cero.
-  const arco = (cx, cy, r, a0, a1, n) => {
-    for (let i = 1; i <= n; i++) {
-      const a = a0 + (a1 - a0) * (i / n);
-      punto(cx + r * Math.cos(a), cy + r * Math.sin(a));
-    }
+const AGUA = new THREE.Color(0x67c8e8);
+
+/* SVG (Y hacia abajo) → escena centrada en el origen con Y hacia arriba */
+const v2 = (x, y) => new THREE.Vector2((x - 32) / 32, (32 - y) / 32);
+
+/* ---------- Contorno de la «A» ----------
+   Dos patas que se juntan en el vértice. Para que el trazo conserve el
+   grosor en la punta hace falta el desplazamiento de inglete: escalar el
+   contorno no serviría, adelgazaría justo las esquinas. */
+function contornoA() {
+  const [lx, ly] = A_IZQ, [vx, vy] = A_VERTICE, [rx, ry] = A_DER;
+  const h = A_TRAZO / 2;
+  const unidad = (ax, ay, bx, by) => {
+    const d = Math.hypot(bx - ax, by - ay);
+    return [(bx - ax) / d, (by - ay) / d];
   };
-  const cubica = (p0, c1, c2, p3, n) => {
-    for (let i = 1; i <= n; i++) {
-      const t = i / n, u = 1 - t;
-      punto(
-        u * u * u * p0[0] + 3 * u * u * t * c1[0] + 3 * u * t * t * c2[0] + t * t * t * p3[0],
-        u * u * u * p0[1] + 3 * u * u * t * c1[1] + 3 * u * t * t * c2[1] + t * t * t * p3[1]
-      );
-    }
+  const [u1x, u1y] = unidad(lx, ly, vx, vy);
+  const [u2x, u2y] = unidad(vx, vy, rx, ry);
+  // normal de cada pata, la que apunta al hueco interior de la «A»
+  const n1 = [-u1y, u1x], n2 = [-u2y, u2x];
+
+  const inglete = (a, b) => {
+    let mx = a[0] + b[0], my = a[1] + b[1];
+    const l = Math.hypot(mx, my) || 1;
+    mx /= l; my /= l;
+    const cos = Math.max(0.25, mx * a[0] + my * a[1]);
+    return [vx + (mx * h) / cos, vy + (my * h) / cos];
   };
-  const G = Math.PI / 180;
+  const fuera = inglete([-n1[0], -n1[1]], [-n2[0], -n2[1]]);
+  const dentro = inglete(n1, n2);
 
-  punto(48.1, 4.6);                                 // extremo derecho del borde superior
-  arco(48.1, 12.1, 7.5, -90 * G, 0, 10);            // esquina superior derecha
-  punto(55.6, 31.7);
-  cubica([55.6, 31.7], [55.6, 44.1], [47.3, 53.3], [32, 59.4], 24);   // baja hasta la punta
-  cubica([32, 59.4], [16.7, 53.3], [8.4, 44.1], [8.4, 31.7], 24);     // y sube por la izquierda
-  punto(8.4, 12.1);
-  arco(15.9, 12.1, 7.5, 180 * G, 270 * G, 10);      // esquina superior izquierda
-
-  // Red de seguridad: sin puntos repetidos, porque un lado de longitud cero
-  // deja la normal indefinida y dispara el desplazamiento en esa esquina.
-  const limpio = p.filter((q, i) => i === 0 || q.distanceTo(p[i - 1]) > 1e-4);
-  if (limpio.length > 1 && limpio[0].distanceTo(limpio[limpio.length - 1]) < 1e-4) limpio.pop();
-  return limpio;                                    // el cierre traza el borde superior
+  return [
+    v2(lx - n1[0] * h, ly - n1[1] * h),   // pie izquierdo, lado exterior
+    v2(fuera[0], fuera[1]),               // vértice exterior
+    v2(rx - n2[0] * h, ry - n2[1] * h),   // pie derecho, lado exterior
+    v2(rx + n2[0] * h, ry + n2[1] * h),   // pie derecho, lado interior
+    v2(dentro[0], dentro[1]),             // vértice interior
+    v2(lx + n1[0] * h, ly + n1[1] * h),   // pie izquierdo, lado interior
+  ];
 }
 
-/* Perfil de la gota: mitad derecha del dibujo, lista para revolucionar.
-   Vector2(x = radio desde el eje, y = altura). */
+/* El travesaño es un rectángulo. Sus extremos quedan enterrados dentro de
+   las patas, así que las tres piezas se leen como una sola. */
+function contornoTravesano() {
+  const h = A_TRAZO / 2;
+  return [
+    v2(TRAVE_X1, TRAVE_Y - h), v2(TRAVE_X2, TRAVE_Y - h),
+    v2(TRAVE_X2, TRAVE_Y + h), v2(TRAVE_X1, TRAVE_Y + h),
+  ];
+}
+
+/* ---------- Perfil de la gota ----------
+   Pocos puntos a propósito: con sombreado plano cada tramo se convierte en
+   una faceta, que es justo la talla de cristal del logo. */
 function perfilGota() {
   const pts = [];
-  const punto = (x, y) => pts.push(new THREE.Vector2(Math.max(0, (32 - x) / 32), (32 - y) / 32));
-  // Tramo superior: la misma cúbica del SVG, de la punta al ancho máximo
-  const p0 = [32, 14.5], c1 = [32, 14.5], c2 = [19.8, 28.8], p3 = [19.8, 35];
-  for (let i = 0; i <= 28; i++) {
-    const t = i / 28, u = 1 - t;
+  const punto = (x, y) => pts.push(new THREE.Vector2(Math.max(0, (GOTA_EJE - x) / 32), (32 - y) / 32));
+  const px = GOTA_EJE, py = GOTA_PUNTA;
+  const c2x = GOTA_EJE - GOTA_RADIO, c2y = 29;
+  const p3x = GOTA_EJE - GOTA_RADIO, p3y = GOTA_CENTRO;
+  for (let i = 0; i <= 3; i++) {
+    const t = i / 3, u = 1 - t;
     punto(
-      u * u * u * p0[0] + 3 * u * u * t * c1[0] + 3 * u * t * t * c2[0] + t * t * t * p3[0],
-      u * u * u * p0[1] + 3 * u * u * t * c1[1] + 3 * u * t * t * c2[1] + t * t * t * p3[1]
+      u * u * u * px + 3 * u * u * t * px + 3 * u * t * t * c2x + t * t * t * p3x,
+      u * u * u * py + 3 * u * u * t * py + 3 * u * t * t * c2y + t * t * t * p3y
     );
   }
-  // Tramo inferior: el casquete esférico, centro (32,35) y radio 12.2
-  for (let i = 1; i <= 22; i++) {
-    const a = (Math.PI / 2) * (i / 22);
-    punto(32 - 12.2 * Math.cos(a), 35 + 12.2 * Math.sin(a));
+  for (let i = 1; i <= 3; i++) {
+    const a = (Math.PI / 2) * (i / 3);
+    punto(GOTA_EJE - GOTA_RADIO * Math.cos(a), GOTA_CENTRO + GOTA_RADIO * Math.sin(a));
   }
   return pts;
-}
-
-/* Área con signo: sirve para saber hacia qué lado cae la normal interior */
-function areaConSigno(pts) {
-  let a = 0;
-  for (let i = 0, n = pts.length; i < n; i++) {
-    const p = pts[i], q = pts[(i + 1) % n];
-    a += p.x * q.y - q.x * p.y;
-  }
-  return a / 2;
-}
-
-/* Copia del contorno desplazada hacia dentro una distancia constante.
-   Con esto el escudo queda como un marco de grosor uniforme, igual que
-   el trazo del SVG, en vez de una silueta maciza. */
-function haciaDentro(pts, d) {
-  const n = pts.length;
-  if (areaConSigno(pts) < 0) pts = pts.slice().reverse();   // normaliza a antihorario
-  const fuera = [];
-  for (let i = 0; i < n; i++) {
-    const a = pts[(i - 1 + n) % n], b = pts[i], c = pts[(i + 1) % n];
-    let n1x = -(b.y - a.y), n1y = b.x - a.x;
-    let n2x = -(c.y - b.y), n2y = c.x - b.x;
-    const l1 = Math.hypot(n1x, n1y) || 1, l2 = Math.hypot(n2x, n2y) || 1;
-    n1x /= l1; n1y /= l1; n2x /= l2; n2y /= l2;
-    let mx = n1x + n2x, my = n1y + n2y;
-    const lm = Math.hypot(mx, my) || 1;
-    mx /= lm; my /= lm;
-    // El factor de inglete mantiene el grosor también en las esquinas;
-    // se acota para que un vértice muy cerrado no dispare la punta.
-    const cos = Math.max(0.4, mx * n1x + my * n1y);
-    fuera.push(new THREE.Vector2(b.x + (mx * d) / cos, b.y + (my * d) / cos));
-  }
-  return fuera;
 }
 
 /* ---------- Entorno procedural para los reflejos ---------- */
@@ -119,10 +102,10 @@ function entorno(renderer) {
   const g = c.getContext("2d");
   const cielo = g.createLinearGradient(0, 0, 0, 256);
   cielo.addColorStop(0, "#ffffff");
-  cielo.addColorStop(0.42, "#cfe6f2");
-  cielo.addColorStop(0.52, "#4d6c80");
-  cielo.addColorStop(0.66, "#12303f");
-  cielo.addColorStop(1, "#08161f");
+  cielo.addColorStop(0.42, "#d6eaf5");
+  cielo.addColorStop(0.52, "#54738a");
+  cielo.addColorStop(0.66, "#16323f");
+  cielo.addColorStop(1, "#09171f");
   g.fillStyle = cielo;
   g.fillRect(0, 0, 512, 256);
   const foco = (x, y, r, a) => {
@@ -147,59 +130,59 @@ function entorno(renderer) {
 }
 
 /* ---------- Materiales ---------- */
-function matEscudo(env) {
+function matA(env) {
   return new THREE.MeshPhysicalMaterial({
-    color: 0x1594bb, metalness: 0.55, roughness: 0.14,
-    clearcoat: 1, clearcoatRoughness: 0.05,
-    envMap: env, envMapIntensity: 1.35,
+    color: 0x5c93cf, metalness: 0.55, roughness: 0.2,
+    clearcoat: 1, clearcoatRoughness: 0.08,
+    envMap: env, envMapIntensity: 1.4,
   });
 }
 
+/* Cristal, no burbuja: caras planas, mucho especular y tinte de agua.
+   El sombreado plano es lo que hace que se lean las facetas. */
 function matGota(env, alto) {
   if (alto) {
     return new THREE.MeshPhysicalMaterial({
-      color: 0x3fd0ea, metalness: 0, roughness: 0.05,
-      transmission: 0.88, thickness: 0.6, ior: 1.36,
-      attenuationColor: AGUA, attenuationDistance: 0.6,
-      clearcoat: 1, clearcoatRoughness: 0.04,
-      envMap: env, envMapIntensity: 1.7,
-      side: THREE.DoubleSide, transparent: true, opacity: 0.96,
+      flatShading: true, side: THREE.DoubleSide, transparent: true, envMap: env,
+      color: 0x4ec5e6, metalness: 0.1, roughness: 0.07,
+      transmission: 0.32, thickness: 0.3, ior: 1.55,
+      attenuationColor: AGUA, attenuationDistance: 0.4,
+      clearcoat: 1, clearcoatRoughness: 0.02,
+      envMapIntensity: 1.65, opacity: 0.95,
     });
   }
-  // Equipos modestos: reflejo y transparencia, sin refracción
+  // Equipos modestos: brillo y transparencia, sin refracción
   return new THREE.MeshPhysicalMaterial({
-    color: 0x4fd3ea, metalness: 0, roughness: 0.1,
-    transparent: true, opacity: 0.72,
-    clearcoat: 1, clearcoatRoughness: 0.05,
-    envMap: env, envMapIntensity: 1.3,
-    side: THREE.DoubleSide,
+    flatShading: true, side: THREE.DoubleSide, transparent: true, envMap: env,
+    color: 0x8ed5ec, metalness: 0, roughness: 0.09,
+    clearcoat: 1, clearcoatRoughness: 0.04,
+    envMapIntensity: 1.9, opacity: 0.8,
   });
 }
 
 /* ---------- Pieza completa ---------- */
 function construyeLogo(env, alto) {
   const grupo = new THREE.Group();
-
-  const fuera = contornoEscudo();
-  const forma = new THREE.Shape(fuera);
-  forma.holes.push(new THREE.Path(haciaDentro(fuera, GROSOR / 32)));
-
-  const gEscudo = new THREE.ExtrudeGeometry(forma, {
-    depth: 0.12,
-    bevelEnabled: true, bevelThickness: 0.02, bevelSize: 0.02,
+  const opciones = {
+    depth: 0.14,
+    bevelEnabled: true, bevelThickness: 0.018, bevelSize: 0.018,
     bevelSegments: alto ? 3 : 1,
-    curveSegments: alto ? 8 : 4,
-  });
-  gEscudo.center();   // la extrusión crece hacia +Z; así queda repartida a los dos lados
-  const escudo = new THREE.Mesh(gEscudo, matEscudo(env));
-  grupo.add(escudo);
+  };
 
-  // La gota sale de revolucionar su propio perfil, así que ya nace centrada
-  // en el eje y a la altura que le toca dentro del marco. Solo se achata en
-  // profundidad para que no atraviese el escudo de lado a lado.
-  const gGota = new THREE.LatheGeometry(perfilGota(), alto ? 64 : 32);
+  const material = matA(env);
+  for (const contorno of [contornoA(), contornoTravesano()]) {
+    const g = new THREE.ExtrudeGeometry(new THREE.Shape(contorno), opciones);
+    g.translate(0, 0, -opciones.depth / 2);   // repartida a los dos lados
+    grupo.add(new THREE.Mesh(g, material));
+  }
+
+  // Ocho segmentos: la gota queda tallada en ocho caras, como en el logo
+  const gGota = new THREE.LatheGeometry(perfilGota(), 8);
   const gota = new THREE.Mesh(gGota, matGota(env, alto));
-  gota.scale.z = 0.58;
+  gota.position.x = (GOTA_EJE - 32) / 32;     // el torno revoluciona sobre Y
+  gota.rotation.y = Math.PI / 8;              // una cara mirando al frente
+  gota.scale.z = 0.72;
+  gota.position.z = 0.06;                     // por delante de la «A»
   grupo.add(gota);
 
   return grupo;
@@ -222,7 +205,7 @@ export function crearLogo3D(el, opciones) {
   const env = entorno(renderer);
   escena.environment = env;
 
-  escena.add(new THREE.AmbientLight(0xffffff, 0.4));
+  escena.add(new THREE.AmbientLight(0xffffff, 0.42));
   const key = new THREE.DirectionalLight(0xffffff, 1.7);
   key.position.set(3, 6, 7);
   escena.add(key);
@@ -234,10 +217,15 @@ export function crearLogo3D(el, opciones) {
 
   /* Encuadre sobre los vértices reales: la pieza gira sobre su eje Y, así que
      cada vértice puede acercarse a la cámara hasta rho = hypot(x,z). Se exige
-     que quepa en su peor posición y se toma la distancia más exigente. */
+     que quepa en su peor posición y se toma la distancia más exigente.
+     La «A» con la gota no es simétrica, así que primero se centra en X: si no,
+     al girar se saldría por un lado. */
   pieza.updateMatrixWorld(true);
   const caja = new THREE.Box3().setFromObject(pieza);
   const centroY = (caja.min.y + caja.max.y) / 2;
+  pieza.position.x = -(caja.min.x + caja.max.x) / 2;
+  pieza.position.y = -centroY;
+  pieza.updateMatrixWorld(true);
 
   const MARGEN = 1.1;
   const TAN = Math.tan(((camara.fov / 2) * Math.PI) / 180);
@@ -250,11 +238,10 @@ export function crearLogo3D(el, opciones) {
       p.fromBufferAttribute(pos, i).applyMatrix4(o.matrixWorld);
       const rho = Math.hypot(p.x, p.z);
       if (rho > radioMax) radioMax = rho;
-      const necesario = (Math.abs(p.y - centroY) * MARGEN) / TAN + rho;
+      const necesario = (Math.abs(p.y) * MARGEN) / TAN + rho;
       if (necesario > expY) expY = necesario;
     }
   });
-  pieza.position.y = -centroY;
 
   const distancia = (aspecto) =>
     Math.max(expY, radioMax * (MARGEN / (TAN * aspecto) + 1));

@@ -91,25 +91,26 @@ Son páginas HTML con formato carta. El botón **«Descargar / imprimir PDF»** 
 - La hoja siempre sale en claro, aunque el visitante tenga el sitio en tema oscuro.
 - Para cambiar código, versión o fecha: edita el encabezado de cada archivo en `fichas/`.
 
-## 🛡️ El isotipo
+## 🅰️ El isotipo
 
-El logo es un **escudo con una gota dentro**, reconstruido en vector desde la hoja
-técnica. Vive en un solo sitio y se reutiliza en los 20 puntos donde aparece:
+El logo es una **«A» triangular con una gota de agua tallada en facetas**, tipo
+cristal, montada sobre la pata izquierda, que queda casi toda oculta detrás.
+Está reconstruido en vector y vive en un solo sitio:
 
-- Cada página lleva, justo después de `<body>`, un sprite `.ae-defs` con los degradados
-  y un `<symbol id="ae-logo">`. Cada uso es una línea: `<svg><use href="#ae-logo"/></svg>`.
-  Así el isotipo se define **una vez por página** y no se repiten los `id` de los degradados.
-- Los colores se cambian por contexto con variables CSS (`--ae-escudo`, `--ae-gota`),
-  porque un selector de fuera no puede entrar en el símbolo de `<use>` pero las
-  variables heredadas sí lo atraviesan. Sobre fondo oscuro (pie de página y tema
-  oscuro) se usa la versión clara; el azul profundo se apagaría.
-- Si el CSS no llega a cargar, los atributos en línea dejan colores planos de marca:
-  nunca se ve un logo sin color.
+- Cada página lleva, justo después de `<body>`, un sprite `.ae-defs` con un
+  `<symbol id="ae-logo">`. Cada uso es una línea: `<svg><use href="#ae-logo"/></svg>`.
+- La gota son **diez caras planas**, con vértices que caen sobre el mismo contorno
+  de la gota, así que ninguna se sale del perfil por mucho que se amplíe. La luz
+  entra por arriba a la izquierda y el tono más profundo queda en el fondo.
+- Solo el azul de la «A» cambia por contexto, con la variable `--ae-a`: las facetas
+  ya son claras y se leen igual sobre blanco que sobre el azul marino del pie. Un
+  selector de fuera no entra en el símbolo de `<use>`, pero las variables heredadas
+  sí lo atraviesan. Si el CSS no llega a cargar, queda el azul de reserva en línea.
 
-**Para cambiar la forma del isotipo** hay que tocarla en tres sitios, porque los tres
-salen de la misma geometría: el `<symbol>` de cada HTML, `img/logo-aguas-especiales.svg`
-y `img/favicon.svg`. El favicon lleva el escudo macizo a propósito: a 16 px un contorno
-de 3 px se pierde.
+**Para cambiar la forma** hay que tocarla en tres sitios, porque los tres salen de
+la misma geometría: el `<symbol>` de cada HTML, `img/logo-aguas-especiales.svg` y
+`img/favicon.svg`. El favicon lleva la gota resuelta en tres caras y el trazo de la
+«A» más grueso: a 16 px las facetas finas se emborronan.
 
 ## 🧊 Modelos 3D de producto
 
@@ -132,12 +133,16 @@ Las páginas de **agua purificada** y **agua desmineralizada** muestran el envas
 
 ### El isotipo en 3D de la portada
 
-El hero muestra el mismo escudo con volumen (`js/logo3d.js`). Tampoco es una forma
-inventada: el contorno del escudo se muestrea sobre la curva exacta del SVG y se
-extruye, y la gota se revoluciona con `LatheGeometry` sobre su propio perfil, así que
-de frente la silueta calca la del logo plano. El marco se obtiene desplazando el
-contorno hacia dentro una distancia constante, no escalándolo: solo así el grosor
-del trazo queda uniforme también en las esquinas.
+El hero muestra el mismo logo con volumen (`js/logo3d.js`). Tampoco es una forma
+inventada: la «A» se extruye desde el contorno de su trazo, calculado con
+desplazamiento de inglete para que el grosor se mantenga también en el vértice
+(escalar el contorno no serviría, adelgazaría justo las esquinas). La gota se
+revoluciona con `LatheGeometry` usando **pocos segmentos y sombreado plano**: cada
+tramo del perfil se convierte en una faceta, que es justo la talla de cristal del
+logo plano.
+
+Ahí la «A» va en un azul acero más claro que en el logo impreso, porque el 3D solo
+aparece sobre el azul marino del hero y el navy original se apagaría.
 
 La animación de la molécula H₂O **sigue ahí, debajo**, como respaldo. Sin WebGL, en
 equipos antiguos o si falla la descarga, se ve exactamente lo de siempre. En móvil

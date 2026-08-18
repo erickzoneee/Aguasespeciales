@@ -73,10 +73,7 @@ table { border-collapse: collapse; width: 100%; }
 /* Sprite del isotipo: solo define degradados y símbolo, no se dibuja */
 .ae-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
 /* La hoja siempre va sobre papel blanco, así que basta la versión a color */
-.sheet__logo {
-  width: 42px; height: 42px; flex: none; display: grid; place-items: center;
-  --ae-escudo: url(#aeEscudo); --ae-gota: url(#aeGota);
-}
+.sheet__logo { width: 46px; height: 46px; flex: none; display: grid; place-items: center; }
 .sheet__logo svg { width: 100%; height: 100%; }
 .sheet__logo--sm { width: 30px; height: 30px; }
 .sheet__brandtext { display: flex; flex-direction: column; line-height: 1.05; font-family: var(--s-display); }
