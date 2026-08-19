@@ -77,25 +77,14 @@
 
   /* ---------- Datos: selector de agua ---------- */
   const WATER = {
-    dialisis: {
-      tag: "Uso médico crítico",
-      title: "Agua ultrapura para hemodiálisis",
-      desc: "Agua con estricto control microbiológico y de endotoxinas, con la puntualidad y calidad que la diálisis exige.",
-      href: "productos.html#aguas-laboratorio",
-      specs: [
-        ["🧪", "Pureza tipo I", "≈ 18.2 MΩ·cm de resistividad"],
-        ["🦠", "Control microbiológico", "Baja carga bacteriana y endotoxinas"],
-        ["📋", "Trazabilidad", "Respaldo documental por lote"],
-      ],
-    },
     lab: {
       tag: "Laboratorio y análisis",
-      title: "Agua Tipo I y Tipo II",
+      title: "Agua Tipo I y Tipo II (ASTM D1193)",
       desc: "Para técnicas críticas (biología molecular, HPLC) y preparación de reactivos y soluciones de uso general.",
       href: "productos.html#aguas-laboratorio",
       specs: [
-        ["💧", "Agua Tipo I", "Ultrapura, ≈ 18.2 MΩ·cm"],
-        ["⚗️", "Agua Tipo II", "Pura, para reactivos y uso general"],
+        ["💧", "Tipo I (ASTM)", "Ultrapura, ≈ 18.2 MΩ·cm"],
+        ["⚗️", "Tipo II (ASTM)", "Pura, para reactivos y uso general"],
         ["🔬", "Kits y análisis", "Diagnóstico de inicio a fin"],
       ],
     },
@@ -106,8 +95,8 @@
       href: "producto-agua-purificada.html",
       specs: [
         ["🏭", "A tu especificación", "Parámetros a la medida del proceso"],
-        ["🛡️", "Inocuidad", "Producción controlada y segura"],
-        ["📋", "Cumplimiento", "Normativas internacionales o propias"],
+        ["🛡️", "Procesos controlados", "Higiene, limpieza y control de calidad"],
+        ["📋", "Referencia", "Parámetros técnicos o especificaciones propias"],
       ],
     },
     cosmetica: {
@@ -123,11 +112,11 @@
     },
     alimentos: {
       tag: "Alimentos y bebidas",
-      title: "Agua purificada e inocua",
-      desc: "Agua elaborada bajo condiciones controladas de higiene, calidad y seguridad para uso alimentario.",
+      title: "Agua purificada para uso alimentario",
+      desc: "Agua elaborada bajo condiciones controladas de higiene, limpieza y control de calidad.",
       href: "producto-agua-purificada.html",
       specs: [
-        ["🍶", "Inocuidad garantizada", "Higiene y seguridad controladas"],
+        ["🍶", "Procesos controlados", "Higiene y limpieza controladas"],
         ["✅", "A la medida", "Ajustada a tu proceso"],
         ["📦", "Envases", "Presentaciones según necesidad"],
       ],
@@ -176,12 +165,14 @@
       renderWater(chip.dataset.key);
     });
   });
-  if (selResult) renderWater("dialisis");
+  if (selResult) renderWater("lab");
 
   /* ---------- Escala de pureza (unidad unificada: resistividad MΩ·cm) ---------- */
+  /* Los tipos son de la clasificación ASTM D1193. ISO 3696 usa Grado 1, 2 y 3,
+     que es una clasificación distinta y no equivalente: no se mezclan aquí. */
   const PURITY = [
-    ["Agua Tipo I", "Ultrapura", 100, "18.2 MΩ·cm"],
-    ["Agua Tipo II", "Pura", 78, "1–15 MΩ·cm"],
+    ["Agua Tipo I", "Ultrapura · ASTM D1193", 100, "18.2 MΩ·cm"],
+    ["Agua Tipo II", "Pura · ASTM D1193", 78, "1–15 MΩ·cm"],
     ["Agua desmineralizada", "Baja en iones", 60, "0.1–1 MΩ·cm"],
     ["Agua destilada", "Uso general", 52, "0.1–1 MΩ·cm"],
   ];
@@ -245,7 +236,15 @@
   /* ---------- Carrusel de testimonios ---------- */
   const track = $("#quotesTrack");
   const dotsWrap = $("#quotesDots");
-  if (track && dotsWrap) {
+  const soloUnTestimonio = track && $$(".quote", track).length < 2;
+  if (soloUnTestimonio) {
+    /* Con un testimonio no hay recorrido posible: las flechas, los puntos y la
+       pausa no llevan a ninguna parte, y el autoavance solo desplazaría la
+       diapositiva sobre sí misma cada seis segundos. Se ocultan los controles. */
+    const caja = track.closest(".quotes");
+    const controles = caja && caja.querySelector(".quotes__controls");
+    if (controles) controles.style.display = "none";
+  } else if (track && dotsWrap) {
     const slides = $$(".quote", track);
     const prevBtn = $("#quotesPrev");
     const nextBtn = $("#quotesNext");

@@ -1,9 +1,9 @@
 /* =========================================================
    AGUAS ESPECIALES — Isotipo en 3D
    ---------------------------------------------------------
-   No es un logo distinto: es el mismo. La «A» se extruye desde el
-   contorno de su trazo (calculado con desplazamiento de inglete,
-   para que el grosor se mantenga también en el vértice) y la gota
+   No es un logo distinto: es el mismo. La «A» es un triángulo cerrado
+   y se extruye desde el contorno de su trazo (con desplazamiento de
+   inglete, para que el grosor se mantenga en las esquinas) y la gota
    se revoluciona con pocos segmentos y sombreado plano, así que
    sale tallada en caras, como el cristal del logo plano.
 
@@ -27,39 +27,41 @@ const AGUA = new THREE.Color(0x67c8e8);
 const v2 = (x, y) => new THREE.Vector2((x - 32) / 32, (32 - y) / 32);
 
 /* ---------- Contorno de la «A» ----------
-   Dos patas que se juntan en el vértice. Para que el trazo conserve el
-   grosor en la punta hace falta el desplazamiento de inglete: escalar el
-   contorno no serviría, adelgazaría justo las esquinas. */
-function contornoA() {
-  const [lx, ly] = A_IZQ, [vx, vy] = A_VERTICE, [rx, ry] = A_DER;
-  const h = A_TRAZO / 2;
-  const unidad = (ax, ay, bx, by) => {
-    const d = Math.hypot(bx - ax, by - ay);
-    return [(bx - ax) / d, (by - ay) / d];
+   Es un triángulo cerrado: las dos patas y la línea de la base. El trazo se
+   obtiene desplazando el mismo triángulo hacia fuera y hacia dentro con
+   inglete, y quedándose con la diferencia. Escalarlo no serviría: adelgazaría
+   justo las esquinas, que es donde más se nota. */
+function trianguloDesplazado(d) {
+  const p = [A_IZQ, A_VERTICE, A_DER];
+  const normal = (a, b) => {
+    const dx = b[0] - a[0], dy = b[1] - a[1];
+    const l = Math.hypot(dx, dy) || 1;
+    return [-dy / l, dx / l];
   };
-  const [u1x, u1y] = unidad(lx, ly, vx, vy);
-  const [u2x, u2y] = unidad(vx, vy, rx, ry);
-  // normal de cada pata, la que apunta al hueco interior de la «A»
-  const n1 = [-u1y, u1x], n2 = [-u2y, u2x];
-
-  const inglete = (a, b) => {
-    let mx = a[0] + b[0], my = a[1] + b[1];
+  const salida = [];
+  for (let k = 0; k < 3; k++) {
+    const a = p[(k + 2) % 3], b = p[k], c = p[(k + 1) % 3];
+    const n1 = normal(a, b), n2 = normal(b, c);
+    let mx = n1[0] + n2[0], my = n1[1] + n2[1];
     const l = Math.hypot(mx, my) || 1;
     mx /= l; my /= l;
-    const cos = Math.max(0.25, mx * a[0] + my * a[1]);
-    return [vx + (mx * h) / cos, vy + (my * h) / cos];
-  };
-  const fuera = inglete([-n1[0], -n1[1]], [-n2[0], -n2[1]]);
-  const dentro = inglete(n1, n2);
+    const cos = Math.max(0.25, mx * n1[0] + my * n1[1]);
+    salida.push([b[0] + (mx * d) / cos, b[1] + (my * d) / cos]);
+  }
+  return salida;
+}
 
-  return [
-    v2(lx - n1[0] * h, ly - n1[1] * h),   // pie izquierdo, lado exterior
-    v2(fuera[0], fuera[1]),               // vértice exterior
-    v2(rx - n2[0] * h, ry - n2[1] * h),   // pie derecho, lado exterior
-    v2(rx + n2[0] * h, ry + n2[1] * h),   // pie derecho, lado interior
-    v2(dentro[0], dentro[1]),             // vértice interior
-    v2(lx + n1[0] * h, ly + n1[1] * h),   // pie izquierdo, lado interior
-  ];
+/* Devuelve la forma anular de la «A»: triángulo exterior con el interior
+   recortado. Cuál de los dos desplazamientos es el de fuera depende de cómo
+   esté orientado el triángulo, así que se decide midiendo, no suponiendo. */
+function formaA() {
+  const h = A_TRAZO / 2;
+  const ancho = (p) => Math.max(...p.map((q) => q[0])) - Math.min(...p.map((q) => q[0]));
+  const a = trianguloDesplazado(h), b = trianguloDesplazado(-h);
+  const [fuera, dentro] = ancho(a) > ancho(b) ? [a, b] : [b, a];
+  const forma = new THREE.Shape(fuera.map(([x, y]) => v2(x, y)));
+  forma.holes.push(new THREE.Path(dentro.map(([x, y]) => v2(x, y))));
+  return forma;
 }
 
 /* El travesaño es un rectángulo. Sus extremos quedan enterrados dentro de
@@ -170,8 +172,8 @@ function construyeLogo(env, alto) {
   };
 
   const material = matA(env);
-  for (const contorno of [contornoA(), contornoTravesano()]) {
-    const g = new THREE.ExtrudeGeometry(new THREE.Shape(contorno), opciones);
+  for (const forma of [formaA(), new THREE.Shape(contornoTravesano())]) {
+    const g = new THREE.ExtrudeGeometry(forma, opciones);
     g.translate(0, 0, -opciones.depth / 2);   // repartida a los dos lados
     grupo.add(new THREE.Mesh(g, material));
   }

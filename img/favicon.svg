@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Aguas Especiales">
-  <path d="M12 58 38 8l24 50" fill="none" stroke="#2f5789" stroke-width="6" stroke-linejoin="miter" stroke-miterlimit="6"/>
+  <path d="M12 58 38 8 62 58Z" fill="none" stroke="#2f5789" stroke-width="6" stroke-linejoin="miter" stroke-miterlimit="6"/>
   <path d="M19.3 44h36" fill="none" stroke="#2f5789" stroke-width="6"/>
   <path d="M21 14C21 14 8.5 29 8.5 42a12.5 12.5 0 0 0 25 0C33.5 29 21 14 21 14Z" fill="#a5dcef"/>
   <path d="M21 14L10.9 31L21 38Z" fill="#cdeef9"/>

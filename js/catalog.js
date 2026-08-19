@@ -222,13 +222,12 @@
       name: "Presentaciones de agua",
       lead: "Del garrafón al tote de mil litros, con la opción de llenar tus propios recipientes.",
       items: [
-        { name: "Garrafón de 20 litros" },
+        { name: "Garrafón de 19 litros" },
         { name: "Porrón de 20 litros" },
         { name: "Porrón de 50 litros" },
         { name: "Contenedor IBC o tote de 1,000 litros" },
         {
           name: "Llenado de recipientes propiedad del cliente",
-          note: "Sujeto a revisión previa del recipiente.",
         },
       ],
     },

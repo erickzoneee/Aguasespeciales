@@ -93,8 +93,9 @@ Son páginas HTML con formato carta. El botón **«Descargar / imprimir PDF»** 
 
 ## 🅰️ El isotipo
 
-El logo es una **«A» triangular con una gota de agua tallada en facetas**, tipo
-cristal, montada sobre la pata izquierda, que queda casi toda oculta detrás.
+El logo es una **«A» triangular cerrada —las dos patas, el travesaño y la línea
+de la base— con una gota de agua tallada en facetas**, tipo cristal, montada
+sobre la pata izquierda, que queda casi toda oculta detrás.
 Está reconstruido en vector y vive en un solo sitio:
 
 - Cada página lleva, justo después de `<body>`, un sprite `.ae-defs` con un
@@ -161,6 +162,21 @@ equipos antiguos o si falla la descarga, se ve exactamente lo de siempre. En mó
 | Colores de marca | Variables `--c-*` al inicio de `css/styles.css` |
 | Recomendaciones del asistente | Objeto `WATER` en `js/main.js` |
 
+## 🧭 Posicionamiento
+
+El sitio **no se dirige al mercado médico**: se retiraron hemodiálisis, hospitales y
+laboratorio clínico de portada, franja de industrias, asistente, FAQ, testimonios,
+formulario, pies de página y hojas. La industria farmacéutica sí se conserva.
+
+Dos clasificaciones de pureza que **no son equivalentes** y no deben mezclarse:
+**ASTM D1193** → Tipo I, II, III y IV · **ISO 3696** → Grado 1, 2 y 3. La escala de
+la portada y el objeto `PURITY` de `js/main.js` etiquetan explícitamente cuál usan.
+
+Evitar las garantías absolutas: nada de «inocuidad garantizada», «calidad
+garantizada» ni «cumpliendo normativas internacionales». La fórmula acordada es
+«de acuerdo con parámetros técnicos, estándares de referencia o especificaciones
+particulares del cliente».
+
 ## ⚠️ Pendientes por confirmar
 
 - **Subtítulo de la etiqueta de agua purificada.** Las dos fotos originales tenían impreso «AGUA DESMINERALIZADA». En la botella PET se rehízo el nombre de producto para que diga **AGUA PURIFICADA**, pero se dejó intacto el resto de la etiqueta: sigue diciendo *«ALTA PUREZA · BAJA CONDUCTIVIDAD»*, que es una afirmación propia del agua desmineralizada. Si el agua purificada necesita otro descriptor, indícalo y se cambia. La tipografía es Montserrat Bold, muy parecida a la original pero no idéntica: conviene revisarla antes de darla por buena.
@@ -169,6 +185,18 @@ equipos antiguos o si falla la descarga, se ve exactamente lo de siempre. En mó
 - **Códigos de las hojas de agua bidestilada.** HT-AE-01 y HE-AE-04 vienen de los documentos originales. Para bidestilada se asignaron **HT-AE-02** y **HE-AE-05**; confirma que correspondan a tu control de documentos.
 - **Microbiológicos de agua bidestilada.** No se proporcionaron; las hojas dicen «disponibles bajo solicitud».
 - **Agua purificada.** Su página no lleva tabla de especificaciones ni descarga hasta que se definan los parámetros.
+- **Testimonios.** Los dos que había eran del sector médico (una clínica de diálisis
+  y un laboratorio clínico). Se retiró el de diálisis y quedó uno solo, así que el
+  carrusel oculta sus controles automáticamente. Hacen falta testimonios reales de
+  clientes industriales para volver a tener carrusel; no se inventan.
+- **Aplicaciones de agua desmineralizada.** Se quitó «Hospitales y esterilización de
+  equipos» y se suavizaron dos afirmaciones («libre de sales» → «bajo contenido de
+  sales»; «reduce incrustaciones y corrosión» → «ayuda a reducir incrustaciones»).
+  La lista definitiva debe salir de la hoja técnica cuando la cierres.
+- **Almacenamiento y control de calidad.** La redacción nueva (15–25 °C, evitar más
+  de 30 °C; verificación fisicoquímica y microbiológica por lote) se aplicó a las
+  tres páginas de producto y a las cuatro hojas, no solo a desmineralizada: el
+  motivo es no dejar publicada una garantía absoluta en unas páginas y no en otras.
 - **Especificaciones de agua desmineralizada.** Se actualizaron el 18/08/2026 con los
   valores de la hoja técnica HT-AE-01 v01 que envió Erick (pH 5.0–7.0, conductividad
   ≤ 10 µS/cm, TDS ≤ 10 mg/L, y los parámetros nuevos de sodio, hierro y turbidez).
