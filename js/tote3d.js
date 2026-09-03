@@ -95,10 +95,15 @@ const DATOS = {
   pie: ["Lote", "Fecha"],
 };
 
-/* Trazos del isotipo, tal cual están en el <symbol id="ae-logo"> de cada
-   página: la «A» a trazo y la gota en once facetas. Se dibujan con Path2D,
-   que entiende la misma sintaxis del SVG, así que no hay una segunda versión
-   del logo que pueda quedar desincronizada. */
+/* Trazos del isotipo: la «A» a trazo y la gota en once facetas. La fuente es
+   img/logo-aguas-especiales.svg, y se dibujan con Path2D, que entiende la
+   misma sintaxis del SVG.
+
+   CUIDADO al tocarlos: esto SÍ es una segunda copia del logotipo. Antes las
+   páginas llevaban el mismo dibujo inline en un <symbol id="ae-logo"> y este
+   comentario decía que por eso no había nada que desincronizar; ya no queda
+   ninguno —las páginas usan la imagen de img/logo-aguas-especiales*—, así que
+   el SVG y este array hay que mantenerlos a mano en sincronía. */
 const A_TRAZOS = ["M12 58 38 8 62 58Z", "M19.3 44h36"];
 const A_COLOR = "#2f5789";
 const GOTA = [
@@ -288,14 +293,36 @@ function matTanque(env, alto) {
       attenuationColor: AGUA, attenuationDistance: 30,
       clearcoat: 0.85, clearcoatRoughness: 0.14,
       envMap: env, envMapIntensity: 1.05,
+      /* El agua va sin tinte —eso es lo que vende Aguas Especiales— y la
+         transparencia la hace la refracción. Pero transparent se queda en
+         true, y conviene dejar dicho por qué, porque la regla de
+         js/bottle3d.js no se traslada tal cual.
+
+         Allí transmission vale exactamente 1, el alfa que sale es 0 y apagar
+         transparent es correcto. Aquí vale 0.86: el material escribe un alfa
+         intermedio (0.14 donde solo hay página). Con transparent en false,
+         three cambia a NoBlending, y como el shader no premultiplica salvo
+         que se le pida, ese color acaba SUMÁNDOSE al fondo en vez de
+         mezclarse —el visor crea el lienzo con alpha:true y clearAlpha 0—.
+         Sobre el fondo blanco de final.html el tanque saturaba a blanco y se
+         comía el detalle oscuro de la jaula, que es justo lo que el
+         comentario de arriba quiere conservar. */
       side: THREE.DoubleSide, transparent: true, opacity: 1,
     });
   }
-  // Equipos modestos: sin refracción, que es lo caro
+  /* Equipos modestos: sin refracción, que es lo caro. Pero el agua tiene que
+     seguir pareciendo agua también aquí: con opacidad 0.4 el tanque era un
+     velo plano y lechoso, y era justo en las máquinas más humildes donde
+     dejaba de leerse como líquido limpio. El velo baja a 0.3 y el entorno
+     sube de 1.1 a 1.6 —ya está calculado, no cuesta nada—: como el alfa
+     multiplica todo el fragmento, el chispazo sube un pelo
+     (0.4 × 1.1 = 0.44 → 0.3 × 1.6 = 0.48) mientras el cuerpo turbio pierde
+     una cuarta parte. La rugosidad se iguala con la del material bueno para
+     que el respaldo no sea otra superficie distinta. */
   return new THREE.MeshStandardMaterial({
-    color: 0xf4f9fc, metalness: 0, roughness: 0.3,
-    transparent: true, opacity: 0.4,
-    envMap: env, envMapIntensity: 1.1,
+    color: 0xf4f9fc, metalness: 0, roughness: 0.26,
+    transparent: true, opacity: 0.3,
+    envMap: env, envMapIntensity: 1.6,
     side: THREE.DoubleSide, depthWrite: false,
   });
 }

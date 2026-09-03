@@ -84,17 +84,17 @@ table { border-collapse: collapse; width: 100%; }
 
 /* ---------- Encabezado ---------- */
 .sheet__head { display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center; }
-.sheet__brand { display: flex; align-items: center; gap: 9px; }
-/* Sprite del isotipo: solo define degradados y símbolo, no se dibuja */
-.ae-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
-/* La hoja siempre va sobre papel blanco, así que basta la versión a color */
-.sheet__logo { width: 46px; height: 46px; flex: none; display: grid; place-items: center; }
-.sheet__logo svg { width: 100%; height: 100%; }
-.sheet__logo--sm { width: 30px; height: 30px; }
-.sheet__brandtext { display: flex; flex-direction: column; line-height: 1.05; font-family: var(--s-display); }
-.sheet__brandtext strong { font-size: 1.05rem; font-weight: 800; color: var(--s-deep); letter-spacing: .02em; }
-.sheet__brandtext > span { font-size: .68rem; font-weight: 700; letter-spacing: .22em; color: var(--s-primary); }
-.sheet__brandtext em { font-style: normal; font-size: .52rem; letter-spacing: .06em; color: var(--s-muted); margin-top: 3px; }
+/* El logotipo de css/marca.css ya trae dentro las palabras «AGUAS
+   ESPECIALES». El lema no, así que se escribe debajo de la imagen y no
+   al lado: en fila le robaba al título el ancho que necesita para no
+   partirse en dos renglones. El tope evita que el lema estire la
+   columna del encabezado más de lo que ocupaba la marca anterior. */
+.sheet__brand { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; max-width: 46mm; }
+/* Aquí iba .sheet__lema, que rotulaba «Soluciones diseñadas con precisión»
+   debajo de la marca. El lema ya viene dentro del logotipo, así que en la hoja
+   salía dos veces seguidas. En estas hojas el logotipo va grande y el lema se
+   lee bien; en las cabeceras del sitio, no, y por eso allí se usa la versión
+   compacta sin lema. */
 
 .sheet__title { text-align: center; }
 .sheet__title h1 { font-size: 1.32rem; font-weight: 800; color: var(--s-primary); letter-spacing: .01em; }
@@ -192,10 +192,8 @@ table { border-collapse: collapse; width: 100%; }
   border-top: 2px solid var(--s-primary); padding: 6px 0 8mm; font-size: .58rem; color: var(--s-muted);
 }
 .sheet__footcol strong { display: block; font-family: var(--s-display); font-size: .58rem; color: var(--s-deep); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 2px; }
-.sheet__footbrand { display: flex; align-items: center; gap: 7px; }
-.sheet__footbrand > span:last-child { display: flex; flex-direction: column; line-height: 1.05; font-family: var(--s-display); }
-.sheet__footbrand strong { font-size: .66rem; font-weight: 800; color: var(--s-deep); }
-.sheet__footbrand span span { font-size: .44rem; letter-spacing: .2em; color: var(--s-primary); font-weight: 700; }
+/* El pie va sobre papel blanco, así que lleva el logotipo a color */
+.sheet__footbrand { display: flex; align-items: center; justify-content: flex-end; }
 
 /* ---------- Pantallas pequeñas ----------
    Va acotado a «screen» a propósito. El área útil de una carta son 198 mm,

@@ -97,7 +97,9 @@ p { margin: 0 0 18px; }
   min-height: 70px; display: flex; align-items: center;
   justify-content: space-between; gap: 20px;
 }
-.cab__logo img { max-width: 190px; }
+/* Aquí había un «.cab__logo img { max-width: 190px }» para el logotipo en
+   JPG. La altura del logotipo la fija ahora css/marca.css, igual en todo el
+   sitio, y este tope la estorbaba. */
 .cab__nav ul { display: flex; gap: 26px; list-style: none; margin: 0; padding: 0; }
 .cab__nav a {
   color: var(--azul-menu); text-decoration: none;
@@ -238,6 +240,8 @@ p { margin: 0 0 18px; }
 @media (min-width: 1025px) { .pie__grid { grid-template-columns: 1.6fr 1fr 1fr; } }
 @media (min-width: 769px) and (max-width: 1024px) { .pie__grid { grid-template-columns: repeat(3, 1fr); } }
 .pie__col { font-size: .82rem; }
+/* El logotipo del pie respira lo mismo que un párrafo (p { margin: 0 0 18px }). */
+.pie__col .marca { margin-bottom: 18px; }
 .pie__col h2 { font-size: 1rem; margin-bottom: 12px; }
 .pie__col ul { list-style: none; margin: 0; padding: 0; }
 .pie__col li { margin-bottom: 7px; }

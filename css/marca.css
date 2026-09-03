@@ -1,0 +1,106 @@
+/* =========================================================
+   AGUAS ESPECIALES — El logotipo, uno solo para todo el sitio
+   ---------------------------------------------------------
+   Hasta ahora convivían dos marcas distintas: el logotipo completo
+   en JPG en las páginas de producción y, en las otras trece, solo la
+   gota y la «A» en SVG con las palabras escritas aparte en HTML. Eran
+   dos dibujos diferentes, y se notaba al pasar de una página a otra.
+
+   Aquí hay un único logotipo, el que entregó el cliente, en cuatro
+   archivos que son el mismo dibujo:
+
+     logo-aguas-especiales            completo, a color
+     logo-aguas-especiales-claro      completo, palabras en blanco
+     logo-aguas-especiales-compacto        sin el lema, a color
+     logo-aguas-especiales-compacto-claro  sin el lema, en blanco
+
+   Dos ejes, y ninguno es un capricho.
+
+   Claro contra oscuro: el logotipo es azul marino y los pies de las
+   tres plantillas del sitio son azul oscuro o verde oscuro. Sobre
+   ellos la versión a color se pierde. La gota no cambia en ninguna
+   —ya se lee sobre cualquier fondo— y así la marca se reconoce igual
+   en las dos.
+
+   Completo contra compacto: el lema «SOLUCIONES DISEÑADAS CON
+   PRECISIÓN» mide 4 px de alto cuando el logotipo se reduce a los
+   54 px de una cabecera. No se lee: se ve un manchón gris debajo del
+   nombre. Por eso la cabecera usa el compacto, que quita el lema y
+   centra las palabras contra la gota, y el lema se conserva donde sí
+   se lee: el pie y las hojas imprimibles.
+
+   Qué archivo va en cada sitio lo decide el HTML, no esta hoja: las
+   dos versiones tienen la misma proporción (600×227), así que el
+   tamaño y la maquetación no cambian entre una y otra.
+
+   Las rutas de las imágenes se resuelven desde ESTE archivo, no desde
+   el HTML que lo enlaza. Por eso «../img/…» vale igual para las
+   páginas de la raíz que para las hojas de fichas/, sin duplicar nada.
+
+   Cómo se usa:
+
+     <a class="marca marca--cab" href="…">        cabecera, fondo claro
+     <a class="marca marca--pie marca--clara" …>  pie, fondo oscuro
+
+   Sobre loading="lazy" hay una regla y solo una: la copia que SE VE
+   nunca va diferida. Cuesta unos kilobytes y evita el fallo tonto de
+   que la marca no aparezca.
+
+     · CABECERA: las dos sin diferir. El tema no se conoce hasta que
+       corre el script, así que cualquiera de las dos puede ser la buena.
+     · PIE (.marca--clara): se ve siempre la clara —esa regla no mira el
+       tema—, así que va sin diferir; la de color no se muestra nunca y
+       se queda diferida.
+     · HOJAS de fichas/: van siempre en claro, así que se ve la de color.
+
+   El motivo no es teórico. Se probó en el navegador: la copia del pie
+   estaba dentro de la pantalla, con su hueco ya reservado, y aun así
+   no llegó a descargarse; en cuanto se le quitó el diferido, cargó al
+   instante. Y una imagen diferida dentro de una caja con display:none
+   no se descarga jamás, porque para el navegador nunca se acerca a la
+   pantalla — que era como estaba antes la copia clara de la cabecera,
+   la que se ve justo en tema oscuro.
+   ========================================================= */
+
+.marca {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  text-decoration: none;
+  line-height: 0;          /* sin este hueco el enlace queda más alto que la imagen */
+}
+
+.marca__pic { display: block; }
+.marca__pic img {
+  display: block;
+  width: auto;
+  height: var(--marca-alto, 54px);
+  max-width: 100%;
+}
+
+/* Por defecto manda la versión a color; la clara espera apagada. */
+.marca__pic--claro { display: none; }
+
+/* Fondo oscuro: o se pide a mano con .marca--clara, o lo pide el tema
+   oscuro de css/styles.css, que conmuta con html[data-theme="dark"]. */
+.marca--clara .marca__pic--color,
+html[data-theme="dark"] .marca .marca__pic--color { display: none; }
+.marca--clara .marca__pic--claro,
+html[data-theme="dark"] .marca .marca__pic--claro { display: block; }
+
+/* ---------- Tamaños por sitio ---------- */
+.marca--cab  { --marca-alto: 54px; }
+.marca--pie  { --marca-alto: 48px; }
+.marca--hoja { --marca-alto: 40px; }   /* hojas imprimibles */
+.marca--hoja-sm { --marca-alto: 26px; }
+
+@media (max-width: 900px) { .marca--cab { --marca-alto: 46px; } }
+@media (max-width: 560px) { .marca--cab { --marca-alto: 40px; } }
+
+/* ---------- Impresión ----------
+   Las hojas técnicas se imprimen en blanco, así que siempre va la
+   versión a color, mande lo que mande el tema de la pantalla. */
+@media print {
+  .marca .marca__pic--color { display: block !important; }
+  .marca .marca__pic--claro { display: none !important; }
+}

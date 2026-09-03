@@ -95,12 +95,29 @@ function matVidrio(env, alto) {
       side: THREE.DoubleSide, transparent: false, opacity: 1,
     });
   }
-  // equipos modestos: reflejo + transparencia, sin refracción (mucho más barato)
+  /* Equipos modestos: reflejo + transparencia, sin refracción (mucho más
+     barato). Cuidado con el velo: a opacidad 0.34 el vidrio dejaba de ser
+     vidrio y se volvía una lámina lechosa, porque el alfa multiplica el
+     fragmento entero y se lleva por delante también los brillos. O sea que
+     justo en los equipos flojos el agua dejaba de parecer agua. El velo baja
+     a 0.24 y el entorno sube de 1.9 a 2.7 para compensar.
+
+     La compensación es aproximada, no exacta, y conviene no venderla como
+     tal: envMapIntensity solo escala lo que viene del mapa de entorno, y a
+     esta escena la iluminan además una ambiental y dos focos que el alfa se
+     lleva por delante sin que nadie los devuelva. Y el tono filmico comprime
+     la parte alta, así que subir el entorno un 42% no restituye el mismo
+     chispazo. Sale menos niebla y un brillo parecido; los números están
+     ajustados a ojo sobre el fondo claro de la ficha de producto.
+
+     Esta rama es el caso COMÚN, no el borde: js/viewer3d.js pide calidad
+     baja en cuanto el lado menor de la ventana baja de 700 px, o sea en la
+     mayoría de los portátiles. */
   return new THREE.MeshPhysicalMaterial({
     color: 0xffffff, metalness: 0, roughness: 0.06,
-    transparent: true, opacity: 0.34,
+    transparent: true, opacity: 0.24,
     clearcoat: 1, clearcoatRoughness: 0.04,
-    envMap: env, envMapIntensity: 1.9,
+    envMap: env, envMapIntensity: 2.7,
     side: THREE.DoubleSide, depthWrite: false,
   });
 }

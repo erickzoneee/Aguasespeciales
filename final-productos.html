@@ -10,14 +10,22 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&family=Inter:wght@600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/final.css" />
+  <link rel="stylesheet" href="css/marca.css" />
 </head>
 <body>
   <a class="saltar" href="#contenido">Ir al contenido</a>
 
   <header class="cab">
     <div class="cab__inner">
-      <a class="cab__logo" href="final.html">
-        <img src="img/real-logo.jpg" alt="Aguas Especiales" width="839" height="514" />
+      <a class="cab__logo marca marca--cab" href="final.html">
+        <picture class="marca__pic marca__pic--color">
+          <source srcset="img/logo-aguas-especiales-compacto.webp" type="image/webp" />
+          <img src="img/logo-aguas-especiales-compacto.png" alt="Aguas Especiales — Inicio" width="600" height="227" />
+        </picture>
+        <picture class="marca__pic marca__pic--claro">
+          <source srcset="img/logo-aguas-especiales-compacto-claro.webp" type="image/webp" />
+          <img src="img/logo-aguas-especiales-compacto-claro.png" alt="Aguas Especiales — Inicio" width="600" height="227" />
+        </picture>
       </a>
       <button class="cab__abrir" type="button" id="abrirMenu" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" /></svg>
@@ -74,6 +82,16 @@
        el menú y los datos de contacto que están justo encima. -->
   <footer class="pie">
     <div class="pie__inner">
+      <a class="marca marca--pie marca--clara" href="final.html">
+        <picture class="marca__pic marca__pic--color">
+          <source srcset="img/logo-aguas-especiales.webp" type="image/webp" />
+          <img src="img/logo-aguas-especiales.png" alt="Aguas Especiales" width="600" height="227" loading="lazy" />
+        </picture>
+        <picture class="marca__pic marca__pic--claro">
+          <source srcset="img/logo-aguas-especiales-claro.webp" type="image/webp" />
+          <img src="img/logo-aguas-especiales-claro.png" alt="Aguas Especiales" width="600" height="227" />
+        </picture>
+      </a>
       <p>© 2026 Aguas Especiales. Todos los derechos reservados.</p>
       <p>Xochicalco 10, Atizapán de Zaragoza, Edo. de México · <a href="tel:+525553053590">55 5305 3590</a> · <a href="mailto:ventas@tensos.com">ventas@tensos.com</a></p>
     </div>

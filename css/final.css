@@ -98,7 +98,10 @@ p { margin: 0 0 18px; }
   min-height: 74px; display: flex; align-items: center;
   justify-content: space-between; gap: 20px;
 }
-.cab__logo img { max-width: 190px; }
+/* El ancho del logotipo ya no se fija aquí: la altura la pone css/marca.css
+   (--marca-alto, con sus tamaños para teléfono) y el ancho sale solo. Un
+   max-width de 190px pisaba esa altura y dejaba el dibujo más chico de la
+   cuenta. Antes decía: .cab__logo img { max-width: 190px; } */
 .cab__nav ul { display: flex; align-items: center; gap: 26px; list-style: none; margin: 0; padding: 0; }
 .cab__nav li { position: relative; }
 .cab__nav a { color: var(--tinta-2); text-decoration: none; font-size: .84rem; font-weight: 500; transition: color .2s ease; }
@@ -300,6 +303,12 @@ p { margin: 0 0 18px; }
   display: flex; flex-wrap: wrap; gap: 10px 24px;
   align-items: center; justify-content: space-between; font-size: .8rem;
 }
+/* El logotipo va en su propia línea. Como tercer elemento de esta fila no
+   cabía —127 + 375 + 581 más los huecos pasan del ancho disponible—, así que
+   el copyright se iba solo a la esquina derecha y la dirección caía a una
+   segunda fila. Ocupando el 100% recupera su sitio y los dos párrafos vuelven
+   a repartirse la línea de abajo como antes. */
+.pie__inner .marca--pie { flex: 0 0 100%; }
 .pie a { color: #cfe8f2; text-decoration: none; }
 .pie a:hover { color: var(--menta); text-decoration: underline; }
 
@@ -488,6 +497,7 @@ p { margin: 0 0 18px; }
 /* Sin JavaScript la pista no se mueve, así que se ve el primer banner y ya.
    No se queda un carrusel roto ni un hueco. */
 .carrusel:not(.is-listo) .carrusel__flecha,
+.carrusel:not(.is-listo) .carrusel__pausa,
 .carrusel:not(.is-listo) .carrusel__puntos { display: none; }
 
 .carrusel__flecha {
@@ -504,7 +514,7 @@ p { margin: 0 0 18px; }
 .carrusel__flecha svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
 @media (max-width: 560px) { .carrusel__flecha { width: 44px; height: 44px; } .carrusel__flecha--prev { left: 8px; } .carrusel__flecha--next { right: 8px; } }
 
-.carrusel__puntos { display: flex; justify-content: center; gap: 10px; padding: 16px 20px 20px; }
+.carrusel__puntos { position: relative; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 16px 20px 20px; }
 .carrusel__punto {
   width: 40px; height: 22px; padding: 9px 0 0; border: 0; background: none; cursor: pointer;
 }
@@ -515,7 +525,30 @@ p { margin: 0 0 18px; }
 .carrusel__punto:hover::before { background: var(--cian); }
 .carrusel__punto.is-activa::before { background: var(--azul); transform: scaleY(1.6); }
 
+/* Botón de pausa. Lo crea el JavaScript y se sienta en la fila de los
+   puntos, porque ahí es donde se busca el mando del carrusel. Redondo y con
+   el mismo borde y el mismo color que las flechas, para que se lea como
+   parte del mando y no como un añadido; pequeño, para que la fila la sigan
+   mandando los puntos. Va fuera del flujo, anclado a la derecha: dentro de la
+   fila sumaba 32 px a un contenedor centrado, así que empujaba los puntos
+   16 px a la izquierda del centro real del banner. */
+.carrusel__pausa {
+  position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
+  display: grid; place-items: center; width: 26px; height: 26px;
+  padding: 0; cursor: pointer;
+  border: 1px solid var(--linea); border-radius: 50%;
+  background: rgba(255, 255, 255, .88); color: var(--azul-marino);
+  transition: background .2s ease, border-color .2s ease, transform .2s ease;
+}
+.carrusel__pausa:hover { background: #fff; border-color: var(--cian); transform: translateY(-50%) scale(1.08); }
+.carrusel__pausa svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+/* Con «reducir movimiento» el carrusel no gira solo y el JavaScript esconde
+   este botón con [hidden]. Sin esta regla el display: grid de arriba le gana
+   al del navegador y el botón se quedaría a la vista sin nada que pausar. */
+.carrusel__pausa[hidden] { display: none; }
+
 @media (prefers-reduced-motion: reduce) {
   .carrusel__pista { transition: none; }
   .carrusel__flecha:hover { transform: translateY(-50%); }
+  .carrusel__pausa:hover { transform: none; }
 }

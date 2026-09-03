@@ -11,6 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&family=Inter:wght@600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/version-real.css" />
+  <link rel="stylesheet" href="css/marca.css" />
 </head>
 <body>
   <a class="saltar" href="#contenido">Ir al contenido</a>
@@ -24,8 +25,15 @@
 
   <header class="cab">
     <div class="cab__inner">
-      <a class="cab__logo" href="version-real.html">
-        <img src="img/real-logo.jpg" alt="Aguas Especiales" width="839" height="514" />
+      <a class="cab__logo marca marca--cab" href="version-real.html">
+        <picture class="marca__pic marca__pic--color">
+          <source srcset="img/logo-aguas-especiales-compacto.webp" type="image/webp" />
+          <img src="img/logo-aguas-especiales-compacto.png" alt="Aguas Especiales — Inicio" width="600" height="227" />
+        </picture>
+        <picture class="marca__pic marca__pic--claro">
+          <source srcset="img/logo-aguas-especiales-compacto-claro.webp" type="image/webp" />
+          <img src="img/logo-aguas-especiales-compacto-claro.png" alt="Aguas Especiales — Inicio" width="600" height="227" />
+        </picture>
       </a>
       <button class="cab__abrir" type="button" id="abrirMenu" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" /></svg>
@@ -209,6 +217,18 @@
   <footer class="pie">
     <div class="pie__grid">
       <div class="pie__col">
+        <!-- El pie va sobre verde oscuro: aquí manda la versión clara del
+             logotipo, la misma que usan los pies de las otras plantillas. -->
+        <a class="marca marca--pie marca--clara" href="version-real.html">
+          <picture class="marca__pic marca__pic--color">
+            <source srcset="img/logo-aguas-especiales.webp" type="image/webp" />
+            <img src="img/logo-aguas-especiales.png" alt="Aguas Especiales" width="600" height="227" loading="lazy" />
+          </picture>
+          <picture class="marca__pic marca__pic--claro">
+            <source srcset="img/logo-aguas-especiales-claro.webp" type="image/webp" />
+            <img src="img/logo-aguas-especiales-claro.png" alt="Aguas Especiales" width="600" height="227" />
+          </picture>
+        </a>
         <p>Estamos comprometidos con las necesidades de tu industria, con soluciones en agua con estándares de excelencia.</p>
         <p class="pie__lema">«Sirviendo a la Industria con Resultados Óptimos»</p>
         <!-- El pie del sitio real publica aquí otra dirección (Xochicalco 10,

@@ -21,6 +21,17 @@ const GOTA_PUNTA = 14;                        // altura de la punta
 const GOTA_CENTRO = 42, GOTA_RADIO = 12.5;    // casquete inferior
 const GOTA_EJE = 21;                          // eje de revolución, en X
 
+/* Ojo con la regla del agua sin tinte: aquí NO aplica.
+
+   En los envases (js/bottle3d.js, js/tote3d.js) el agua va en blanco a
+   propósito, porque es agua de verdad y lo que vende Aguas Especiales es
+   justamente que no tiene color. Esta gota no es agua: es el isotipo de la
+   marca, y el isotipo es azul en todas partes —img/logo-aguas-especiales.svg
+   la pinta con once facetas, de #cdeef9 a #2a7fb4, y js/tote3d.js repite esa
+   misma paleta para estamparla en la etiqueta del tote.
+
+   Dejarla incolora hacía que el logotipo 3D del hero dejara de parecerse al
+   logotipo de la cabecera de esa misma página. */
 const AGUA = new THREE.Color(0x67c8e8);
 
 /* SVG (Y hacia abajo) → escena centrada en el origen con Y hacia arriba */
@@ -140,20 +151,43 @@ function matA(env) {
   });
 }
 
-/* Cristal, no burbuja: caras planas, mucho especular y tinte de agua.
-   El sombreado plano es lo que hace que se lean las facetas. */
+/* Cristal, no burbuja: caras planas y mucho especular. El sombreado plano es
+   lo que hace que se lean las facetas, y el azul es el de la marca (ver la
+   nota de la constante AGUA: esta gota es el isotipo, no agua de producto).
+
+   Lo único que se ha tocado aquí es la doble transparencia. El material
+   llevaba transmission Y ADEMÁS transparent con opacity 0.95: dos formas de
+   ver a través superpuestas, el mismo antipatrón que js/bottle3d.js ya tenía
+   documentado como corregido y que a este archivo nunca llegó. El alfa
+   restaba energía a los brillos y dejaba la gota lechosa.
+
+   Se quita el alfa (opacity 1) pero transparent se queda en true, y esto
+   importa: con transmission parcial —0.32, no 1— el material escribe un alfa
+   intermedio. Poniendo transparent en false, three pasa a NoBlending y ese
+   alfa sin premultiplicar acaba sumándose al fondo en lugar de mezclarse,
+   porque el visor crea el lienzo con alpha:true y clearAlpha 0. La botella
+   puede permitírselo porque su transmission vale exactamente 1 y el alfa sale
+   0; aquí no. */
 function matGota(env, alto) {
   if (alto) {
     return new THREE.MeshPhysicalMaterial({
       flatShading: true, side: THREE.DoubleSide, transparent: true, envMap: env,
       color: 0x4ec5e6, metalness: 0.1, roughness: 0.07,
       transmission: 0.32, thickness: 0.3, ior: 1.55,
-      attenuationColor: AGUA, attenuationDistance: 0.4,
+      /* 1.2 son cuatro veces el grosor. Con 0.4 el recorrido era más corto
+         que la propia pieza y la absorción se comía la gota entera; así el
+         tinte se nota sin cerrarse. */
+      attenuationColor: AGUA, attenuationDistance: 1.2,
       clearcoat: 1, clearcoatRoughness: 0.02,
-      envMapIntensity: 1.65, opacity: 0.95,
+      envMapIntensity: 1.65, opacity: 1,
     });
   }
-  // Equipos modestos: brillo y transparencia, sin refracción
+  /* Equipos modestos: brillo y transparencia, sin refracción. Aquí la mezcla
+     alfa no es el antipatrón de arriba, es lo único que hay: sin transmission
+     no existe otra forma de ver a través, así que transparent sí va, y la
+     opacidad se queda en 0.8. Bajarla no aclara nada: esta gota vive en el
+     hero de index.html, que es oscuro, y menos alfa solo deja pasar más
+     fondo oscuro y apaga el isotipo. */
   return new THREE.MeshPhysicalMaterial({
     flatShading: true, side: THREE.DoubleSide, transparent: true, envMap: env,
     color: 0x8ed5ec, metalness: 0, roughness: 0.09,

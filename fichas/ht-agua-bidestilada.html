@@ -11,10 +11,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../css/ficha.css" />
+  <link rel="stylesheet" href="../css/marca.css" />
 </head>
 <body>
-  <!-- Isotipo de marca: se define una vez por página y se reutiliza con <use href="#ae-logo"> -->
-  <svg class="ae-defs" aria-hidden="true" focusable="false" width="0" height="0"><defs><symbol id="ae-logo" viewBox="0 0 64 64"><path d="M12 58 38 8 62 58Z" fill="none" stroke="var(--ae-a,#2f5789)" stroke-width="4.5" stroke-linejoin="miter" stroke-miterlimit="6"/><path d="M19.3 44h36" fill="none" stroke="var(--ae-a,#2f5789)" stroke-width="4.5"/><path d="M21 14C21 14 8.5 29 8.5 42a12.5 12.5 0 0 0 25 0C33.5 29 21 14 21 14Z" fill="#a5dcef"/><path d="M21 14L15.7 21.6L10.9 31L21 38Z" fill="#cdeef9"/><path d="M21 14L21 38L31.1 31L26.3 21.6Z" fill="#8ed3ec"/><path d="M10.9 31L9 37.3L21 38Z" fill="#b6e4f4"/><path d="M9 37.3L8.5 42L21 38Z" fill="#a3dcf0"/><path d="M8.5 42L12.16 50.84L21 38Z" fill="#5cb9de"/><path d="M12.16 50.84L21 54.5L21 38Z" fill="#2a7fb4"/><path d="M21 54.5L29.84 50.84L21 38Z" fill="#3f9dc9"/><path d="M29.84 50.84L33.5 42L21 38Z" fill="#62c0e0"/><path d="M33.5 42L33 37.3L21 38Z" fill="#7dcbe6"/><path d="M33 37.3L31.1 31L21 38Z" fill="#9bd9ef"/></symbol></defs></svg>
   <div class="sheetbar noprint">
     <a class="sheetbar__back" href="../producto-agua-bidestilada.html">← Volver a Agua bidestilada</a>
     <a class="sheetbar__wa" href="https://wa.me/525587908943?text=Hola%2C%20vengo%20de%20la%20hoja%20t%C3%A9cnica%20de%20agua%20bidestilada%20y%20quiero%20cotizar." target="_blank" rel="noopener">
@@ -31,12 +30,16 @@
     <article class="sheet">
       <header class="sheet__head">
         <div class="sheet__brand">
-          <span class="sheet__logo" aria-hidden="true"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#ae-logo"/></svg></span>
-          <span class="sheet__brandtext">
-            <strong>AGUAS</strong>
-            <span>ESPECIALES</span>
-            <em>Soluciones diseñadas con precisión</em>
-          </span>
+          <a class="marca marca--hoja" href="../index.html">
+            <picture class="marca__pic marca__pic--color">
+              <source srcset="../img/logo-aguas-especiales.webp" type="image/webp" />
+              <img src="../img/logo-aguas-especiales.png" alt="Aguas Especiales" width="600" height="227" />
+            </picture>
+            <picture class="marca__pic marca__pic--claro">
+              <source srcset="../img/logo-aguas-especiales-claro.webp" type="image/webp" />
+              <img src="../img/logo-aguas-especiales-claro.png" alt="Aguas Especiales" width="600" height="227" loading="lazy" />
+            </picture>
+          </a>
         </div>
         <div class="sheet__title">
           <h1>HOJA TÉCNICA</h1>
@@ -143,9 +146,17 @@
           <strong>Correo y web</strong>
           <a href="mailto:ventas@tensos.com">ventas@tensos.com</a><br />www.aguasespeciales.com.mx
         </div>
-        <div class="sheet__footbrand" aria-hidden="true">
-          <span class="sheet__logo sheet__logo--sm"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#ae-logo"/></svg></span>
-          <span><strong>AGUAS</strong><span>ESPECIALES</span></span>
+        <div class="sheet__footbrand">
+          <a class="marca marca--hoja-sm" href="../index.html">
+            <picture class="marca__pic marca__pic--color">
+              <source srcset="../img/logo-aguas-especiales.webp" type="image/webp" />
+              <img src="../img/logo-aguas-especiales.png" alt="Aguas Especiales" width="600" height="227" />
+            </picture>
+            <picture class="marca__pic marca__pic--claro">
+              <source srcset="../img/logo-aguas-especiales-claro.webp" type="image/webp" />
+              <img src="../img/logo-aguas-especiales-claro.png" alt="Aguas Especiales" width="600" height="227" loading="lazy" />
+            </picture>
+          </a>
         </div>
       </footer>
     </article>
