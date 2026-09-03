@@ -1,0 +1,269 @@
+/* =========================================================
+   AGUAS ESPECIALES — Versión B: recreación de aguasespeciales.com.mx
+   ---------------------------------------------------------
+   Reconstrucción del sitio real (WordPress + Astra + Elementor) como
+   HTML/CSS estático. Se conserva lo que se ve; se corrige lo que estaba
+   roto de origen, y queda anotado cada vez que se corrige:
+
+   · El original tenía TRES sistemas de botón distintos. Aquí hay uno.
+   · Tenía DOS anchos de contenedor (1200 del tema, 1140 de Elementor) y
+     DOS juegos de puntos de quiebre (921/922 de Astra, 767/1024 de
+     Elementor) que se solapaban. Aquí: un ancho y dos quiebres.
+   · La cabecera era position:absolute y no reservaba altura, así que el
+     hero llevaba un margen de 149 px para esquivarla. Aquí es sticky.
+   · Los espaciados originales estaban escritos a mano y descuadrados
+     (149px, 109px, 78px, -210px, -47px) y una docena de valores eran
+     inválidos —padding:-3px, padding:01px— que el navegador tiraba a la
+     basura. O sea: el espaciado que se veía no era el que estaba escrito.
+     Aquí hay un ritmo único.
+   ========================================================= */
+
+:root {
+  /* Paleta real, la que de verdad se ve en la página */
+  --verde-pie: #1e5827;
+  --verde-btn: #54b435;
+  --verde-btn-hover: #379237;
+  --verde-menu-hover: #006400;
+  --verde-claro: #edfbe2;
+  --verde-pie-hover: #d1f0c3;
+  --texto: #333333;
+  --texto-form: #2f3b40;
+  --azul-menu: #34495e;
+  --gris-tarjeta: #f5f5f5;
+  --borde: #dddddd;
+  --blanco: #ffffff;
+
+  --ancho: 1140px;
+  --font: "Roboto", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --font-btn: "Inter", var(--font);
+}
+
+/* El tema base pone la escala en 112.5%: 1rem = 18px */
+html { font-size: 112.5%; scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--blanco);
+  color: var(--texto);
+  font-family: var(--font);
+  font-size: 1rem;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; height: auto; display: block; }
+a { color: inherit; }
+
+h1, h2, h3 { font-weight: 600; line-height: 1.25; margin: 0 0 18px; }
+h1 { font-size: clamp(1.55rem, 3.4vw, 2.1rem); }
+h2 { font-size: clamp(1.35rem, 3vw, 1.78rem); }
+h3 { font-size: 1.15rem; }
+p { margin: 0 0 18px; }
+
+.contenedor { max-width: var(--ancho); margin: 0 auto; padding: 0 20px; }
+.seccion { padding: 80px 0; }
+.seccion--ajustada { padding: 48px 0; }
+
+.saltar {
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  background: var(--verde-pie); color: #fff; padding: 12px 18px;
+}
+.saltar:focus { left: 12px; top: 12px; }
+
+/* ---------- Banda de comparación ----------
+   No existe en el sitio real: es el andamio para poder ver las tres
+   versiones una al lado de la otra. Se quita cuando se decida cuál queda. */
+.comparar {
+  background: #0f2b3b; color: #cfe6f2;
+  font-size: .72rem; letter-spacing: .04em;
+  padding: 7px 20px; display: flex; gap: 14px;
+  align-items: center; justify-content: center; flex-wrap: wrap;
+}
+.comparar strong { color: #fff; font-weight: 600; }
+.comparar a { color: #7ef0dc; text-decoration: none; }
+.comparar a:hover { text-decoration: underline; }
+
+/* ---------- Cabecera ----------
+   En el original era absolute y flotaba sobre el contenido sin reservar
+   altura. Aquí es sticky, que es lo que se pretendía. */
+.cab {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--blanco);
+  border-bottom: 1px solid var(--borde);
+}
+.cab__inner {
+  max-width: var(--ancho); margin: 0 auto; padding: 0 20px;
+  min-height: 70px; display: flex; align-items: center;
+  justify-content: space-between; gap: 20px;
+}
+.cab__logo img { max-width: 190px; }
+.cab__nav ul { display: flex; gap: 26px; list-style: none; margin: 0; padding: 0; }
+.cab__nav a {
+  color: var(--azul-menu); text-decoration: none;
+  font-size: .82rem; display: inline-block;
+  transition: transform .3s ease, color .3s ease;
+}
+/* El zoom del menú es del tema original (ast-menu-hover-style-zoom), pero solo
+   al pasar el ratón. Aplicárselo también a la página actual dejaba ese enlace
+   escalado a 1.2 de forma permanente, y en teléfono —donde los enlaces son
+   bloques a todo lo ancho— se salía 67 px de la pantalla. La página actual se
+   marca con color y negrita, que no mueve nada de sitio. */
+.cab__nav a:hover { color: var(--verde-menu-hover); transform: scale(1.2); }
+.cab__nav a[aria-current="page"] { color: var(--verde-menu-hover); font-weight: 700; }
+@media (prefers-reduced-motion: reduce) { .cab__nav a:hover { transform: none; } }
+
+.cab__abrir {
+  display: none; border: 0; cursor: pointer;
+  background: var(--verde-claro); color: var(--verde-btn);
+  border-radius: 4px; padding: 9px 11px; line-height: 0;
+}
+.cab__abrir svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+
+@media (max-width: 768px) {
+  .cab__abrir { display: inline-block; }
+  .cab__nav {
+    display: none; position: absolute; left: 0; right: 0; top: 100%;
+    background: var(--verde-claro); padding: 10px 20px 18px;
+  }
+  .cab__nav.abierto { display: block; }
+  .cab__nav ul { flex-direction: column; gap: 0; }
+  .cab__nav a { display: block; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,.08); }
+  .cab__nav a:hover { transform: none; }
+}
+
+/* ---------- Botones ----------
+   Uno solo. El original tenía tres que no se parecían entre sí, y todos
+   heredaban un text-shadow que emborronaba el texto blanco. */
+.btn {
+  display: inline-block; border: 1px solid var(--verde-btn); cursor: pointer;
+  background: var(--verde-btn); color: #fff;
+  font-family: var(--font-btn); font-weight: 600; font-size: .84rem;
+  padding: 16px 32px; border-radius: 6px; text-decoration: none;
+  transition: background .2s ease, border-color .2s ease;
+}
+.btn:hover { background: var(--verde-btn-hover); border-color: var(--verde-btn-hover); }
+.btn--linea { background: transparent; color: var(--verde-btn-hover); }
+.btn--linea:hover { background: var(--verde-btn); color: #fff; }
+
+/* ---------- Hero ---------- */
+.hero { padding: 56px 0 40px; }
+.hero__grid { display: grid; gap: 40px; align-items: center; }
+.hero p.hero__pie { color: #5a5a5a; font-size: .88rem; margin: 0; }
+/* La foto original iba recortada a 226 px, al 69% de opacidad y con un
+   hue-rotate de 10 grados: se veía lavada y torcida de color. */
+.hero__foto img { width: 100%; border-radius: 8px; object-fit: cover; max-height: 420px; }
+@media (min-width: 769px) { .hero__grid { grid-template-columns: 1fr 1fr; } }
+
+/* ---------- Banda de titulares ---------- */
+.banda { text-align: center; }
+.banda p { max-width: 62ch; margin: 0 auto 34px; color: #555; }
+.banda h2:last-of-type { margin-bottom: 0; }
+
+/* ---------- Historia ---------- */
+.historia__grid { display: grid; gap: 40px; align-items: center; }
+@media (min-width: 769px) { .historia__grid { grid-template-columns: 1fr 1fr; } }
+.historia__texto p { text-align: justify; }
+/* min() y no 360px a secas: en una rejilla, un hijo con ancho mínimo fijo
+   arrastra a todo el contenedor y en un teléfono de 375 px lo empujaba a 400,
+   con 5 px de desborde horizontal en toda la página. */
+.historia__grid > * { min-width: 0; }
+.historia__foto img { margin: 0 auto; max-width: min(360px, 100%); }
+
+/* ---------- Diferenciadores ---------- */
+.difs { display: grid; gap: 44px 40px; }
+@media (min-width: 769px) { .difs { grid-template-columns: 1fr 1fr; } }
+.dif { display: flex; gap: 20px; align-items: flex-start; }
+.dif__ico { flex: 0 0 auto; color: var(--texto); }
+.dif__ico svg { width: 46px; height: 46px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.dif h3 { margin-bottom: 8px; }
+.dif p { text-align: justify; margin: 0; font-size: .92rem; }
+@media (max-width: 768px) {
+  .dif { flex-direction: column; align-items: center; text-align: center; }
+  .dif p { text-align: center; }
+}
+
+/* ---------- Testimonios ---------- */
+.testis { display: grid; gap: 30px; }
+@media (min-width: 769px) { .testis { grid-template-columns: 1fr 1fr; } }
+.testi {
+  background: var(--gris-tarjeta); color: var(--azul-menu);
+  padding: 28px; box-shadow: 6px 0 10px rgba(0, 0, 0, .5);
+}
+.testi p { font-size: 1.05rem; }
+.testi strong { display: block; font-weight: 600; }
+.testi span { font-size: .85rem; }
+.testi--pendiente {
+  box-shadow: none; border: 1px dashed #b9c6cf; background: #fafcfd;
+  display: grid; place-items: center; text-align: center; min-height: 150px;
+}
+.testi--pendiente p { margin: 0; font-size: .9rem; color: #667a86; }
+
+/* ---------- CTA ---------- */
+.cta { text-align: center; }
+
+/* ---------- Formulario ----------
+   Fiel al original: nombre, correo y teléfono obligatorios los tres. Así
+   se puede comparar de verdad contra el cotizador de la otra versión. */
+.form-caja { max-width: 760px; margin: 0 auto; padding: 26px; }
+.form-caja h2 { text-align: center; }
+.form-caja > p { text-align: center; color: #555; margin-bottom: 30px; }
+.campo { margin-bottom: 20px; }
+.campo > label, .campo__leyenda {
+  display: block; font-size: .82rem; font-weight: 600;
+  color: var(--texto-form); margin-bottom: 6px;
+}
+.campo input[type="text"], .campo input[type="email"], .campo input[type="tel"] {
+  width: 100%; padding: 12px 14px; border: 1px solid #c9ccce;
+  border-radius: 4px; font: inherit; font-size: .88rem; color: var(--texto-form);
+  background: #fff;
+}
+.campo input:focus-visible { outline: 2px solid var(--verde-btn); outline-offset: 1px; }
+.campo__par { display: grid; gap: 14px; }
+@media (min-width: 601px) { .campo__par { grid-template-columns: 1fr 1fr; } }
+.campo__sub { font-size: .74rem; color: #6b7276; display: block; margin-top: 5px; }
+.campo__pista { font-size: .78rem; color: #6b7276; margin-top: 6px; }
+.campo__check { display: flex; gap: 10px; align-items: flex-start; font-size: .84rem; color: var(--texto-form); }
+.campo__error { display: block; font-size: .78rem; color: #b3261e; min-height: 1.1em; margin-top: 4px; }
+.form-caja .btn { width: 100%; }
+
+/* ---------- Pie ---------- */
+.pie { background: var(--verde-pie); color: #fff; }
+.pie a { color: #fff; text-decoration: none; }
+.pie a:hover { color: var(--verde-pie-hover); opacity: .85; }
+.pie__grid {
+  max-width: 1200px; margin: 0 auto; padding: 4% 20px 45px;
+  display: grid; gap: 20px; align-items: flex-start;
+}
+@media (min-width: 1025px) { .pie__grid { grid-template-columns: 1.6fr 1fr 1fr; } }
+@media (min-width: 769px) and (max-width: 1024px) { .pie__grid { grid-template-columns: repeat(3, 1fr); } }
+.pie__col { font-size: .82rem; }
+.pie__col h2 { font-size: 1rem; margin-bottom: 12px; }
+.pie__col ul { list-style: none; margin: 0; padding: 0; }
+.pie__col li { margin-bottom: 7px; }
+.pie__lema { font-weight: 700; }
+.pie__bajo {
+  max-width: 1200px; margin: 0 auto; padding: 20px;
+  border-top: 1px solid rgba(255, 255, 255, .18);
+  display: grid; gap: 14px; align-items: center; min-height: 80px;
+  font-size: .78rem;
+}
+@media (min-width: 769px) { .pie__bajo { grid-template-columns: 1fr 1fr; } }
+.pie__bajo .der { text-align: right; }
+@media (max-width: 768px) { .pie__bajo .der { text-align: left; } }
+
+/* ---------- Chip de WhatsApp ----------
+   Copiado del original: gris, no verde, y con el rótulo al lado. */
+.chip-wa {
+  position: fixed; right: 15px; bottom: 15px; z-index: 999;
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #e4e4e4; color: #7f7d7d; text-decoration: none;
+  font-size: .72rem; line-height: 32px; padding: 0 12px; border-radius: 25px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, .2);
+  animation: chipEntra .4s cubic-bezier(.25, 1, .5, 1) .15s both;
+}
+.chip-wa svg { width: 26px; height: 26px; }
+@keyframes chipEntra { from { transform: scale(0); } to { transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) { .chip-wa { animation: none; } }
+
+:focus-visible { outline: 3px solid var(--verde-btn); outline-offset: 2px; }

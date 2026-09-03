@@ -10,21 +10,36 @@
 
   /* ---------- Datos de contacto (usados por enlaces generados) ---------- */
   const CONTACT = {
-    email: "ventas@aguasespeciales.com.mx",
-    tel1: "55 5899 0125",
-    tel1Href: "tel:+525558990125",
-    tel2: "55 5899 6566",
-    tel2Href: "tel:+525558996566",
-    whatsapp: "525558990125",
-    address: "Francisco Chilpan, Tultitlán, Estado de México, C.P. 54940",
+    email: "ventas@tensos.com",
+    tel1: "55 5305 3590",
+    tel1Href: "tel:+525553053590",
+    tel2: "55 8790 8943",
+    tel2Href: "tel:+525587908943",
+    whatsapp: "525587908943",
+    address: "Xochicalco 10, Col. Cerro Grande, Atizapán de Zaragoza, Estado de México, C.P. 52920",
   };
 
   /* ---------- Categorías de producto ----------
      group: sirve para los filtros ("aguas" | "reactivos" | "equipo")
      items: lista simple  ·  groups: subcategorías con su propia lista
      href:  cuando el producto tiene página de detalle propia
+     foto:  ruta sin extensión de la foto de producto; el catálogo le pone
+            .webp y .png. Solo la llevan los que tienen render de etiqueta.
   -------------------------------------------------------- */
   const CATEGORIES = [
+    {
+      id: "agua-purificada",
+      num: "01",
+      group: "aguas",
+      icon: "💧",
+      name: "Agua purificada",
+      lead: "Agua de uso general para procesos, limpieza de equipos y formulación, en los grados de mineralización que cada proceso necesita.",
+      items: [
+        { name: "Agua purificada", href: "producto-agua-purificada.html", foto: "img/producto/agua-purificada" },
+        { name: "Agua baja en sales", foto: "img/producto/agua-baja-en-sales" },
+        { name: "Agua equilibrada", foto: "img/producto/agua-equilibrada" },
+      ],
+    },
     {
       id: "aguas-especiales",
       num: "01",
@@ -33,19 +48,16 @@
       name: "Aguas especiales",
       lead: "Aguas producidas bajo especificación, desde purificada hasta tridestilada, con el perfil iónico que tu proceso necesita.",
       items: [
-        { name: "Agua purificada", href: "producto-agua-purificada.html" },
-        { name: "Agua suave" },
-        { name: "Agua baja en sales" },
-        { name: "Agua equilibrada" },
-        { name: "Agua desmineralizada", href: "producto-agua-desmineralizada.html" },
-        { name: "Agua destilada" },
-        { name: "Agua bidestilada", href: "producto-agua-bidestilada.html" },
-        { name: "Agua tridestilada" },
-        { name: "Agua desionizada" },
-        { name: "Agua libre de sílice" },
-        { name: "Agua ácida" },
-        { name: "Agua básica" },
-        { name: "Agua preparada bajo especificación del cliente" },
+        { name: "Agua suave", foto: "img/producto/agua-suave" },
+        { name: "Agua desmineralizada", href: "producto-agua-desmineralizada.html", foto: "img/producto/agua-desmineralizada" },
+        { name: "Agua destilada", foto: "img/producto/agua-destilada" },
+        { name: "Agua bidestilada", href: "producto-agua-bidestilada.html", foto: "img/producto/agua-bidestilada" },
+        { name: "Agua tridestilada", foto: "img/producto/agua-tridestilada" },
+        { name: "Agua desionizada", foto: "img/producto/agua-desionizada" },
+        { name: "Agua libre de sílice", foto: "img/producto/agua-libre-de-silice" },
+        { name: "Agua ácida", foto: "img/producto/agua-acida" },
+        { name: "Agua básica", foto: "img/producto/agua-basica" },
+        { name: "Agua preparada bajo especificación del cliente", foto: "img/producto/agua-bajo-especificacion" },
       ],
     },
     {
@@ -345,8 +357,8 @@
       specs: [
         ["Apariencia", "Líquido transparente, incoloro, libre de partículas visibles"],
         ["pH (a 25 °C)", "5.0 – 7.0"],
-        ["Conductividad (a 25 °C)", "≤ 10 µS/cm"],
-        ["Sólidos totales disueltos (TDS)", "≤ 10 mg/L"],
+        ["Conductividad (a 25 °C)", "≤ 2.5 µS/cm"],
+        ["Sólidos totales disueltos (TDS)", "≤ 1.25 mg/L"],
         ["Dureza total (como CaCO₃)", "≤ 1 mg/L"],
         ["Cloruros (Cl⁻)", "≤ 1 mg/L"],
         ["Sulfatos (SO₄²⁻)", "≤ 1 mg/L"],
@@ -375,6 +387,30 @@
           code: "HE-AE-04",
           href: "fichas/he-agua-desmineralizada.html",
           desc: "Tablas fisicoquímica y microbiológica con presentación, almacenamiento y firmas de revisión y autorización.",
+        },
+        {
+          type: "Hoja técnica (PDF)",
+          code: "HT-AE-01",
+          href: "fichas/pdf/ht-ae-01-agua-desmineralizada.pdf",
+          desc: "La hoja técnica oficial, tal como la emite control de calidad.",
+        },
+        {
+          type: "Parámetros fisicoquímicos (PDF)",
+          code: "FQ",
+          href: "fichas/pdf/parametros-fq-agua-desmineralizada.pdf",
+          desc: "Tabla de parámetros fisicoquímicos con membrete y datos fiscales.",
+        },
+        {
+          type: "Hoja técnica extendida (PDF)",
+          code: "—",
+          href: "fichas/pdf/hoja-tecnica-agua-desmineralizada-tensos.pdf",
+          desc: "Proceso de tratamiento, áreas de aplicación, almacenamiento y embalaje.",
+        },
+        {
+          type: "Certificado de calidad (PDF)",
+          code: "—",
+          href: "fichas/pdf/certificado-calidad-agua-desmineralizada.pdf",
+          desc: "Formato por lote, con el método y la especificación de cada determinación.",
         },
       ],
     },
@@ -415,6 +451,18 @@
           code: "HE-AE-05",
           href: "fichas/he-agua-bidestilada.html",
           desc: "Tabla fisicoquímica con presentación, almacenamiento y firmas de revisión y autorización.",
+        },
+        {
+          type: "Parámetros fisicoquímicos (PDF)",
+          code: "FQ",
+          href: "fichas/pdf/parametros-fq-agua-bidestilada.pdf",
+          desc: "Tabla de parámetros fisicoquímicos con membrete y datos fiscales.",
+        },
+        {
+          type: "Hoja técnica extendida (PDF)",
+          code: "—",
+          href: "fichas/pdf/hoja-tecnica-agua-bidestilada-tensos.pdf",
+          desc: "Proceso de tratamiento, áreas de aplicación, almacenamiento y embalaje.",
         },
       ],
     },

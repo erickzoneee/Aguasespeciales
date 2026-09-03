@@ -56,6 +56,21 @@ table { border-collapse: collapse; width: 100%; }
 .sheetbar__print:hover { filter: brightness(1.07); }
 .sheetbar__print svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
+/* WhatsApp en la barra de la hoja. Va con estilo de enlace y no de boton
+   grande: la barra ya lleva dos elementos y en pantallas angostas un tercer
+   boton la partia en dos renglones. */
+.sheetbar__wa {
+  display: inline-flex; align-items: center; gap: 8px; margin-left: auto;
+  color: #cfeaf2; text-decoration: none; font-weight: 600;
+}
+.sheetbar__wa:hover { color: var(--s-mint); }
+.sheetbar__wa svg { width: 17px; height: 17px; fill: currentColor; }
+
+/* Telefonos y correo del pie, ahora tocables. En pantalla no deben cantar
+   como enlaces —esto es un documento—, y al imprimir ya no se ven. */
+.sheet__footcol a { color: inherit; text-decoration: none; }
+.sheet__footcol a:hover { color: var(--s-primary); text-decoration: underline; }
+
 /* ---------- Página ---------- */
 .sheet-page { padding: clamp(14px, 3vw, 30px); display: flex; justify-content: center; }
 .sheet {

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Aguas Especiales · Agua purificada ajustada a tus parámetros</title>
+  <meta name="description" content="Fabricamos agua purificada de acuerdo con parámetros técnicos, estándares de referencia o especificaciones particulares del cliente." />
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&family=Inter:wght@600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/final.css" />
+</head>
+<body>
+  <a class="saltar" href="#contenido">Ir al contenido</a>
+
+  <header class="cab">
+    <div class="cab__inner">
+      <a class="cab__logo" href="final.html">
+        <img src="img/real-logo.jpg" alt="Aguas Especiales" width="839" height="514" />
+      </a>
+      <button class="cab__abrir" type="button" id="abrirMenu" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" /></svg>
+      </button>
+      <nav class="cab__nav" id="menu" aria-label="Principal">
+        <ul>
+          <li><a href="final.html" aria-current="page">Página principal</a></li>
+          <!-- El desplegable lo arma js/menu-productos.js con las categorías
+               reales. Sin JavaScript queda el enlace de reserva de aquí. -->
+          <li id="menuProductos" data-destino="final-productos.html">
+            <a href="final-productos.html">Productos</a>
+          </li>
+          <li><a href="#nosotros">Quiénes somos</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+
+    <!-- ===== Carrusel de portada =====
+         Los banners son los que entregó el cliente, completos y sin recortar:
+         el título es parte del diseño. Se ven enteros («contain») y no
+         recortados, porque a lo ancho el texto vive a la izquierda y el
+         producto a la derecha, y cualquier recorte se come uno de los dos. -->
+    <section class="carrusel" data-carrusel aria-roledescription="carrusel" aria-label="Lo que producimos">
+      <div class="carrusel__marco">
+        <ul class="carrusel__pista">
+          <li class="carrusel__lamina">
+            <a href="final-productos.html#aguas-laboratorio">
+              <picture>
+                <source srcset="img/banner/aguas-laboratorio.webp" type="image/webp" />
+                <img src="img/banner/aguas-laboratorio.jpg" alt="Aguas para laboratorio: Tipo I a IV y Grado 1 a 3, con la pureza que pide tu método." width="1400" height="933" decoding="async" fetchpriority="high" />
+              </picture>
+            </a>
+          </li>
+          <li class="carrusel__lamina">
+            <a href="final-productos.html#reactivos">
+              <picture>
+                <source srcset="img/banner/reactivos.webp" type="image/webp" />
+                <img src="img/banner/reactivos.jpg" alt="Reactivos para análisis: De fabricación propia, para resultados confiables en cada análisis." width="1400" height="933" decoding="async" loading="lazy" />
+              </picture>
+            </a>
+          </li>
+          <li class="carrusel__lamina">
+            <a href="final-productos.html#kits">
+              <picture>
+                <source srcset="img/banner/kits.webp" type="image/webp" />
+                <img src="img/banner/kits.jpg" alt="Kits para análisis de agua: Completos, con reactivos y material, listos para trabajar." width="1400" height="933" decoding="async" loading="lazy" />
+              </picture>
+            </a>
+          </li>
+          <li class="carrusel__lamina">
+            <a href="final-productos.html#soluciones-acuosas">
+              <picture>
+                <source srcset="img/banner/soluciones-acuosas.webp" type="image/webp" />
+                <img src="img/banner/soluciones-acuosas.jpg" alt="Soluciones acuosas: Salmueras y soluciones preparadas a tu concentración." width="1400" height="933" decoding="async" loading="lazy" />
+              </picture>
+            </a>
+          </li>
+          <li class="carrusel__lamina">
+            <a href="final-productos.html#aguas-acondicionadas">
+              <picture>
+                <source srcset="img/banner/aguas-acondicionadas.webp" type="image/webp" />
+                <img src="img/banner/aguas-acondicionadas.jpg" alt="Agua acondicionada: Para chillers y sistemas cerrados, con inhibidores." width="1400" height="933" decoding="async" loading="lazy" />
+              </picture>
+            </a>
+          </li>
+        </ul>
+
+        <button class="carrusel__flecha carrusel__flecha--prev" type="button" aria-label="Banner anterior">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg>
+        </button>
+        <button class="carrusel__flecha carrusel__flecha--next" type="button" aria-label="Banner siguiente">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+        </button>
+      </div>
+      <div class="carrusel__puntos" role="group" aria-label="Ir a un banner"></div>
+    </section>
+
+    <!-- ===== Hero ===== -->
+    <section class="hero">
+      <div class="contenedor hero__grid">
+        <div>
+          <h1>Fabricamos agua purificada de acuerdo con parámetros técnicos, estándares de referencia o especificaciones particulares del cliente.</h1>
+          <p class="hero__pie">Agua de grado científico e industrial · Estado de México</p>
+        </div>
+        <div class="hero__foto">
+          <img src="img/real-hero.jpg" alt="Planta de producción de agua purificada de Aguas Especiales" width="1349" height="900" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Banda de titulares ===== -->
+    <section class="seccion seccion--ajustada banda">
+      <div class="contenedor">
+        <h2>Calidad controlada, ajustada a tus parámetros</h2>
+        <p>Producimos de acuerdo con parámetros técnicos, estándares de referencia o especificaciones particulares del cliente.</p>
+        <h2>¿Qué nos hace diferentes?</h2>
+      </div>
+    </section>
+
+    <!-- ===== Nuestra historia =====
+         Donde el sitio real pone la foto del tote va aquí el mismo tote en
+         3D, que se puede girar. Debajo queda la imagen sacada del propio
+         modelo: en teléfono no se descarga Three.js y sin WebGL tampoco. -->
+    <section class="seccion" id="nosotros">
+      <div class="contenedor historia__grid">
+        <div class="historia__texto">
+          <h2>Nuestra historia</h2>
+          <p>En un mundo donde la pureza del agua define la calidad de los procesos, AGUAS ESPECIALES nace con una misión clara: brindar soluciones hídricas diseñadas de acuerdo con parámetros técnicos, estándares de referencia o especificaciones particulares del cliente.</p>
+          <p>Nuestra historia comienza con una convicción: el agua no es solo un líquido, es un vehículo de limpieza, análisis y transformación. Sabíamos que no bastaba con ofrecer agua destilada o tratada como un simple insumo. Queríamos ir más allá y crear soluciones específicas para cada necesidad, de acuerdo con parámetros técnicos, estándares de referencia o especificaciones particulares del cliente.</p>
+        </div>
+        <div class="historia__foto">
+          <div class="tote3d" data-tote3d data-min3d="700">
+            <picture>
+              <source srcset="img/render-tote-bidestilada.webp" type="image/webp" />
+              <img class="tote3d__foto" src="img/render-tote-bidestilada.png" alt="Tote de 1000 litros de agua bidestilada de Aguas Especiales" width="940" height="907" decoding="async" />
+            </picture>
+            <span class="tote3d__hint">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/><circle cx="12" cy="12" r="3"/></svg>
+              Arrástralo para girarlo
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Diferenciadores ===== -->
+    <section class="seccion seccion--ajustada">
+      <div class="contenedor difs">
+        <article class="dif">
+          <span class="dif__ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 2.5s6.5 7.6 6.5 12a6.5 6.5 0 0 1-13 0c0-4.4 6.5-12 6.5-12Z" /></svg>
+          </span>
+          <div>
+            <h3>Agua con propósito</h3>
+            <p>Diseñamos soluciones líquidas con especificaciones químicas y microbiológicas ajustadas a tu proceso.</p>
+          </div>
+        </article>
+
+        <article class="dif">
+          <span class="dif__ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 2.5 4 6v6c0 4.6 3.4 8.5 8 9.5 4.6-1 8-4.9 8-9.5V6l-8-3.5Z" /><path d="m8.6 12 2.4 2.4 4.4-4.6" /></svg>
+          </span>
+          <div>
+            <h3>Control de inocuidad</h3>
+            <p>Elaboramos cada producto bajo condiciones controladas de higiene, calidad y seguridad, de acuerdo con parámetros técnicos, estándares de referencia o especificaciones particulares del cliente.</p>
+          </div>
+        </article>
+
+        <article class="dif">
+          <span class="dif__ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M9 3h4v5H9z" /><path d="M11 8v6" /><path d="M7 21h13" /><path d="M6.5 18a5 5 0 0 1 9.5-2.2" /><path d="M15 5h3M15 8h3" /></svg>
+          </span>
+          <div>
+            <h3>Análisis químicos y soluciones integrales</h3>
+            <p>Realizamos análisis químicos, microbiológicos y fisicoquímicos, además de proveer soluciones y kits rápidos de análisis, para que nuestros clientes puedan diagnosticar y atender sus necesidades con nosotros de inicio a fin.</p>
+          </div>
+        </article>
+
+        <article class="dif">
+          <span class="dif__ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M3 21V10l6 4V10l6 4V6l6 4v11z" /><path d="M3 21h18" /></svg>
+          </span>
+          <div>
+            <h3>Soluciones a la medida</h3>
+            <p>Desde agua desmineralizada hasta agua de alta pureza, desarrollamos soluciones de acuerdo con parámetros técnicos, estándares de referencia o especificaciones particulares del cliente, siempre con trazabilidad y respaldo técnico. Atendemos a la industria farmacéutica, cosmética, de alimentos y a laboratorios de análisis, entre otros.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===== Banner de producto =====
+         Va estático y no generado desde los datos a propósito: aquí se
+         escoge qué enseñar, y no todas las categorías merecen estar en la
+         portada. Al añadir una imagen nueva en img/cat/, si se quiere en el
+         banner hay que sumarla aquí. -->
+    <section class="seccion banner">
+      <div class="contenedor">
+        <header class="banner__cab">
+          <h2>Lo que <span class="grad-txt">producimos</span></h2>
+          <p>Cada familia con su especificación. Entra a la que te interese y verás todo lo que hay dentro.</p>
+        </header>
+
+        <div class="banner__grid">
+          <a class="banner__caja" href="final-productos.html#agua-purificada">
+            <picture>
+              <source srcset="img/cat/agua-purificada.webp" type="image/webp" />
+              <img src="img/cat/agua-purificada.jpg" alt="" loading="lazy" decoding="async" width="720" height="540" />
+            </picture>
+            <span class="banner__pie"><strong>Agua purificada</strong><small>Uso general, baja en sales y equilibrada</small></span>
+          </a>
+
+          <a class="banner__caja" href="final-productos.html#aguas-laboratorio">
+            <picture>
+              <source srcset="img/cat/aguas-laboratorio.webp" type="image/webp" />
+              <img src="img/cat/aguas-laboratorio.jpg" alt="" loading="lazy" decoding="async" width="720" height="540" />
+            </picture>
+            <span class="banner__pie"><strong>Aguas para laboratorio</strong><small>Tipo I a IV y Grado 1 a 3</small></span>
+          </a>
+
+          <a class="banner__caja" href="final-productos.html#soluciones-acuosas">
+            <picture>
+              <source srcset="img/cat/soluciones-acuosas.webp" type="image/webp" />
+              <img src="img/cat/soluciones-acuosas.jpg" alt="" loading="lazy" decoding="async" width="720" height="540" />
+            </picture>
+            <span class="banner__pie"><strong>Soluciones acuosas</strong><small>Salmueras y soluciones a tu concentración</small></span>
+          </a>
+
+          <a class="banner__caja" href="final-productos.html#aguas-acondicionadas">
+            <picture>
+              <source srcset="img/cat/aguas-acondicionadas.webp" type="image/webp" />
+              <img src="img/cat/aguas-acondicionadas.jpg" alt="" loading="lazy" decoding="async" width="720" height="540" />
+            </picture>
+            <span class="banner__pie"><strong>Agua acondicionada</strong><small>Para chillers y sistemas cerrados</small></span>
+          </a>
+        </div>
+
+        <a class="btn banner__todo" href="final-productos.html">Ver todo el catálogo</a>
+      </div>
+    </section>
+
+    <!-- ===== Contacto =====
+         Tres maneras de escribir, un toque cada una. Sin formulario: no hay
+         nada que llenar antes de poder preguntar. -->
+    <section class="seccion contacto" id="contacto">
+      <div class="contenedor contacto__caja">
+        <span class="contacto__ojo">💧 Contacto</span>
+        <h2>¿Hablamos de tu <span class="grad-txt">proceso</span>?</h2>
+        <p>Dinos qué agua necesitas y en qué volumen. Te respondemos con la especificación y el precio.</p>
+
+        <div class="contacto__vias">
+          <a class="contacto__via contacto__via--wa" href="https://wa.me/525587908943?text=Hola%2C%20quiero%20cotizar%20agua%20purificada." target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.5 12.4c-.3-.15-1.8-.9-2.1-1-.28-.1-.48-.15-.68.15-.2.3-.78 1-.96 1.2-.18.2-.36.22-.66.08-.3-.15-1.28-.47-2.44-1.5-.9-.8-1.5-1.8-1.68-2.1-.18-.3-.02-.46.13-.6.14-.14.3-.36.45-.54.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.08-.15-.68-1.63-.93-2.24-.24-.58-.5-.5-.68-.51h-.58c-.2 0-.53.08-.8.38-.28.3-1.05 1.03-1.05 2.5s1.08 2.9 1.23 3.1c.15.2 2.12 3.24 5.14 4.55.72.3 1.28.5 1.72.64.72.23 1.38.2 1.9.12.58-.08 1.8-.73 2.05-1.44.25-.7.25-1.3.18-1.44-.07-.13-.27-.2-.57-.35Z"/></svg>
+            WhatsApp 55 5305 3590
+          </a>
+
+          <a class="contacto__via" href="tel:+525553053590">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.24 11 11 0 0 0 3.5.56 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11 11 0 0 0 .56 3.5 1 1 0 0 1-.24 1Z"/></svg>
+            Llamar 55 5305 3590
+          </a>
+
+          <a class="contacto__via" href="mailto:ventas@tensos.com">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm0 4 8 5 8-5"/></svg>
+            Escribir por correo
+          </a>
+        </div>
+
+        <p class="contacto__donde">
+          <strong>Xochicalco 10, Col. Cerro Grande, Atizapán de Zaragoza, Estado de México, C.P. 52920</strong><br />
+          También al <a href="tel:+525587908943">55 8790 8943</a>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Pie: solo la línea legal. El de tres columnas se quitó porque repetía
+       el menú y los datos de contacto que están justo encima. -->
+  <footer class="pie">
+    <div class="pie__inner">
+      <p>© 2026 Aguas Especiales. Todos los derechos reservados.</p>
+      <p>Xochicalco 10, Atizapán de Zaragoza, Edo. de México · <a href="tel:+525553053590">55 5305 3590</a> · <a href="mailto:ventas@tensos.com">ventas@tensos.com</a></p>
+    </div>
+  </footer>
+
+  <!-- Botón flotante de WhatsApp -->
+  <a class="fab-wa" href="https://wa.me/525587908943?text=Hola%2C%20me%20interesa%20conocer%20sus%20productos%20de%20agua%20de%20alta%20pureza." target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 14.4c-.3-.15-1.8-.9-2.1-1-.28-.1-.48-.15-.68.15-.2.3-.78 1-.96 1.2-.18.2-.36.22-.66.08-.3-.15-1.28-.47-2.44-1.5-.9-.8-1.5-1.8-1.68-2.1-.18-.3-.02-.46.13-.6.14-.14.3-.36.45-.54.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.08-.15-.68-1.63-.93-2.24-.24-.58-.5-.5-.68-.51h-.58c-.2 0-.53.08-.8.38-.28.3-1.05 1.03-1.05 2.5s1.08 2.9 1.23 3.1c.15.2 2.12 3.24 5.14 4.55.72.3 1.28.5 1.72.64.72.23 1.38.2 1.9.12.58-.08 1.8-.73 2.05-1.44.25-.7.25-1.3.18-1.44-.07-.13-.27-.2-.57-.35Z"/><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.16l-.3-.18-3 .78.8-2.92-.2-.3A8.2 8.2 0 1 1 12 20.2Z"/></svg>
+  </a>
+
+  <script>
+    /* Menú de teléfono */
+    (function () {
+      var b = document.getElementById("abrirMenu");
+      var m = document.getElementById("menu");
+      if (!b || !m) return;
+      b.addEventListener("click", function () {
+        var abierto = m.classList.toggle("abierto");
+        b.setAttribute("aria-expanded", abierto ? "true" : "false");
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && m.classList.contains("abierto")) {
+          m.classList.remove("abierto");
+          b.setAttribute("aria-expanded", "false");
+          b.focus();
+        }
+      });
+    })();
+  </script>
+  <script src="js/carrusel.js"></script>
+  <script src="js/catalog.js"></script>
+  <script src="js/catalogo-datos.js"></script>
+  <script src="js/menu-productos.js"></script>
+  <script src="js/viewer3d.js"></script>
+</body>
+</html>

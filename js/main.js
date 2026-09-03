@@ -299,47 +299,62 @@
     start();
   }
 
-  /* ---------- Cotizador multi-paso ---------- */
+  /* ---------- Cotizador ----------
+     Iba partido en tres pasos con dos botones «Continuar» que no pedían, no
+     validaban y no filtraban nada: eran peaje. Ahora los tres bloques se ven
+     de una vez y solo el nombre es obligatorio, porque el canal ya trae el
+     resto: por WhatsApp viaja el número de quien escribe y, por correo, su
+     dirección. */
   const form = $("#quoteForm");
   if (form) {
-    const steps = $$(".quote__step", form);
-    const bar = $("#quoteBar");
-    const activeStep = () => steps.find((s) => s.classList.contains("is-active"));
-    const showStep = (n, focus) => {
-      steps.forEach((s) => s.classList.toggle("is-active", Number(s.dataset.step) === n));
-      if (bar) bar.style.width = (n / steps.length) * 100 + "%";
-      if (focus !== false) {
-        const label = $(`.quote__step[data-step="${n}"] .quote__steplabel`, form);
-        if (label) label.focus();
-      }
-    };
-    form.addEventListener("click", (e) => {
-      const next = e.target.closest("[data-next]");
-      const prev = e.target.closest("[data-prev]");
-      if (next) showStep(Number(next.dataset.next));
-      if (prev) showStep(Number(prev.dataset.prev));
-    });
+    /* Preselección desde otra página. El nombre del producto casi nunca
+       coincide letra por letra con una casilla —solo 2 de los 58 del
+       catálogo—, así que si falla la coincidencia exacta se busca por
+       familia. Y si tampoco hay familia, no se anuncia que se marcó algo:
+       el aviso anterior aseguraba que sí y era falso casi siempre. */
+    const FAMILIAS = [
+      [/purificad/i, "Agua purificada"],
+      [/desmineraliz|desioniz/i, "Agua desmineralizada"],
+      [/destilad/i, "Agua destilada o bidestilada"],
+      [/buffer|amortiguad/i, "Soluciones buffer de pH"],
+      [/\bkit/i, "Kits para análisis de agua"],
+      [/reactivo/i, "Reactivos para análisis de agua"],
+      [/envase|garraf|bid[oó]n|tambor|tote/i, "Envases plásticos"],
+      [/material|equipo|bureta|matraz|pipeta|medidor|balanza/i, "Material y equipo de laboratorio"],
+      [/tipo\s*(i{1,3}|iv)\b|grado\s*[123]\b|laboratorio/i, "Agua para laboratorio (ASTM / ISO)"],
+      [/acondicionad|chiller|tensos/i, "Agua acondicionada para chillers"],
+      [/salmuera|soluci[oó]n/i, "Soluciones acuosas y salmueras"],
+      [/an[aá]lisis|muestreo/i, "Servicio de análisis de agua"],
+    ];
 
-    /* Preselección desde otra página: productos.html?/producto-*.html envían
-       ?interes=Nombre del producto → llega como #cotizar con el dato guardado. */
     try {
       const pending = sessionStorage.getItem("ae-interes");
       if (pending) {
         sessionStorage.removeItem("ae-interes");
         const extra = $("#q-mensaje");
         if (extra) extra.value = "Me interesa: " + pending + (extra.value ? "\n" + extra.value : "");
-        const match = $$('input[name="producto"]', form)
-          .find((i) => i.value.toLowerCase() === pending.toLowerCase());
-        if (match) match.checked = true;
-        toast("Añadimos «" + pending + "» a tu solicitud 💧");
+        const casillas = $$('input[name="producto"]', form);
+        let match = casillas.find((i) => i.value.toLowerCase() === pending.toLowerCase());
+        if (!match) {
+          const fam = FAMILIAS.find(([re]) => re.test(pending));
+          if (fam) match = casillas.find((i) => i.value === fam[1]);
+        }
+        if (match) {
+          match.checked = true;
+          toast("Marcamos «" + match.value + "» por ti 💧");
+        } else {
+          toast("Anotamos «" + pending + "» en los detalles 💧");
+        }
       }
     } catch { /* sessionStorage no disponible */ }
 
-    const FIELDS = [
-      { id: "q-nombre", err: "err-nombre", msg: "Escribe tu nombre." },
-      { id: "q-correo", err: "err-correo", msg: "Escribe un correo válido." },
-      { id: "q-telefono", err: "err-telefono", msg: "Escribe tu teléfono." },
-    ];
+    /* Obligatorio solo el nombre. El correo es opcional, pero si se escribe
+       se valida igual: un correo mal tecleado es peor que ninguno, porque
+       nadie se entera de que la respuesta nunca llegó. */
+    const NOMBRE = { id: "q-nombre", err: "err-nombre", msg: "Escribe tu nombre." };
+    const CORREO = { id: "q-correo", err: "err-correo", msg: "Ese correo no parece válido." };
+    const CAMPOS = [NOMBRE, CORREO];
+
     const setError = (f, show) => {
       const el = $("#" + f.id);
       const errEl = $("#" + f.err);
@@ -352,22 +367,26 @@
       }
     };
     // Limpia el error al escribir
-    FIELDS.forEach((f) => {
+    CAMPOS.forEach((f) => {
       const el = $("#" + f.id);
       if (el) el.addEventListener("input", () => { if (el.classList.contains("is-invalid")) setError(f, false); });
     });
 
-    const validateStep3 = () => {
-      let firstInvalid = null;
-      FIELDS.forEach((f) => {
-        const el = $("#" + f.id);
-        if (!el) return;
-        const valid = el.value.trim() !== "" && (el.type !== "email" || /.+@.+\..+/.test(el.value));
-        setError(f, !valid);
-        if (!valid && !firstInvalid) firstInvalid = el;
-      });
-      if (firstInvalid) firstInvalid.focus();
-      return !firstInvalid;
+    const validar = () => {
+      let primero = null;
+
+      const nom = $("#" + NOMBRE.id);
+      const okNombre = !!nom && nom.value.trim() !== "";
+      setError(NOMBRE, !okNombre);
+      if (!okNombre) primero = nom;
+
+      const cor = $("#" + CORREO.id);
+      const okCorreo = !cor || cor.value.trim() === "" || /.+@.+\..+/.test(cor.value);
+      setError(CORREO, !okCorreo);
+      if (!okCorreo && !primero) primero = cor;
+
+      if (primero) primero.focus();
+      return !primero;
     };
 
     const buildMessage = () => {
@@ -396,9 +415,7 @@
     };
 
     const finalize = (channel) => {
-      // Asegura que el paso 3 esté visible para que los errores sean perceptibles
-      if (activeStep() !== steps.find((s) => s.dataset.step === "3")) showStep(3, false);
-      if (!validateStep3()) { toast("Revisa los campos marcados 🙏"); return; }
+      if (!validar()) { toast("Revisa los campos marcados 🙏"); return; }
       const message = buildMessage();
       if (channel === "mail") {
         const subject = encodeURIComponent("Solicitud de cotización — Aguas Especiales");
@@ -410,13 +427,7 @@
       }
     };
 
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      // Enter desde un paso anterior: avanza al paso final en vez de enviar incompleto
-      const current = activeStep();
-      if (current && current.dataset.step !== "3") { showStep(3); return; }
-      finalize("whatsapp");
-    });
+    form.addEventListener("submit", (e) => { e.preventDefault(); finalize("whatsapp"); });
 
     const mailBtn = $("#sendMail");
     if (mailBtn) mailBtn.addEventListener("click", () => finalize("mail"));

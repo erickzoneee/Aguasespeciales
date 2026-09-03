@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Productos · Aguas Especiales</title>
+  <meta name="description" content="Agua purificada, aguas especiales y de laboratorio, soluciones acuosas, aguas acondicionadas, reactivos de fabricación propia, kits, equipo, envases, presentaciones y servicios de análisis." />
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&family=Inter:wght@600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/final.css" />
+</head>
+<body>
+  <a class="saltar" href="#contenido">Ir al contenido</a>
+
+  <header class="cab">
+    <div class="cab__inner">
+      <a class="cab__logo" href="final.html">
+        <img src="img/real-logo.jpg" alt="Aguas Especiales" width="839" height="514" />
+      </a>
+      <button class="cab__abrir" type="button" id="abrirMenu" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" /></svg>
+      </button>
+      <nav class="cab__nav" id="menu" aria-label="Principal">
+        <ul>
+          <li><a href="final.html">Página principal</a></li>
+          <li id="menuProductos" data-destino="final-productos.html">
+            <a href="final-productos.html" aria-current="page">Productos</a>
+          </li>
+          <li><a href="final.html#nosotros">Quiénes somos</a></li>
+          <li><a href="final.html#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <section class="cat-cabecera">
+      <div class="contenedor">
+        <nav class="crumbs" aria-label="Ruta">
+          <a href="final.html">Inicio</a> / <span>Productos</span>
+        </nav>
+        <h1>Productos y servicios</h1>
+        <p>Abre la categoría que te interese y verás lo que hay dentro, o busca directo si ya sabes qué necesitas.</p>
+        <div class="cat-buscar">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input type="search" id="catalogoBuscar" placeholder="Buscar: EDTA, buffer pH 7, bureta, porrón…"
+                 aria-label="Buscar en el catálogo" autocomplete="off" />
+        </div>
+      </div>
+    </section>
+
+    <section class="seccion">
+      <div class="contenedor cat-layout">
+        <aside class="cat-side" id="catalogoIndice" aria-label="Índice de categorías"></aside>
+
+        <div id="catalogoRoot">
+          <div id="zonaCategorias"></div>
+          <div id="zonaProductos"></div>
+          <noscript>
+            <p class="cat-vacio">
+              Para ver el catálogo en cuadros hace falta JavaScript. Escríbenos a
+              <a href="mailto:ventas@tensos.com">ventas@tensos.com</a>
+              y te mandamos la lista completa.
+            </p>
+          </noscript>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Pie: solo la línea legal. El de tres columnas se quitó porque repetía
+       el menú y los datos de contacto que están justo encima. -->
+  <footer class="pie">
+    <div class="pie__inner">
+      <p>© 2026 Aguas Especiales. Todos los derechos reservados.</p>
+      <p>Xochicalco 10, Atizapán de Zaragoza, Edo. de México · <a href="tel:+525553053590">55 5305 3590</a> · <a href="mailto:ventas@tensos.com">ventas@tensos.com</a></p>
+    </div>
+  </footer>
+
+  <!-- Botón flotante de WhatsApp -->
+  <a class="fab-wa" href="https://wa.me/525587908943?text=Hola%2C%20me%20interesa%20conocer%20sus%20productos%20de%20agua%20de%20alta%20pureza." target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 14.4c-.3-.15-1.8-.9-2.1-1-.28-.1-.48-.15-.68.15-.2.3-.78 1-.96 1.2-.18.2-.36.22-.66.08-.3-.15-1.28-.47-2.44-1.5-.9-.8-1.5-1.8-1.68-2.1-.18-.3-.02-.46.13-.6.14-.14.3-.36.45-.54.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.08-.15-.68-1.63-.93-2.24-.24-.58-.5-.5-.68-.51h-.58c-.2 0-.53.08-.8.38-.28.3-1.05 1.03-1.05 2.5s1.08 2.9 1.23 3.1c.15.2 2.12 3.24 5.14 4.55.72.3 1.28.5 1.72.64.72.23 1.38.2 1.9.12.58-.08 1.8-.73 2.05-1.44.25-.7.25-1.3.18-1.44-.07-.13-.27-.2-.57-.35Z"/><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.16l-.3-.18-3 .78.8-2.92-.2-.3A8.2 8.2 0 1 1 12 20.2Z"/></svg>
+  </a>
+
+  <script>
+    (function () {
+      var b = document.getElementById("abrirMenu");
+      var m = document.getElementById("menu");
+      if (!b || !m) return;
+      b.addEventListener("click", function () {
+        var abierto = m.classList.toggle("abierto");
+        b.setAttribute("aria-expanded", abierto ? "true" : "false");
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && m.classList.contains("abierto")) {
+          m.classList.remove("abierto");
+          b.setAttribute("aria-expanded", "false");
+          b.focus();
+        }
+      });
+    })();
+  </script>
+  <script src="js/catalog.js"></script>
+  <script src="js/catalogo-datos.js"></script>
+  <script src="js/menu-productos.js"></script>
+  <script src="js/catalogo.js"></script>
+</body>
+</html>

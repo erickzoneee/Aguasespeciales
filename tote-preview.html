@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tote IBC en 3D — vista previa</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    /* Página de trabajo, no va al sitio. Solo sirve para ver el modelo
+       sobre el mismo fondo del hero y poder juzgarlo en su contexto. */
+    body { background: var(--grad-deep); background-attachment: fixed; color: #eaf8fc; min-height: 100vh; }
+    .banco { max-width: 1180px; margin: 0 auto; padding: 40px 22px 80px; }
+    .banco__head { margin-bottom: 28px; }
+    .banco__head h1 { font-size: clamp(1.6rem, 4vw, 2.4rem); color: #fff; }
+    .banco__head p { color: #b9dceb; max-width: 62ch; margin-top: 10px; }
+    .banco__grid { display: grid; gap: 34px; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); align-items: start; }
+    @media (max-width: 860px) { .banco__grid { grid-template-columns: 1fr; } }
+    .caja { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.14); border-radius: 22px; padding: 26px; display: grid; place-items: center; gap: 16px; }
+    .caja h2 { font-size: .82rem; letter-spacing: .12em; text-transform: uppercase; color: #7ef0dc; font-family: var(--font-display); }
+    .datos { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; font-size: .9rem; color: #cfe8f2; }
+    .datos strong { color: #fff; }
+    .aviso { margin-top: 34px; padding: 18px 22px; border-radius: 16px; border: 1px solid rgba(255,214,120,.4); background: rgba(255,214,120,.1); color: #ffe8b8; font-size: .92rem; line-height: 1.6; }
+    .aviso strong { color: #fff; }
+  </style>
+</head>
+<body>
+  <!-- Isotipo de marca: aquí solo para el encabezado; el del tote lo dibuja
+       el propio módulo sobre la etiqueta. -->
+  <svg class="ae-defs" aria-hidden="true" focusable="false" width="0" height="0"><defs><symbol id="ae-logo" viewBox="0 0 64 64"><path d="M12 58 38 8 62 58Z" fill="none" stroke="var(--ae-a,#2f5789)" stroke-width="4.5" stroke-linejoin="miter" stroke-miterlimit="6"/><path d="M19.3 44h36" fill="none" stroke="var(--ae-a,#2f5789)" stroke-width="4.5"/><path d="M21 14C21 14 8.5 29 8.5 42a12.5 12.5 0 0 0 25 0C33.5 29 21 14 21 14Z" fill="#a5dcef"/><path d="M21 14L15.7 21.6L10.9 31L21 38Z" fill="#cdeef9"/><path d="M21 14L21 38L31.1 31L26.3 21.6Z" fill="#8ed3ec"/><path d="M10.9 31L9 37.3L21 38Z" fill="#b6e4f4"/><path d="M9 37.3L8.5 42L21 38Z" fill="#a3dcf0"/><path d="M8.5 42L12.16 50.84L21 38Z" fill="#5cb9de"/><path d="M12.16 50.84L21 54.5L21 38Z" fill="#2a7fb4"/><path d="M21 54.5L29.84 50.84L21 38Z" fill="#3f9dc9"/><path d="M29.84 50.84L33.5 42L21 38Z" fill="#62c0e0"/><path d="M33.5 42L33 37.3L21 38Z" fill="#7dcbe6"/><path d="M33 37.3L31.1 31L21 38Z" fill="#9bd9ef"/></symbol></defs></svg>
+
+  <main class="banco">
+    <header class="banco__head">
+      <h1>Las tres piezas en 3D</h1>
+      <p>
+        El tote, la botella y el frasco, sobre el mismo fondo azul del sitio.
+        Arrastra cualquiera para girarlo; si lo sueltas, sigue girando solo.
+        Esta página no forma parte del sitio: existe para revisar los modelos.
+      </p>
+    </header>
+
+    <div class="banco__grid">
+      <div class="caja">
+        <h2>El modelo</h2>
+        <div class="tote3d" data-tote3d style="width: min(560px, 92%);">
+          <span class="tote3d__hint">
+            <svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/><circle cx="12" cy="12" r="3"/></svg>
+            Arrástralo para girarlo
+          </span>
+        </div>
+      </div>
+
+      <div class="caja">
+        <h2>Botella de 1 L · agua purificada</h2>
+        <div class="visor3d" data-visor3d="pet" data-etiqueta="Agua purificada"
+             style="width: min(320px, 92%); aspect-ratio: 3 / 4;"></div>
+      </div>
+
+      <div class="caja">
+        <h2>Frasco de laboratorio · agua desmineralizada</h2>
+        <div class="visor3d" data-visor3d="lab" data-etiqueta="Agua desmineralizada"
+             style="width: min(320px, 92%); aspect-ratio: 3 / 4;"></div>
+      </div>
+
+      <div class="caja" style="align-content: start; justify-items: start;">
+        <h2>Medidas usadas</h2>
+        <ul class="datos">
+          <li><strong>Huella:</strong> 1200 × 1000 mm (proporción real de un IBC de 1000 L)</li>
+          <li><strong>Alto:</strong> tarima 240 mm + jaula 970 mm + tapa</li>
+          <li><strong>Jaula:</strong> 9 aros y 16 verticales, con los 4 postes de esquina más gruesos</li>
+          <li><strong>Tanque:</strong> HDPE translúcido, esquinas redondeadas</li>
+          <li><strong>Válvula:</strong> cuerpo negro, salida hacia abajo y palanca azul</li>
+          <li><strong>Etiqueta:</strong> dibujada en lienzo, no es imagen; el isotipo sale de los mismos trazos del SVG del sitio</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="aviso">
+      <strong>Qué mirar:</strong> que la etiqueta del tote se lea y tenga brillo,
+      y que la botella y el frasco se vean cristalinos y limpios, no lechosos.
+      Los vidrios van sin mezcla alfa: la transparencia la hace la refracción
+      (<code>transmission</code>), que es lo que da el aspecto de cristal.
+    </p>
+  </main>
+
+  <script src="js/viewer3d.js"></script>
+</body>
+</html>

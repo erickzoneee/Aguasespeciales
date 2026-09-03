@@ -62,7 +62,7 @@
         <div class="notice">
           <span class="notice__ico" aria-hidden="true">📄</span>
           <p>Todavía no publicamos la ficha descargable de este producto. Escríbenos a
-          <a href="mailto:ventas@aguasespeciales.com.mx">ventas@aguasespeciales.com.mx</a>
+          <a href="mailto:ventas@tensos.com">ventas@tensos.com</a>
           y te la enviamos con los parámetros de tu aplicación.</p>
         </div>`;
       return;

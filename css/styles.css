@@ -30,7 +30,7 @@
   --c-primary-strong: #0a6076;
   --shadow: 0 18px 40px -18px rgba(8, 59, 84, .28);
   --shadow-sm: 0 6px 18px -10px rgba(8, 59, 84, .35);
-  --ring: rgba(23, 182, 214, .35);
+  --ring: #0a6076;   /* sólido: en rgba .35 daba 1.34:1 y no se veía dónde estaba el foco */
   --glass: rgba(255, 255, 255, .7);
 
   --radius: 18px;
@@ -54,7 +54,7 @@ html[data-theme="dark"] {
   --line: #12455c;
   --shadow: 0 22px 46px -20px rgba(0, 0, 0, .6);
   --shadow-sm: 0 8px 20px -12px rgba(0, 0, 0, .55);
-  --ring: rgba(53, 214, 224, .4);
+  --ring: #35d6e0;
   --glass: rgba(10, 44, 61, .6);
 }
 
@@ -64,7 +64,11 @@ html[data-theme="dark"] {
 /* overflow-x en <html>: sin esto, el menú móvil cerrado (translateX(100%))
    ensancha el bloque contenedor y empuja los botones flotantes fuera de la
    pantalla en teléfonos. */
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; overflow-x: hidden; }
+/* «clip» y no «hidden»: hidden convierte al elemento en contenedor de scroll y
+   eso rompe el position:sticky de la barra, que se iba con el scroll en vez de
+   quedarse. clip recorta igual pero no crea contenedor. La línea de hidden se
+   deja delante como reserva para navegadores que no entiendan clip. */
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; overflow-x: hidden; overflow-x: clip; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
@@ -75,6 +79,7 @@ body {
   background: var(--bg);
   line-height: 1.6;
   overflow-x: hidden;
+  overflow-x: clip;
   transition: background .4s var(--ease), color .4s var(--ease);
 }
 img, svg, iframe { display: block; max-width: 100%; }
@@ -146,7 +151,7 @@ html[data-theme="dark"] .btn--ghost:hover { color: var(--c-aqua); }
 .topbar__contact a { display: inline-flex; align-items: center; gap: 7px; opacity: .9; transition: opacity .2s; overflow-wrap: anywhere; }
 .topbar__contact a:hover { opacity: 1; color: var(--c-mint); }
 .topbar__contact .ico { width: 15px; height: 15px; }
-.theme-toggle { display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,.08); transition: background .2s; }
+.theme-toggle { display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,.08); transition: background .2s; }
 .theme-toggle:hover { background: rgba(255,255,255,.18); }
 .theme-toggle .ico { width: 17px; height: 17px; }
 .theme-toggle .ico-moon { display: none; }
@@ -187,7 +192,7 @@ html[data-theme="dark"] .brand__text span { color: var(--c-aqua); }
 .nav__links > a.is-active { color: var(--c-primary); }
 html[data-theme="dark"] .nav__links > a.is-active { color: var(--c-aqua); }
 .nav__cta { padding: .6em 1.25em; font-size: .92rem; }
-.nav__burger { display: none; flex-direction: column; gap: 5px; padding: 8px; }
+.nav__burger { display: none; flex-direction: column; align-items: center; justify-content: center; gap: 5px; padding: 8px; min-width: 44px; min-height: 44px; }
 .nav__burger span { width: 24px; height: 2px; background: var(--ink); border-radius: 2px; transition: transform .3s, opacity .3s; }
 .nav__burger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .nav__burger.is-open span:nth-child(2) { opacity: 0; }
@@ -426,8 +431,12 @@ html[data-theme="dark"] .faq__body a { color: var(--c-aqua); }
 .cta__contactcard .ico { color: var(--c-mint); }
 
 .quoteform { position: relative; background: var(--surface); color: var(--ink); border-radius: var(--radius-lg); padding: clamp(24px, 3vw, 38px); box-shadow: var(--shadow); overflow: hidden; }
-.quote__step { display: none; animation: fadeUp .45s var(--ease); }
-.quote__step.is-active { display: block; }
+/* El cotizador ya no va por pasos: los tres bloques se ven a la vez. El
+   filete entre ellos conserva la lectura de «tres cosas distintas» sin
+   cobrar un clic por pasar de una a otra. */
+.quote__step { display: block; }
+.quote__step + .quote__step { margin-top: 26px; padding-top: 24px; border-top: 1px solid var(--line); }
+.quote__opc { font-weight: 500; color: var(--muted); letter-spacing: 0; }
 .quote__steplabel { font-family: var(--font-display); font-weight: 700; color: var(--c-primary); font-size: .9rem; letter-spacing: .04em; margin-bottom: 18px; }
 html[data-theme="dark"] .quote__steplabel { color: var(--c-aqua); }
 .quote__pickgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
@@ -452,12 +461,10 @@ html[data-theme="dark"] .field-error { color: #ff9a9a; }
 .field-hint { font-size: .82rem; color: var(--muted); margin-bottom: 14px; }
 .checkbox { display: flex; align-items: flex-start; gap: 11px; margin: 6px 0 22px; font-size: .88rem; color: var(--ink-2); cursor: pointer; }
 .checkbox input { margin-top: 3px; width: 18px; height: 18px; accent-color: var(--c-primary); flex: none; }
-.quote__nav, .quote__actions { display: flex; justify-content: space-between; gap: 12px; margin-top: 22px; }
-.quote__actions { flex-wrap: wrap; }
-.quote__alt { display: block; margin: 14px auto 0; color: var(--muted); font-size: .88rem; text-decoration: underline; text-underline-offset: 3px; }
+.quote__actions { display: flex; justify-content: center; gap: 12px; margin-top: 22px; flex-wrap: wrap; }
+.quote__actions .btn { flex: 1 1 260px; justify-content: center; }
+.quote__alt { display: block; margin: 6px auto 0; padding: 12px 16px; min-height: 44px; color: var(--muted); font-size: .88rem; text-decoration: underline; text-underline-offset: 3px; }
 .quote__alt:hover { color: var(--c-primary); }
-.quote__progress { position: absolute; left: 0; bottom: 0; height: 4px; width: 100%; background: var(--line); }
-.quote__progress span { display: block; height: 100%; width: 33%; background: var(--grad); transition: width .4s var(--ease); }
 
 /* ---------- Contacto ---------- */
 .contact { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(30px, 5vw, 56px); align-items: stretch; }
@@ -515,7 +522,14 @@ html[data-theme="dark"] .fab-top { color: var(--c-aqua); }
   .footer__inner { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 860px) {
-  .nav__burger { display: flex; }
+  /* El backdrop-filter de .nav la convierte en bloque contenedor, así que el
+     position:fixed del cajón se medía contra la barra —70 px de alto— y el menú
+     abría como una cajita de 130 px colgando debajo, con los enlaces encimados.
+     En teléfono se cambia el vidrio esmerilado por un fondo sólido: se ve igual
+     de bien y el cajón vuelve a medirse contra la pantalla. */
+  .nav { backdrop-filter: none; -webkit-backdrop-filter: none; background: var(--surface); }
+  /* Por encima del cajón (z-index 950), si no la X de cerrar queda tapada */
+  .nav__burger { display: flex; position: relative; z-index: 960; }
   .nav__links {
     position: fixed; inset: 0 0 0 auto; width: min(320px, 84vw); flex-direction: column;
     align-items: flex-start; gap: 6px; padding: 90px 28px 40px; background: var(--surface);
@@ -554,3 +568,40 @@ html[data-theme="dark"] .fab-top { color: var(--c-aqua); }
 
 /* Foco accesible general */
 :focus-visible { outline: 3px solid var(--ring); outline-offset: 3px; border-radius: 6px; }
+
+/* ---------- Tote IBC en 3D ----------
+   Mismo comportamiento que el isotipo: el canvas se monta encima de lo que
+   ya hubiera en el HTML y solo aparece cuando el modelo está listo, así que
+   sin WebGL nunca se ve un hueco. El contenedor es algo más alto que ancho
+   porque el tote lo es. */
+.tote3d { position: relative; width: min(420px, 82vw); aspect-ratio: 1 / 1.02; display: grid; place-items: center; }
+.tote3d__canvas { position: absolute; inset: 0; width: 100%; height: 100%; cursor: grab; touch-action: pan-y; opacity: 0; transition: opacity .7s var(--ease); }
+.tote3d.is-ready .tote3d__canvas { opacity: 1; }
+.tote3d.is-dragging .tote3d__canvas { cursor: grabbing; }
+.tote3d .molecule { transition: opacity .6s var(--ease); }
+.tote3d.is-ready .molecule { opacity: 0; pointer-events: none; }
+
+.tote3d__hint { position: absolute; left: 50%; bottom: -6px; transform: translateX(-50%); display: none; align-items: center; gap: 7px; white-space: nowrap; padding: 6px 14px; border-radius: 999px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.22); backdrop-filter: blur(6px); font-size: .78rem; font-weight: 600; color: #eaf8fc; opacity: 0; transition: opacity .5s var(--ease); }
+.tote3d.is-ready .tote3d__hint { display: inline-flex; opacity: .92; }
+.tote3d.is-dragging .tote3d__hint { opacity: 0; }
+.tote3d__hint svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+.tote3d.is-loading::after { content: ""; position: absolute; left: 50%; bottom: -4px; width: 26px; height: 26px; margin-left: -13px; border-radius: 50%; border: 2px solid rgba(255,255,255,.25); border-top-color: var(--c-mint); animation: logoGira .9s linear infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .tote3d__canvas, .tote3d .molecule { transition: none; }
+  .tote3d.is-loading::after { animation: none; }
+}
+@media print {
+  .tote3d__canvas, .tote3d__hint { display: none !important; }
+  .tote3d .molecule { opacity: 1 !important; }
+}
+
+/* ---------- Áreas táctiles en teléfono ----------
+   El teléfono y el correo de la barra superior medían 20 px de alto con 6 px de
+   separación: son las dos vías de venta directa y lo primero que se ve, así que
+   tienen que poderse tocar sin apuntar. */
+@media (max-width: 620px) {
+  .topbar__contact { gap: 4px; }
+  .topbar__contact a { min-height: 44px; padding: 4px 6px; }
+}

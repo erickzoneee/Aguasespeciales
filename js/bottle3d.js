@@ -33,7 +33,11 @@ const PET_CORTE_TAPA = 0.92;    // por encima de esta altura empieza la tapa azu
 const PET_ETIQUETA = [0.2347, 0.683];   // alto de la etiqueta sobre el cuerpo
 
 const AZUL_TAPA = 0x0f4c9b;
-const AGUA = new THREE.Color(0x8ed3e8);   // tinte del agua al atravesar el envase
+/* El agua va transparente, sin tinte. Antes se le daba un azul de agua
+   embotellada, pero lo que vende Aguas Especiales es justo lo contrario:
+   agua sin color. La absorción se anula dejando el color en blanco y la
+   distancia de atenuación muy larga. */
+const AGUA = new THREE.Color(0xffffff);
 
 /* ---------- Entorno procedural para los reflejos del vidrio ---------- */
 function entorno(renderer) {
@@ -45,9 +49,9 @@ function entorno(renderer) {
   const cielo = g.createLinearGradient(0, 0, 0, 256);
   cielo.addColorStop(0, "#ffffff");
   cielo.addColorStop(0.40, "#cfdde8");
-  cielo.addColorStop(0.50, "#5d7688");
-  cielo.addColorStop(0.62, "#20323e");
-  cielo.addColorStop(1, "#0b171f");
+  cielo.addColorStop(0.50, "#8fa6b6");
+  cielo.addColorStop(0.62, "#42586a");
+  cielo.addColorStop(1, "#1b2c38");
   g.fillStyle = cielo;
   g.fillRect(0, 0, 512, 256);
   // dos focos suaves: dan los brillos alargados típicos del plástico
@@ -61,6 +65,7 @@ function entorno(renderer) {
   foco(120, 70, 90, 1);
   foco(380, 95, 70, 0.85);
   foco(256, 20, 160, 0.5);
+  foco(300, 55, 26, 1);      // destello puntual: el chispazo del cristal
 
   const tex = new THREE.CanvasTexture(c);
   tex.mapping = THREE.EquirectangularReflectionMapping;
@@ -76,20 +81,26 @@ function entorno(renderer) {
 function matVidrio(env, alto) {
   if (alto) {
     return new THREE.MeshPhysicalMaterial({
-      color: 0xffffff, metalness: 0, roughness: 0.05,
-      transmission: 1, thickness: 1.6, ior: 1.42,
-      attenuationColor: AGUA, attenuationDistance: 2.1,
-      clearcoat: 0.7, clearcoatRoughness: 0.09,
-      envMap: env, envMapIntensity: 0.9,
-      side: THREE.DoubleSide, transparent: true, opacity: 0.9,
+      color: 0xffffff, metalness: 0, roughness: 0.03,
+      transmission: 1, thickness: 1.0, ior: 1.5,
+      attenuationColor: AGUA, attenuationDistance: 24,
+      clearcoat: 1, clearcoatRoughness: 0.04,
+      envMap: env, envMapIntensity: 1.35,
+      specularIntensity: 1,
+      /* Sin mezcla alfa. Antes iba con transparent + opacity 0.9 ADEMÁS de
+         transmission, y eso son dos transparencias encima de la otra: la
+         pieza perdía energía en los brillos y quedaba lechosa en vez de
+         cristalina. Con transmission a 1 el fondo ya se ve a través, y la
+         opacidad estorba. */
+      side: THREE.DoubleSide, transparent: false, opacity: 1,
     });
   }
   // equipos modestos: reflejo + transparencia, sin refracción (mucho más barato)
   return new THREE.MeshPhysicalMaterial({
-    color: 0xeaf7fd, metalness: 0, roughness: 0.12,
-    transparent: true, opacity: 0.42,
-    clearcoat: 1, clearcoatRoughness: 0.06,
-    envMap: env, envMapIntensity: 1.5,
+    color: 0xffffff, metalness: 0, roughness: 0.06,
+    transparent: true, opacity: 0.34,
+    clearcoat: 1, clearcoatRoughness: 0.04,
+    envMap: env, envMapIntensity: 1.9,
     side: THREE.DoubleSide, depthWrite: false,
   });
 }

@@ -1,0 +1,74 @@
+{
+ "certificado-calidad-agua-desmineralizada": [
+  {
+   "src": "fichas/pdf/vista/certificado-calidad-agua-desmineralizada-p1.webp",
+   "w": 1217,
+   "h": 1650,
+   "kb": 106
+  }
+ ],
+ "hoja-tecnica-agua-bidestilada-tensos": [
+  {
+   "src": "fichas/pdf/vista/hoja-tecnica-agua-bidestilada-tensos-p1.webp",
+   "w": 1241,
+   "h": 1754,
+   "kb": 121
+  },
+  {
+   "src": "fichas/pdf/vista/hoja-tecnica-agua-bidestilada-tensos-p2.webp",
+   "w": 1241,
+   "h": 1754,
+   "kb": 72
+  }
+ ],
+ "hoja-tecnica-agua-desmineralizada-tensos": [
+  {
+   "src": "fichas/pdf/vista/hoja-tecnica-agua-desmineralizada-tensos-p1.webp",
+   "w": 1241,
+   "h": 1754,
+   "kb": 123
+  },
+  {
+   "src": "fichas/pdf/vista/hoja-tecnica-agua-desmineralizada-tensos-p2.webp",
+   "w": 1241,
+   "h": 1754,
+   "kb": 71
+  }
+ ],
+ "ht-ae-01-agua-desmineralizada": [
+  {
+   "src": "fichas/pdf/vista/ht-ae-01-agua-desmineralizada-p1.webp",
+   "w": 1275,
+   "h": 1650,
+   "kb": 158
+  }
+ ],
+ "parametros-fq-agua-bidestilada": [
+  {
+   "src": "fichas/pdf/vista/parametros-fq-agua-bidestilada-p1.webp",
+   "w": 1241,
+   "h": 1754,
+   "kb": 55
+  },
+  {
+   "src": "fichas/pdf/vista/parametros-fq-agua-bidestilada-p2.webp",
+   "w": 1241,
+   "h": 1754,
+   "kb": 20
+  }
+ ],
+ "parametros-fq-agua-desmineralizada": [
+  {
+   "src": "fichas/pdf/vista/parametros-fq-agua-desmineralizada-p1.webp",
+   "w": 1241,
+   "h": 1754,
+   "kb": 56
+  },
+  {
+   "src": "fichas/pdf/vista/parametros-fq-agua-desmineralizada-p2.webp",
+   "w": 1241,
+   "h": 1754,
+   "kb": 20
+  }
+ ]
+}

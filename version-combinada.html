@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Aguas Especiales · Agua purificada ajustada a tus parámetros</title>
+  <meta name="description" content="Fabricamos agua purificada de acuerdo con parámetros técnicos, estándares de referencia o las especificaciones particulares que cada cliente requiera." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/version-combinada.css" />
+  <script>
+    document.documentElement.classList.add("js");
+    try {
+      var t = localStorage.getItem("ae-theme");
+      if (t) document.documentElement.setAttribute("data-theme", t);
+    } catch (e) { /* sin almacenamiento */ }
+  </script>
+</head>
+<body>
+  <!-- Isotipo de marca: se define una vez por página y se reutiliza con <use href="#ae-logo"> -->
+  <svg class="ae-defs" aria-hidden="true" focusable="false" width="0" height="0"><defs><symbol id="ae-logo" viewBox="0 0 64 64"><path d="M12 58 38 8 62 58Z" fill="none" stroke="var(--ae-a,#2f5789)" stroke-width="4.5" stroke-linejoin="miter" stroke-miterlimit="6"/><path d="M19.3 44h36" fill="none" stroke="var(--ae-a,#2f5789)" stroke-width="4.5"/><path d="M21 14C21 14 8.5 29 8.5 42a12.5 12.5 0 0 0 25 0C33.5 29 21 14 21 14Z" fill="#a5dcef"/><path d="M21 14L15.7 21.6L10.9 31L21 38Z" fill="#cdeef9"/><path d="M21 14L21 38L31.1 31L26.3 21.6Z" fill="#8ed3ec"/><path d="M10.9 31L9 37.3L21 38Z" fill="#b6e4f4"/><path d="M9 37.3L8.5 42L21 38Z" fill="#a3dcf0"/><path d="M8.5 42L12.16 50.84L21 38Z" fill="#5cb9de"/><path d="M12.16 50.84L21 54.5L21 38Z" fill="#2a7fb4"/><path d="M21 54.5L29.84 50.84L21 38Z" fill="#3f9dc9"/><path d="M29.84 50.84L33.5 42L21 38Z" fill="#62c0e0"/><path d="M33.5 42L33 37.3L21 38Z" fill="#7dcbe6"/><path d="M33 37.3L31.1 31L21 38Z" fill="#9bd9ef"/></symbol></defs></svg>
+
+  <a class="skip-link" href="#main">Saltar al contenido</a>
+
+  <!-- Andamio de comparación. Se quita al decidir qué versión queda. -->
+  <div class="comparar">
+    <strong>Versión C</strong> · la combinada —
+    <a href="index.html">ver versión A (maqueta)</a> ·
+    <a href="version-real.html">ver versión B (web real)</a>
+  </div>
+
+  <!-- ===== Barra superior ===== -->
+  <div class="topbar">
+    <div class="container topbar__inner">
+      <p class="topbar__slogan">💧 Sirviendo a la Industria con Resultados Óptimos</p>
+      <div class="topbar__contact">
+        <a href="tel:+525553053590" aria-label="Llamar al 55 5305 3590">
+          <svg viewBox="0 0 24 24" class="ico"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.24 11 11 0 0 0 3.5.56 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11 11 0 0 0 .56 3.5 1 1 0 0 1-.24 1Z"/></svg>
+          55 5305 3590
+        </a>
+        <a href="mailto:ventas@tensos.com" aria-label="Enviar correo a ventas@tensos.com">
+          <svg viewBox="0 0 24 24" class="ico"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm0 4 8 5 8-5"/></svg>
+          ventas@tensos.com
+        </a>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Cambiar tema claro/oscuro" title="Cambiar tema">
+          <svg class="ico ico-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="ico ico-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Navegación =====
+       Cinco destinos, no nueve. La web real que le gusta al cliente tiene
+       cinco; la maqueta tenía siete más un botón. -->
+  <header class="nav" id="nav">
+    <div class="container nav__inner">
+      <a href="#inicio" class="brand" aria-label="Aguas Especiales - Inicio">
+        <span class="brand__mark" aria-hidden="true">
+          <svg viewBox="0 0 64 64" aria-hidden="true"><use href="#ae-logo"/></svg>
+        </span>
+        <span class="brand__text">
+          <strong>AGUAS</strong><span>ESPECIALES</span>
+        </span>
+      </a>
+
+      <nav class="nav__links" id="navLinks" aria-label="Navegación principal">
+        <a href="#nosotros">Quiénes somos</a>
+        <a href="catalogo.html">Productos</a>
+        <a href="servicios.html">Servicios</a>
+        <a href="#cotizar">Contacto</a>
+        <a href="#cotizar" class="btn btn--primary nav__cta">Cotizar ahora</a>
+      </nav>
+
+      <button class="nav__burger" id="navBurger" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <!-- ===== HERO =====
+         El isotipo en 3D se cambió por el tote de 1000 L: el visitante ve el
+         producto, no el logo. Debajo queda la foto real del mismo tote, así
+         que en el teléfono (donde el 3D no se descarga) y sin WebGL se ve lo
+         mismo, nunca un hueco. -->
+    <section class="hero" id="inicio">
+      <div class="hero__waves" aria-hidden="true">
+        <svg viewBox="0 0 1440 220" preserveAspectRatio="none"><path class="wave wave--1" d="M0,120 C240,180 480,60 720,110 C960,160 1200,80 1440,120 L1440,220 L0,220 Z"/><path class="wave wave--2" d="M0,140 C260,90 520,190 780,140 C1040,90 1240,170 1440,130 L1440,220 L0,220 Z"/><path class="wave wave--3" d="M0,160 C300,210 600,120 900,160 C1140,190 1320,140 1440,165 L1440,220 L0,220 Z"/></svg>
+      </div>
+
+      <div class="container hero__inner">
+        <div class="hero__content">
+          <span class="pill reveal" data-reveal>
+            <span class="pill__dot"></span> Agua de grado científico e industrial
+          </span>
+          <h1 class="hero__title reveal" data-reveal>
+            Agua purificada,<br /><span class="grad-text">ajustada a tus parámetros</span>
+          </h1>
+          <p class="hero__lead reveal" data-reveal>
+            Fabricamos agua purificada de acuerdo con parámetros técnicos, estándares
+            de referencia o las especificaciones particulares que cada cliente requiera.
+          </p>
+          <div class="hero__actions reveal" data-reveal>
+            <a href="https://wa.me/525587908943?text=Hola%2C%20quiero%20cotizar%20agua%20purificada." class="btn btn--whatsapp btn--lg" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" class="ico"><path d="M17.5 14.4c-.3-.15-1.8-.9-2.1-1-.28-.1-.48-.15-.68.15-.2.3-.78 1-.96 1.2-.18.2-.36.22-.66.08-.3-.15-1.28-.47-2.44-1.5-.9-.8-1.5-1.8-1.68-2.1-.18-.3-.02-.46.13-.6.14-.14.3-.36.45-.54.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.08-.15-.68-1.63-.93-2.24-.24-.58-.5-.5-.68-.51h-.58c-.2 0-.53.08-.8.38-.28.3-1.05 1.03-1.05 2.5s1.08 2.9 1.23 3.1c.15.2 2.12 3.24 5.14 4.55.72.3 1.28.5 1.72.64.72.23 1.38.2 1.9.12.58-.08 1.8-.73 2.05-1.44.25-.7.25-1.3.18-1.44-.07-.13-.27-.2-.57-.35Z"/><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.16l-.3-.18-3 .78.8-2.92-.2-.3A8.2 8.2 0 1 1 12 20.2Z"/></svg>
+              Cotizar por WhatsApp
+            </a>
+            <a href="#cotizar" class="btn btn--ghost btn--lg">O déjanos tus datos</a>
+          </div>
+
+          <div class="hero__trust reveal" data-reveal>
+            <div class="trust">
+              <strong data-count="1000" data-suffix=" L">1000 L</strong>
+              <span>Tote, porrón o garrafón</span>
+            </div>
+            <div class="trust">
+              <strong data-count="100" data-suffix="%">100%</strong>
+              <span>A la medida de tu proceso</span>
+            </div>
+            <div class="trust">
+              <strong data-count="360" data-suffix="°">360°</strong>
+              <span>Trazabilidad y respaldo</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero__visual reveal" data-reveal aria-hidden="true">
+          <div class="tote3d" data-tote3d data-min3d="700">
+            <!-- El respaldo sale del propio modelo, no de la foto: la foto del
+                 producto tiene fondo blanco y sobre el azul marino del héroe se
+                 veía como una caja blanca recortada. Al salir del 3D, además,
+                 siempre coincide con lo que se ve al girarlo. -->
+            <picture>
+              <source srcset="img/render-tote-bidestilada.webp" type="image/webp" />
+              <img class="tote3d__foto" src="img/render-tote-bidestilada.png" alt="" width="940" height="907" decoding="async" fetchpriority="high" />
+            </picture>
+            <span class="tote3d__hint">
+              <svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/><circle cx="12" cy="12" r="3"/></svg>
+              Arrástralo para girarlo
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ¿Qué nos hace diferentes? =====
+         Los cuatro pilares de la web real, con los textos ya corregidos:
+         sin «inocuidad garantizada» y sin hospitales. -->
+    <section class="section" id="diferencia">
+      <div class="container">
+        <header class="section__head reveal" data-reveal>
+          <span class="eyebrow">Quiénes somos</span>
+          <h2 class="section__title">¿Qué nos hace <span class="grad-text">diferentes?</span></h2>
+        </header>
+
+        <div class="pilares reveal" data-reveal>
+          <article class="pilar">
+            <span class="pilar__ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 2.5s6.5 7.6 6.5 12a6.5 6.5 0 0 1-13 0c0-4.4 6.5-12 6.5-12Z"/></svg>
+            </span>
+            <h3>Agua con propósito</h3>
+            <p>Diseñamos soluciones líquidas con especificaciones químicas y microbiológicas ajustadas a tu proceso.</p>
+          </article>
+
+          <article class="pilar">
+            <span class="pilar__ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 2.5 4 6v6c0 4.6 3.4 8.5 8 9.5 4.6-1 8-4.9 8-9.5V6l-8-3.5Z"/><path d="m8.6 12 2.4 2.4 4.4-4.6"/></svg>
+            </span>
+            <h3>Control de inocuidad</h3>
+            <p>Elaboramos cada producto bajo condiciones controladas de higiene, calidad y seguridad, de acuerdo con parámetros técnicos, estándares de referencia o especificaciones particulares del cliente.</p>
+          </article>
+
+          <article class="pilar">
+            <span class="pilar__ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M9 3h4v5H9z"/><path d="M11 8v6"/><path d="M7 21h13"/><path d="M6.5 18a5 5 0 0 1 9.5-2.2"/><path d="M15 5h3M15 8h3"/></svg>
+            </span>
+            <h3>Análisis y soluciones integrales</h3>
+            <p>Realizamos análisis químicos, microbiológicos y fisicoquímicos, además de proveer soluciones y kits rápidos de análisis, para que puedas diagnosticar y atender tus necesidades con nosotros de inicio a fin.</p>
+          </article>
+
+          <article class="pilar">
+            <span class="pilar__ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M3 21V10l6 4V10l6 4V6l6 4v11z"/><path d="M3 21h18"/></svg>
+            </span>
+            <h3>Soluciones a la medida</h3>
+            <p>Desde agua desmineralizada hasta agua de alta pureza, con trazabilidad y respaldo técnico. Atendemos a la industria farmacéutica, cosmética, de alimentos y a laboratorios de análisis, entre otros.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Nuestra historia ===== -->
+    <section class="section section--tint" id="nosotros">
+      <div class="container">
+        <div class="historia reveal" data-reveal>
+          <span class="eyebrow">Nuestra historia</span>
+          <h2 class="section__title">El agua no es un insumo <span class="grad-text">cualquiera</span></h2>
+          <p>
+            En un mundo donde la pureza del agua define la calidad de los procesos,
+            AGUAS ESPECIALES nace con una misión clara: brindar soluciones hídricas
+            diseñadas de acuerdo con parámetros técnicos, estándares de referencia o
+            especificaciones particulares del cliente.
+          </p>
+          <p>
+            Sabíamos que no bastaba con ofrecer agua destilada o tratada como un simple
+            insumo. Queríamos ir más allá y crear soluciones específicas para cada
+            necesidad, con trazabilidad y respaldo técnico en cada lote.
+          </p>
+          <p class="historia__lema">«Sirviendo a la Industria con Resultados Óptimos»</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Las tres aguas =====
+         Sin filtros y sin desplegables: las tres se ven de entrada, y cada
+         una entra directo a su página. El catálogo completo queda a un clic. -->
+    <section class="section" id="productos">
+      <div class="container">
+        <header class="section__head reveal" data-reveal>
+          <span class="eyebrow">Productos</span>
+          <h2 class="section__title">Nuestras <span class="grad-text">aguas</span></h2>
+          <p class="section__sub">Estas tres tienen página propia. El catálogo completo son nueve categorías.</p>
+        </header>
+
+        <div class="aguas reveal" data-reveal>
+          <a class="agua" href="producto-agua-purificada.html">
+            <span class="agua__num">01</span>
+            <h3>Agua purificada</h3>
+            <p>Base confiable para procesos, limpieza de equipos, formulación y consumo industrial.</p>
+            <span class="agua__ver">Ver producto <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </a>
+
+          <a class="agua" href="producto-agua-desmineralizada.html">
+            <span class="agua__num">02</span>
+            <h3>Agua desmineralizada</h3>
+            <p>Alta pureza y baja conductividad, por ósmosis inversa e intercambio iónico.</p>
+            <span class="agua__ver">Ver producto <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </a>
+
+          <a class="agua" href="producto-agua-bidestilada.html">
+            <span class="agua__num">03</span>
+            <h3>Agua bidestilada</h3>
+            <p>Doble destilación para preparación de reactivos y uso analítico y farmacéutico.</p>
+            <span class="agua__ver">Ver producto <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </a>
+        </div>
+
+        <div class="section__cta reveal" data-reveal>
+          <a href="catalogo.html" class="btn btn--primary btn--lg">
+            Ver catálogo completo
+            <svg viewBox="0 0 24 24" class="ico"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a href="servicios.html" class="btn btn--ghost btn--lg">Servicios de análisis</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Cotización =====
+         Dos bloques y un solo campo obligatorio. Y encima, las tres vías
+         directas: quien no quiera llenar nada, no llena nada. -->
+    <section class="section section--dark" id="cotizar">
+      <div class="container cta">
+        <div class="cta__intro reveal" data-reveal>
+          <span class="eyebrow eyebrow--light">💧 Solicitar cotización</span>
+          <h2 class="section__title">Dinos qué necesitas <span class="grad-text">y listo</span></h2>
+          <p>Marca lo que te interesa y escribe tu nombre. Nada más. Si prefieres no llenar nada, escríbenos directo por WhatsApp.</p>
+
+          <div class="directo">
+            <a href="https://wa.me/525587908943?text=Hola%2C%20quiero%20cotizar%20agua%20purificada." target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Z"/></svg>
+              WhatsApp 55 5305 3590
+            </a>
+            <a href="tel:+525553053590">
+              <svg viewBox="0 0 24 24"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.24 11 11 0 0 0 3.5.56 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11 11 0 0 0 .56 3.5 1 1 0 0 1-.24 1Z"/></svg>
+              Llamar ahora
+            </a>
+            <a href="mailto:ventas@tensos.com">
+              <svg viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm0 4 8 5 8-5"/></svg>
+              Escribir por correo
+            </a>
+          </div>
+        </div>
+
+        <form class="quoteform reveal" data-reveal id="quoteForm" novalidate>
+          <div class="quote__step">
+            <p class="quote__steplabel">¿Qué necesitas?</p>
+            <div class="quote__pickgrid" id="quotePick">
+              <label class="pickbox"><input type="checkbox" name="producto" value="Agua purificada"><span>Agua purificada</span></label>
+              <label class="pickbox"><input type="checkbox" name="producto" value="Agua desmineralizada"><span>Agua desmineralizada</span></label>
+              <label class="pickbox"><input type="checkbox" name="producto" value="Agua destilada o bidestilada"><span>Destilada / bidestilada</span></label>
+              <label class="pickbox"><input type="checkbox" name="producto" value="Agua para laboratorio (ASTM / ISO)"><span>Agua de laboratorio</span></label>
+              <label class="pickbox"><input type="checkbox" name="producto" value="Soluciones acuosas y salmueras"><span>Soluciones y salmueras</span></label>
+              <label class="pickbox"><input type="checkbox" name="producto" value="Agua acondicionada para chillers"><span>Agua acondicionada</span></label>
+              <label class="pickbox"><input type="checkbox" name="producto" value="Reactivos para análisis de agua"><span>Reactivos</span></label>
+              <label class="pickbox"><input type="checkbox" name="producto" value="Soluciones buffer de pH"><span>Buffers de pH</span></label>
+              <label class="pickbox"><input type="checkbox" name="producto" value="Kits para análisis de agua"><span>Kits de análisis</span></label>
+              <label class="pickbox"><input type="checkbox" name="producto" value="Material y equipo de laboratorio"><span>Material y equipo</span></label>
+              <label class="pickbox"><input type="checkbox" name="producto" value="Envases plásticos"><span>Envases plásticos</span></label>
+              <label class="pickbox"><input type="checkbox" name="producto" value="Servicio de análisis de agua"><span>Análisis de agua</span></label>
+            </div>
+          </div>
+
+          <div class="quote__step">
+            <p class="quote__steplabel">Tus datos</p>
+            <div class="field">
+              <label for="q-nombre">Nombre *</label>
+              <input type="text" id="q-nombre" name="nombre" required placeholder="Tu nombre" aria-describedby="err-nombre" />
+              <span class="field-error" id="err-nombre" role="alert"></span>
+            </div>
+            <div class="field">
+              <label for="q-mensaje">Volumen, parámetros o entrega <span class="quote__opc">(opcional)</span></label>
+              <textarea id="q-mensaje" name="mensaje" rows="3" placeholder="Ej. 200 L por semana en Tultitlán, conductividad menor a 5 µS…"></textarea>
+            </div>
+            <div class="quote__actions">
+              <button type="submit" class="btn btn--whatsapp" id="sendWhatsApp">
+                <svg viewBox="0 0 24 24" class="ico"><path d="M17.5 14.4c-.3-.15-1.8-.9-2.1-1-.28-.1-.48-.15-.68.15-.2.3-.78 1-.96 1.2-.18.2-.36.22-.66.08-.3-.15-1.28-.47-2.44-1.5-.9-.8-1.5-1.8-1.68-2.1-.18-.3-.02-.46.13-.6.14-.14.3-.36.45-.54.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.08-.15-.68-1.63-.93-2.24-.24-.58-.5-.5-.68-.51h-.58c-.2 0-.53.08-.8.38-.28.3-1.05 1.03-1.05 2.5s1.08 2.9 1.23 3.1c.15.2 2.12 3.24 5.14 4.55.72.3 1.28.5 1.72.64.72.23 1.38.2 1.9.12.58-.08 1.8-.73 2.05-1.44.25-.7.25-1.3.18-1.44-.07-.13-.27-.2-.57-.35Z"/><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.16l-.3-.18-3 .78.8-2.92-.2-.3A8.2 8.2 0 1 1 12 20.2Z"/></svg>
+                Enviar por WhatsApp
+              </button>
+            </div>
+            <button type="button" class="quote__alt" id="sendMail">o enviar por correo electrónico</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <a href="#inicio" class="brand brand--light">
+          <span class="brand__mark" aria-hidden="true"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#ae-logo"/></svg></span>
+          <span class="brand__text"><strong>AGUAS</strong><span>ESPECIALES</span></span>
+        </a>
+        <p>Sirviendo a la industria con resultados óptimos. Agua purificada de grado científico e industrial, ajustada a tus parámetros.</p>
+      </div>
+      <nav class="footer__col" aria-label="Enlaces del sitio">
+        <h3>Corporativo</h3>
+        <a href="#nosotros">Quiénes somos</a>
+        <a href="catalogo.html">Catálogo de productos</a>
+        <a href="servicios.html">Servicios de análisis</a>
+        <a href="#cotizar">Contacto</a>
+      </nav>
+      <nav class="footer__col" aria-label="Productos">
+        <h3>Productos</h3>
+        <a href="producto-agua-purificada.html">Agua purificada</a>
+        <a href="producto-agua-desmineralizada.html">Agua desmineralizada</a>
+        <a href="producto-agua-bidestilada.html">Agua bidestilada</a>
+        <a href="catalogo.html#aguas-laboratorio">Aguas para laboratorio</a>
+        <a href="catalogo.html#reactivos">Reactivos y buffers</a>
+        <a href="catalogo.html#kits">Kits para análisis</a>
+      </nav>
+      <div class="footer__col">
+        <h3>Contacto</h3>
+        <a href="tel:+525553053590">55 5305 3590</a>
+        <a href="tel:+525587908943">55 8790 8943</a>
+        <a href="mailto:ventas@tensos.com">ventas@tensos.com</a>
+        <p class="footer__addr">Xochicalco 10, Col. Cerro Grande, Atizapán de Zaragoza, Estado de México, C.P. 52920</p>
+      </div>
+    </div>
+    <div class="footer__bar">
+      <div class="container footer__barinner">
+        <p>© <span id="year"></span> Aguas Especiales. Todos los derechos reservados.</p>
+        <p>Diseñado con 💧 para la industria.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Botón flotante WhatsApp -->
+  <a href="https://wa.me/525587908943?text=Hola%2C%20me%20interesa%20conocer%20m%C3%A1s%20sobre%20sus%20productos%20de%20agua%20de%20alta%20pureza." class="fab-whatsapp" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+    <svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.15-1.8-.9-2.1-1-.28-.1-.48-.15-.68.15-.2.3-.78 1-.96 1.2-.18.2-.36.22-.66.08-.3-.15-1.28-.47-2.44-1.5-.9-.8-1.5-1.8-1.68-2.1-.18-.3-.02-.46.13-.6.14-.14.3-.36.45-.54.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.08-.15-.68-1.63-.93-2.24-.24-.58-.5-.5-.68-.51h-.58c-.2 0-.53.08-.8.38-.28.3-1.05 1.03-1.05 2.5s1.08 2.9 1.23 3.1c.15.2 2.12 3.24 5.14 4.55.72.3 1.28.5 1.72.64.72.23 1.38.2 1.9.12.58-.08 1.8-.73 2.05-1.44.25-.7.25-1.3.18-1.44-.07-.13-.27-.2-.57-.35Z"/><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.16l-.3-.18-3 .78.8-2.92-.2-.3A8.2 8.2 0 1 1 12 20.2Z"/></svg>
+  </a>
+
+  <!-- Botón volver arriba -->
+  <button class="fab-top" id="backTop" type="button" aria-label="Volver arriba">
+    <svg viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+  </button>
+
+  <!-- Toast -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/catalog.js"></script>
+  <script src="js/site.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/viewer3d.js"></script>
+</body>
+</html>

@@ -10,3 +10,9 @@ node_modules/
 .tmp/
 .netlify/
 .vercel/
+
+.vercel
+.env*
+
+# Permisos locales del agente (no son del sitio)
+.claude/settings.local.json

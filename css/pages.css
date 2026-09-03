@@ -277,7 +277,10 @@ html[data-theme="dark"] .catcard__meta { color: var(--c-aqua); }
 .prodgrid { display: grid; grid-template-columns: 1.25fr .75fr; gap: clamp(28px, 4vw, 52px); align-items: start; }
 /* Sin esto, el ancho mínimo de la tabla de especificaciones estira la columna */
 .prodgrid > * { min-width: 0; }
+/* La barra de navegacion es fija, asi que un salto de ancla dejaba el titulo
+   del panel escondido detras de ella. */
 .panel {
+  scroll-margin-top: 100px;
   background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
   box-shadow: var(--shadow-sm); padding: clamp(22px, 3vw, 30px); margin-bottom: 24px;
 }
@@ -414,3 +417,60 @@ html[data-theme="dark"] .sheet__go { color: var(--c-aqua); }
   .spectable { font-size: .88rem; }
   .spectable th, .spectable td { padding: 9px 11px; }
 }
+
+/* =========================================================
+   Hojas técnicas: verlas y descargarlas
+   ---------------------------------------------------------
+   Las especificaciones se muestran como el documento que son, no como
+   una tabla copiada a mano: así no puede haber una cifra en la web que
+   no coincida con la de la hoja firmada.
+   ========================================================= */
+.hoja {
+  border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--surface); overflow: hidden; box-shadow: var(--shadow-sm);
+}
+.hoja__cab {
+  display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between;
+  padding: 20px 22px; border-bottom: 1px solid var(--line);
+}
+.hoja__cab strong { font-family: var(--font-display); font-size: 1.02rem; }
+.hoja__cab p { margin: 6px 0 0; color: var(--muted); font-size: .88rem; max-width: 62ch; }
+.hoja__cod {
+  display: inline-block; margin-left: 8px; padding: 2px 9px; border-radius: 999px;
+  background: var(--tint); color: var(--c-primary-strong);
+  font-size: .72rem; font-weight: 700; letter-spacing: .06em;
+}
+html[data-theme="dark"] .hoja__cod { color: var(--c-aqua); }
+
+.hoja__acciones { display: flex; flex-wrap: wrap; gap: 9px; }
+.hoja__btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 10px 16px; min-height: 44px; border-radius: 999px;
+  border: 1px solid var(--c-cyan); color: var(--c-primary-strong);
+  font-weight: 700; font-size: .85rem; text-decoration: none;
+  transition: background .2s, color .2s;
+}
+html[data-theme="dark"] .hoja__btn { color: var(--c-aqua); }
+.hoja__btn:hover { background: var(--c-cyan); color: #04222f; }
+.hoja__btn--baja { background: var(--c-primary); border-color: var(--c-primary); color: #fff; }
+html[data-theme="dark"] .hoja__btn--baja { color: #fff; }
+.hoja__btn--baja:hover { background: var(--c-navy); border-color: var(--c-navy); color: #fff; }
+.hoja__btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Las páginas de la hoja, rasterizadas. Se ven completas, sin scroll propio
+   que compita con el de la página. */
+.hoja__pag { display: block; width: 100%; height: auto; background: #fff; }
+.hoja__pag + .hoja__pag { border-top: 1px solid var(--line); }
+
+.hoja__otras { margin: 34px 0 14px; font-size: 1.05rem; }
+.hoja-lista { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.hoja-lista li {
+  display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between;
+  padding: 16px 20px; border: 1px solid var(--line); border-radius: var(--radius-sm);
+  background: var(--surface);
+}
+.hoja-lista strong { font-family: var(--font-display); font-size: .95rem; }
+.hoja-lista p { margin: 5px 0 0; color: var(--muted); font-size: .84rem; max-width: 58ch; }
+
+.hoja-vacia { display: grid; gap: 16px; justify-items: start; padding: 26px; border: 1px dashed var(--line); border-radius: var(--radius); }
+.hoja-vacia p { margin: 0; color: var(--muted); }

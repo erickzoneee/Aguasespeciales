@@ -43,7 +43,7 @@
   const itemHTML = (item, catName) => {
     const search = norm([item.name, item.note || "", catName].join(" "));
     const link = item.href
-      ? `<a class="item__link" href="${esc(item.href)}">Ver ficha técnica ${ARROW}</a>`
+      ? `<a class="item__link" href="${esc(item.href)}">Ver producto ${ARROW}</a>`
       : "";
     const note = item.note ? `<span class="item__note">${esc(item.note)}</span>` : "";
     const actions = (link || perItemQuote)
@@ -185,16 +185,6 @@
     clearBtn.addEventListener("click", () => {
       if (search) { search.value = ""; search.focus(); }
       applySearch("");
-    });
-  }
-
-  /* ---------- Abrir / cerrar todo ---------- */
-  const toggleAll = $("#catalogToggle");
-  if (toggleAll) {
-    toggleAll.addEventListener("click", () => {
-      const anyClosed = cats.some((c) => !c.open && !c.hidden);
-      cats.forEach((c) => { if (!c.hidden) c.open = anyClosed; });
-      toggleAll.textContent = anyClosed ? "Contraer todo" : "Expandir todo";
     });
   }
 

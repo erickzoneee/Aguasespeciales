@@ -1,0 +1,261 @@
+/* =========================================================
+   AGUAS ESPECIALES — Versión C: la combinada
+   ---------------------------------------------------------
+   Hereda entero el sistema de diseño de css/styles.css. Aquí solo va lo
+   que esta versión hace distinto:
+
+   · El héroe muestra el tote IBC en 3D en lugar del isotipo.
+   · La foto real del tote queda debajo como respaldo, así que en el
+     teléfono —donde el 3D no se descarga— y sin WebGL se ve el producto
+     igual, nunca un hueco.
+   · La página es corta a propósito: héroe, cuatro pilares, historia,
+     tres aguas y cotización. Ni asistente, ni escala de pureza, ni
+     carrusel, ni acordeón. Lo que el cliente pidió: directo y sin que
+     haya que tocar nada para entender qué se vende.
+   ========================================================= */
+
+/* ---------- Banda de comparación ----------
+   Andamio para ver las tres versiones. Se quita al decidir cuál queda. */
+.comparar {
+  background: #061d29; color: #cfe6f2;
+  font-size: .72rem; letter-spacing: .04em;
+  padding: 7px 20px; display: flex; gap: 14px;
+  align-items: center; justify-content: center; flex-wrap: wrap;
+}
+.comparar strong { color: #fff; font-weight: 600; }
+.comparar a { color: var(--c-mint); text-decoration: none; }
+.comparar a:hover { text-decoration: underline; }
+
+/* ---------- El tote del héroe ----------
+   El contenedor .tote3d ya trae los estilos del canvas, la pista y el
+   girador en css/styles.css. Aquí solo se resuelve el respaldo en foto. */
+.tote3d__foto {
+  position: absolute; inset: 0; margin: auto;
+  max-width: 88%; max-height: 100%; width: auto; height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 26px 40px rgba(0, 0, 0, .45));
+  transition: opacity .6s var(--ease);
+}
+.tote3d.is-ready .tote3d__foto { opacity: 0; }
+
+/* En la maqueta el visual del héroe desaparece por debajo de 1024 px porque
+   ahí solo había un adorno. Aquí hay producto, así que se queda: lo que no
+   se descarga en el teléfono es el 3D (data-min3d), no la imagen. */
+@media (max-width: 1024px) {
+  .hero__visual { display: grid; }
+  .tote3d { width: min(320px, 74vw); }
+  .tote3d__hint { display: none !important; }
+}
+
+/* ---------- Los cuatro pilares ---------- */
+.pilares { display: grid; gap: 26px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.pilar {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 28px 26px; box-shadow: var(--shadow-sm);
+}
+.pilar__ico {
+  display: grid; place-items: center; width: 52px; height: 52px;
+  border-radius: 14px; background: var(--tint); color: var(--c-primary-strong);
+  margin-bottom: 16px;
+}
+html[data-theme="dark"] .pilar__ico { color: var(--c-aqua); }
+.pilar__ico svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.pilar h3 { font-size: 1.06rem; margin: 0 0 8px; }
+.pilar p { margin: 0; color: var(--muted); font-size: .93rem; }
+
+/* ---------- Historia ---------- */
+.historia { max-width: 74ch; margin: 0 auto; text-align: center; }
+.historia p { color: var(--ink-2); }
+.historia__lema {
+  font-family: var(--font-display); font-weight: 700;
+  color: var(--c-primary-strong); font-size: 1.08rem;
+}
+html[data-theme="dark"] .historia__lema { color: var(--c-aqua); }
+
+/* ---------- Las tres aguas ----------
+   Sin filtros y sin desplegables: las tres se ven de entrada. */
+.aguas { display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); }
+.agua {
+  display: flex; flex-direction: column; gap: 10px;
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 26px; box-shadow: var(--shadow-sm);
+  text-decoration: none; color: inherit;
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease), border-color .25s var(--ease);
+}
+.agua:hover, .agua:focus-visible { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--c-cyan); }
+.agua__num { font-family: var(--font-display); font-weight: 800; font-size: .78rem; letter-spacing: .1em; color: var(--c-primary-strong); }
+html[data-theme="dark"] .agua__num { color: var(--c-aqua); }
+.agua h3 { margin: 0; font-size: 1.14rem; }
+.agua p { margin: 0; color: var(--muted); font-size: .92rem; flex: 1; }
+.agua__ver { font-weight: 600; color: var(--c-primary-strong); font-size: .9rem; display: inline-flex; align-items: center; gap: 6px; }
+html[data-theme="dark"] .agua__ver { color: var(--c-aqua); }
+.agua__ver svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ---------- Contacto directo bajo el formulario ---------- */
+.directo { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-top: 26px; }
+.directo a {
+  display: flex; align-items: center; gap: 11px;
+  padding: 15px 18px; border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, .1); border: 1px solid rgba(255, 255, 255, .2);
+  color: #eaf8fc; text-decoration: none; font-weight: 600; font-size: .93rem;
+}
+.directo a:hover { background: rgba(255, 255, 255, .16); }
+.directo svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: 0 0 auto; }
+
+/* El tote pide más aire que el isotipo: es más ancho que alto y con la caja
+   cuadrada de .logo3d se quedaba pequeño dentro del héroe. */
+@media (min-width: 1025px) {
+  .tote3d { width: min(470px, 41vw); }
+}
+
+/* ---------- Dos reglas que esta portada necesitaba y no tenía ----------
+   .section__cta solo vive en css/pages.css, que esta página no carga: los dos
+   botones del final del catálogo salían alineados a la izquierda y pegados a la
+   última tarjeta. Es la misma regla, copiada. */
+.section__cta { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-top: 44px; }
+
+/* Los párrafos de la historia iban sin separación: en el teléfono quedaba un
+   muro de catorce renglones seguidos. */
+.historia p + p { margin-top: 16px; }
+.historia__lema { margin-top: 22px; }
+
+/* =========================================================
+   Catálogo en cuadros (catalogo.html)
+   ---------------------------------------------------------
+   Dos niveles: primero las nueve categorías en cuadro, y al abrir una,
+   sus productos también en cuadro. El índice lateral se queda, que es
+   como se navega rápido cuando ya sabes lo que buscas.
+
+   Los cuadros no llevan foto salvo donde hay una de verdad: de los 87
+   productos del catálogo solo tres tienen imagen propia —y son justo los
+   tres que ya tienen modelo 3D—. El resto compartía fotos de banco
+   repetidas hasta nueve veces, que es lo que hace ver barata una tienda.
+   ========================================================= */
+
+.cat-layout { display: grid; gap: 34px; align-items: start; }
+@media (min-width: 981px) { .cat-layout { grid-template-columns: 232px minmax(0, 1fr); } }
+
+/* ---------- Índice lateral ---------- */
+.cat-side { position: sticky; top: 92px; }
+/* En teléfono el índice se colaba encima de los cuadros y había que pasar
+   nueve enlaces antes de ver nada. Se oculta: los cuadros de categoría hacen
+   exactamente lo mismo y ya están ahí. */
+@media (max-width: 980px) { .cat-side { display: none; } }
+.cat-side h2 { font-size: .74rem; letter-spacing: .12em; text-transform: uppercase; color: var(--c-primary-strong); margin: 0 0 12px; }
+html[data-theme="dark"] .cat-side h2 { color: var(--c-aqua); }
+.cat-side ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.cat-side button {
+  display: flex; gap: 10px; align-items: baseline; width: 100%;
+  padding: 9px 12px; border: 0; border-radius: var(--radius-sm);
+  background: none; color: var(--ink-2); font: inherit; font-size: .88rem;
+  text-align: left; cursor: pointer; transition: background .2s, color .2s;
+}
+.cat-side button:hover { background: var(--tint); }
+.cat-side button.is-active { background: var(--tint); color: var(--c-primary-strong); font-weight: 600; }
+html[data-theme="dark"] .cat-side button.is-active { color: var(--c-aqua); }
+.cat-side em { font-style: normal; opacity: .6; font-size: .78rem; font-variant-numeric: tabular-nums; }
+
+/* ---------- Cuadros de categoría ---------- */
+.cat-tiles { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+.cat-tile {
+  position: relative; display: flex; flex-direction: column; gap: 7px;
+  padding: 20px 18px 18px; border-radius: var(--radius);
+  background: var(--surface); border: 1px solid var(--line);
+  box-shadow: var(--shadow-sm); cursor: pointer; text-align: left;
+  font: inherit; color: inherit;
+  transition: transform .22s var(--ease), box-shadow .22s var(--ease), border-color .22s var(--ease);
+}
+.cat-tile:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--c-cyan); }
+.cat-tile.is-active { border-color: var(--c-cyan); box-shadow: var(--shadow); }
+.cat-tile.is-active::after {
+  content: ""; position: absolute; left: 18px; right: 18px; bottom: -1px;
+  height: 3px; border-radius: 3px 3px 0 0; background: var(--grad);
+}
+.cat-tile__num {
+  position: absolute; top: 16px; right: 16px;
+  font-family: var(--font-display); font-weight: 800; font-size: .74rem;
+  letter-spacing: .08em; color: var(--c-primary-strong); opacity: .5;
+}
+html[data-theme="dark"] .cat-tile__num { color: var(--c-aqua); }
+.cat-tile__ico { font-size: 1.6rem; line-height: 1; }
+.cat-tile h3 { margin: 0; font-size: .98rem; line-height: 1.25; }
+.cat-tile__n { font-size: .8rem; color: var(--muted); }
+
+/* ---------- Cuadros de producto ---------- */
+.prod-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px; margin: 34px 0 6px; }
+.prod-head h2 { margin: 0; font-size: 1.3rem; }
+.prod-head span { font-size: .85rem; color: var(--muted); }
+.prod-lead { color: var(--muted); margin: 0 0 20px; max-width: 68ch; font-size: .93rem; }
+.prod-sub { margin: 26px 0 12px; font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: var(--c-primary-strong); }
+html[data-theme="dark"] .prod-sub { color: var(--c-aqua); }
+
+.prod-tiles { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(215px, 1fr)); }
+.prod-tile {
+  display: flex; flex-direction: column; gap: 8px; overflow: hidden;
+  padding: 0 0 16px; border-radius: var(--radius);
+  background: var(--surface); border: 1px solid var(--line);
+  box-shadow: var(--shadow-sm);
+  transition: transform .22s var(--ease), box-shadow .22s var(--ease), border-color .22s var(--ease);
+}
+.prod-tile:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--c-cyan); }
+.prod-tile__foto {
+  position: relative;
+  aspect-ratio: 4 / 3; background: var(--tint);
+  display: grid; place-items: center; overflow: hidden;
+}
+/* En absoluto y no como celda de la rejilla: contra un alto que sale de
+   aspect-ratio el navegador no resuelve el porcentaje y el envase se salía
+   por abajo. Ver la misma nota en css/final.css. */
+.prod-tile__foto img { position: absolute; top: 5%; left: 5%; width: 90%; height: 90%; object-fit: contain; }
+.prod-tile__cuerpo { display: flex; flex-direction: column; gap: 6px; flex: 1; padding: 0 16px; }
+/* Cabecera de los cuadros sin render: el icono de su categoría sobre un
+   fondo tintado. Así todos los cuadros miden lo mismo y ninguno queda hueco. */
+.prod-tile__foto--icono {
+  background:
+    radial-gradient(circle at 30% 25%, rgba(255,255,255,.55), transparent 60%),
+    var(--tint);
+}
+.prod-tile__foto--icono span { font-size: 2rem; line-height: 1; opacity: .8; }
+html[data-theme="dark"] .prod-tile__foto--icono {
+  background:
+    radial-gradient(circle at 30% 25%, rgba(255,255,255,.09), transparent 60%),
+    var(--surface-2);
+}
+.prod-tile h3 { margin: 0; font-size: .95rem; line-height: 1.3; }
+.prod-tile p { margin: 0; font-size: .84rem; color: var(--muted); flex: 1; }
+.prod-tile__pie { display: flex; flex-wrap: wrap; gap: 8px; padding: 4px 16px 0; }
+.prod-tile__ver, .prod-tile__cot {
+  font-size: .82rem; font-weight: 600; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 8px 12px; border-radius: 999px; min-height: 36px;
+  border: 1px solid var(--line); cursor: pointer; font-family: inherit;
+}
+.prod-tile__ver { color: var(--c-primary-strong); border-color: var(--c-cyan); }
+html[data-theme="dark"] .prod-tile__ver { color: var(--c-aqua); }
+.prod-tile__cot { background: var(--tint); color: var(--ink-2); }
+.prod-tile__cot:hover, .prod-tile__ver:hover { background: var(--c-cyan); color: #04222f; border-color: var(--c-cyan); }
+.prod-tile__ver svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ---------- Buscador ---------- */
+.cat-buscar { position: relative; max-width: 520px; margin: 0 auto; }
+.cat-buscar input {
+  width: 100%; padding: 14px 44px 14px 44px; font: inherit; font-size: .95rem;
+  border-radius: 999px; border: 1px solid rgba(255,255,255,.28);
+  background: rgba(255,255,255,.12); color: #eaf8fc;
+}
+.cat-buscar input::placeholder { color: rgba(234,248,252,.65); }
+.cat-buscar svg { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; fill: none; stroke: rgba(234,248,252,.75); stroke-width: 2; }
+.cat-vacio { padding: 40px 0; text-align: center; color: var(--muted); }
+
+/* En teléfono los cuadros salían de uno en uno y las nueve categorías se
+   volvían un scroll largo. De dos en dos se ve el mapa completo casi de
+   golpe, que es de lo que se trata. */
+@media (max-width: 560px) {
+  .cat-tiles, .prod-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .cat-tile { padding: 16px 14px 14px; }
+  .cat-tile h3 { font-size: .9rem; }
+  .cat-tile__ico { font-size: 1.35rem; }
+  .prod-tile h3 { font-size: .88rem; }
+  .prod-tile__cuerpo, .prod-tile__pie { padding-inline: 12px; }
+  .prod-tile__ver, .prod-tile__cot { font-size: .78rem; padding: 8px 10px; }
+}
