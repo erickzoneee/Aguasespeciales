@@ -228,30 +228,18 @@ p { margin: 0 0 18px; }
 .banda p { max-width: 62ch; margin: 0 auto 34px; color: var(--apagado); }
 .banda h2:last-of-type { margin-bottom: 0; }
 
-/* ---------- 6. Historia y el tote 3D ---------- */
+/* ---------- 6. Historia y la foto del tote ---------- */
 .historia__grid { display: grid; gap: 44px; align-items: center; }
 @media (min-width: 769px) { .historia__grid { grid-template-columns: 1fr 1fr; } }
 .historia__grid > * { min-width: 0; }
 .historia__texto p { text-align: justify; }
 
-.tote3d { position: relative; width: min(400px, 100%); aspect-ratio: 1 / 1.02; margin: 0 auto; display: grid; place-items: center; }
-.tote3d__canvas { position: absolute; inset: 0; width: 100%; height: 100%; cursor: grab; touch-action: pan-y; opacity: 0; transition: opacity .7s ease; }
-.tote3d.is-ready .tote3d__canvas { opacity: 1; }
-.tote3d.is-dragging .tote3d__canvas { cursor: grabbing; }
-.tote3d__foto { position: absolute; inset: 0; margin: auto; max-width: 92%; max-height: 100%; width: auto; height: auto; object-fit: contain; transition: opacity .6s ease; }
-.tote3d.is-ready .tote3d__foto { opacity: 0; }
-.tote3d__hint {
-  position: absolute; left: 50%; bottom: -4px; transform: translateX(-50%);
-  display: none; align-items: center; gap: 7px; white-space: nowrap;
-  padding: 7px 15px; border-radius: 999px;
-  background: var(--tinte); border: 1px solid var(--linea);
-  font-size: .72rem; font-weight: 600; color: var(--azul-fuerte);
-}
-.tote3d.is-ready .tote3d__hint { display: inline-flex; }
-.tote3d.is-dragging .tote3d__hint { display: none; }
-.tote3d__hint svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-@media (max-width: 1024px) { .tote3d__hint { display: none !important; } }
-@media print { .tote3d__canvas, .tote3d__hint { display: none !important; } .tote3d__foto { opacity: 1 !important; } }
+/* La foto del tote va recortada al contenido: sin margen transparente
+   alrededor, el envase ocupa toda la caja y la etiqueta se lee. El archivo
+   se sirve a 1x y 2x, así que en pantallas de retina sigue definido. */
+.historia__foto { width: min(460px, 100%); margin: 0 auto; }
+.historia__foto picture { display: block; }
+.historia__foto img { display: block; width: 100%; height: auto; }
 
 /* ---------- 7. Diferenciadores ---------- */
 .difs { display: grid; gap: 26px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }

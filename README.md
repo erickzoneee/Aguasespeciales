@@ -47,6 +47,7 @@ Pagina AguasEspeciales/
 │   └── cat/                            # Imágenes de categoría (webp + jpg)
 │   └── producto/                       # Envases de 1 L, recortados (webp + png)
 │   └── render-agua-*.webp/.png         # Imágenes de respaldo, sacadas del propio 3D
+│   └── tote-bidestilada-1000l*          # Foto fija del tote en «Nuestra historia» (1x, 2x y PNG)
 ├── css/
 │   ├── styles.css                      # Sistema de diseño + tema claro/oscuro
 │   ├── pages.css                       # Catálogo, servicios y páginas de producto
@@ -77,7 +78,7 @@ Es la que queda. Son dos páginas:
 
 | Archivo | Qué es |
 |---|---|
-| `final.html` | Portada: héroe, «Calidad controlada», Nuestra historia con el tote en 3D, los cuatro diferenciadores y contacto |
+| `final.html` | Portada: héroe, «Calidad controlada», Nuestra historia con la foto del tote, los cuatro diferenciadores y contacto |
 | `final-productos.html` | Las categorías en cuadro; al abrir una, lo que hay dentro también en cuadro |
 
 **Cómo se armó.** Se tomó la portada de la versión B (la recreación de
@@ -100,10 +101,15 @@ añade una categoría, aparece sola en el menú, en el índice lateral y en los
 cuadros. No hay tres listas que mantener. En teléfono el desplegable se abre
 dentro del propio menú, no flotando.
 
-**El tote en 3D** se mudó del héroe a «Nuestra historia», que es justo donde el
-sitio real pone la foto del tote. Debajo queda la imagen sacada del propio
-modelo: en teléfono no se descarga Three.js (`data-min3d="1024"`) y sin WebGL
-tampoco, así que ahí se ve la imagen y nunca un hueco.
+**El tote va en «Nuestra historia»**, que es justo donde el sitio real pone la
+foto del tote, y va en **imagen fija**: se quitó el visor 3D que se giraba con
+el ratón. La imagen sale del propio modelo —se renderizó a 4512 px, se recortó
+al contenido y se bajó a 940 px (1x) y 1880 px (2x)—, así que se ve igual de
+nítida en pantallas normales y de retina. Con eso `final.html` ya no carga
+`js/viewer3d.js` ni los 687 KB de Three.js: se ve lo mismo en cualquier
+teléfono, sin WebGL y sin esperar a que descargue nada.
+
+El visor que se puede girar sigue vivo en la versión C y en `tote-preview.html`.
 
 ## 🔀 Tres versiones para comparar
 
@@ -416,10 +422,17 @@ Las páginas de **agua purificada** y **agua desmineralizada** muestran el envas
 
 **Para regenerar las imágenes de respaldo**: salen del propio modelo, así que siempre coinciden con el 3D. Se obtienen llamando a `instantanea(ancho, alto, giro)` sobre el visor y guardando el PNG resultante.
 
+**La foto fija del tote de `final.html`** (`img/tote-bidestilada-1000l*`) salió de
+ahí mismo: `instantanea(4512, 4354, 0.30)` en `tote-preview.html`, recorte al
+contenido con un 2 % de aire y reescalado a 940 y 1880 px. El reescalado se hace
+en **alfa premultiplicado**; hecho en RGBA normal, los píxeles transparentes
+—que vienen en negro— tiñen los bordes y el tote queda con un halo sucio.
+
 ### El tote IBC de 1000 L (`js/tote3d.js`)
 
 Es lo que se ve en el héroe de la **versión C**, en lugar del isotipo: el
-visitante entra y ve el producto, no el logo.
+visitante entra y ve el producto, no el logo. En `final.html` este visor ya no
+se usa: ahí va una imagen fija sacada de este mismo modelo.
 
 Tampoco es una caja genérica. Las proporciones se midieron sobre la fotografía
 del producto y coinciden con un IBC real: 1200 × 1000 mm de huella y 1160 mm de

@@ -130,9 +130,10 @@
     </section>
 
     <!-- ===== Nuestra historia =====
-         Donde el sitio real pone la foto del tote va aquí el mismo tote en
-         3D, que se puede girar. Debajo queda la imagen sacada del propio
-         modelo: en teléfono no se descarga Three.js y sin WebGL tampoco. -->
+         Donde el sitio real pone la foto del tote va aquí la misma pieza,
+         pero en imagen fija: se renderizó del modelo 3D al doble de tamaño
+         y se recortó al contenido, así que se ve nítida en cualquier
+         pantalla y no depende de WebGL ni de descargar Three.js. -->
     <section class="seccion" id="nosotros">
       <div class="contenedor historia__grid">
         <div class="historia__texto">
@@ -141,16 +142,14 @@
           <p>Nuestra historia comienza con una convicción: el agua no es solo un líquido, es un vehículo de limpieza, análisis y transformación. Sabíamos que no bastaba con ofrecer agua destilada o tratada como un simple insumo. Queríamos ir más allá y crear soluciones específicas para cada necesidad, de acuerdo con parámetros técnicos, estándares de referencia o especificaciones particulares del cliente.</p>
         </div>
         <div class="historia__foto">
-          <div class="tote3d" data-tote3d data-min3d="700">
-            <picture>
-              <source srcset="img/render-tote-bidestilada.webp" type="image/webp" />
-              <img class="tote3d__foto" src="img/render-tote-bidestilada.png" alt="Tote de 1000 litros de agua bidestilada de Aguas Especiales" width="940" height="907" decoding="async" />
-            </picture>
-            <span class="tote3d__hint">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/><circle cx="12" cy="12" r="3"/></svg>
-              Arrástralo para girarlo
-            </span>
-          </div>
+          <picture>
+            <source
+              type="image/webp"
+              srcset="img/tote-bidestilada-1000l.webp 1x, img/tote-bidestilada-1000l@2x.webp 2x" />
+            <img src="img/tote-bidestilada-1000l.png"
+                 alt="Tote de 1000 litros de agua bidestilada de Aguas Especiales"
+                 width="940" height="780" loading="lazy" decoding="async" />
+          </picture>
         </div>
       </div>
     </section>
@@ -331,6 +330,5 @@
   <script src="js/catalog.js"></script>
   <script src="js/catalogo-datos.js"></script>
   <script src="js/menu-productos.js"></script>
-  <script src="js/viewer3d.js"></script>
 </body>
 </html>
