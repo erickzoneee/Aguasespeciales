@@ -231,6 +231,16 @@ izquierda y el producto a la derecha — cualquier recorte a lo ancho se come un
 de los dos. El alto se fija por escalón (520 / 400 px, y 3:2 en teléfono) y el
 ancho lo sigue, que es lo que mantiene el marco quieto entre diapositivas.
 
+**Las cinco láminas no miden lo mismo en píxeles y da igual**, mientras sigan
+siendo 3:2. Tres van a 1400×933, reactivos a 1264×843 y kits a 1024×683: cada
+archivo llega con el tamaño que entregó el cliente y no se estira, porque
+inflarlo no añade detalle. El marco no se mueve porque el CSS lo manda entero
+—alto en píxeles y ancho al 100 %— y en teléfono la proporción se declara a
+mano con `aspect-ratio: 3 / 2`, no se hereda de los atributos de la imagen.
+Aun así, el `width` y el `height` de cada `<img>` describen su archivo de
+verdad: si algún día se quita esa altura fija, la reserva de espacio seguirá
+saliendo bien. **Si cambias una imagen, corrige también esos dos atributos.**
+
 Se para solo en cuatro situaciones, y las cuatro importan:
 
 | Cuándo | Por qué |
@@ -261,16 +271,62 @@ extraídos con PyMuPDF y **recortados para dejar fuera el título**: el cuadro y
 escribe el nombre de la categoría, y a 215 px de ancho ese texto no se leería de
 todas formas. Las otras dos —**agua purificada** y **aguas especiales**— llevan
 su envase sobre un degradado, porque de esas dos familias lo que hay es el
-envase y no un banner. Todas a 4:3, en WebP (~40 KB) con JPG de reserva.
+envase y no un banner. Todas en WebP con JPG de reserva.
+
+El hueco es 4:3 duro (`aspect-ratio: 4 / 3` con `object-fit: cover`), así que lo
+que no sea 4:3 lo recorta el navegador por su cuenta y por donde caiga. Cinco de
+las siete lo son; **`aguas-acondicionadas` (900×670) y `soluciones-acuosas`
+(720×519) no**, y llevan tiempo recortándose solas unos píxeles. No es grave,
+pero si algún día se regeneran, que salgan 4:3 exacto.
+
+El recorte se ancla **abajo a la derecha y empieza por debajo del título**, que
+es lo que de verdad lo deja fuera: el titular y la bajada viven arriba a la
+izquierda, y las viñetas con icono no pasan del tercio izquierdo. Bajando el
+arranque lo justo se abre el recorte a lo ancho sin recoger ni una letra: kits
+entra limpio al 28 % del alto, y reactivos necesita el 32 % porque su bajada
+tiene una línea más. Conviene mirar la esquina superior izquierda con lupa antes
+de dar un recorte por bueno; al 28 % el de reactivos todavía colaba una «er» de
+«obtener», que a tamaño de cuadro parece suciedad del JPG.
+
+Antes no se hacía así, y los cuadros de **reactivos** y **kits** eran los dos
+únicos de los siete que enseñaban un «AGUA» suelto en el borde izquierdo.
+
+El recorte se saca **a resolución nativa**, sin estirar. El cuadro nunca pasa de
+269 px de ancho en pantalla, así que 656 px ya cubren 2,4 veces la densidad de
+un móvil bueno. Estirar un recorte de 656 px hasta los 900 px que tenían los
+anteriores no añade un solo detalle y sí funde los bordes: medido, la nitidez
+del de kits caía a menos de un tercio.
 
 Las cuatro restantes llevan su icono sobre un fondo tintado, así que todos los
 cuadros miden lo mismo y ninguno queda hueco. Para añadir una imagen nueva:
 deja `img/cat/<id-de-categoria>.webp` y `.jpg`, y suma el id al arreglo
 `IMAGENES` de `js/catalogo-datos.js`. Nada más.
 
-**El banner de reactivos se cambió** por la versión fotográfica que mandó el
-cliente el 3 de septiembre de 2026. La ilustración anterior no se borró: quedó
-en `img/banner/reactivos-ilustracion.*` y `img/cat/reactivos-ilustracion.*`.
+**Historial de estos dos banners.** Ninguna versión se ha borrado nunca: la que
+sale se queda en disco con un sufijo que dice **qué era**, no que sea vieja.
+
+| Fecha | Qué entró | Dónde quedó lo que salió |
+|---|---|---|
+| 3 sep 2026 | Reactivos, versión fotográfica con caja blanca | `reactivos-ilustracion.*` |
+| 8 sep 2026 | Reactivos, misma escena con caja de cartón (1264×843) | `reactivos-caja-blanca.*` |
+| 8 sep 2026 | Kits, versión fotográfica con maletín gris (1024×683) | `kits-ilustracion.*` |
+
+El sufijo va en las dos carpetas a la vez —`img/banner/` e `img/cat/`— y en los
+dos formatos, `.jpg` y `.webp`. Las copias quedan huérfanas a propósito: no las
+referencia ningún HTML ni JS, solo esta tabla. Para volver a una basta con
+renombrarla al nombre canónico; no hay que tocar código.
+
+**Los dos banners del 8 de septiembre traen erratas en las etiquetas** y se
+subieron así a petición del cliente. En el de reactivos: `AOUAS` y `ABUAS` por
+AGUAS, `FENOLFTALEÏNA` con diéresis y `NARANJAOO` por NARANJADO. En el de kits,
+peor: `REACTION TITULAHON` por REACTIVO TITULADOR, `AGORA PEYECHLLS` donde
+debería ir el isotipo, y `Use Laooratorio` por Uso Laboratorio. En el carrusel
+la lámina se pinta a 780 px de ancho y casi nada de eso se lee, pero la caja
+grande del maletín sí. Las versiones respaldadas tienen el texto correcto.
+
+**El AgNO₃ sigue mal, y viene de antes.** La etiqueta grande dice «REACTIVO
+CLORURO DE PLATA / AgNO₃»: el AgNO₃ es nitrato de plata; el cloruro es AgCl.
+Estaba igual en la versión del 3 de septiembre. Se decidió no tocarlo.
 
 **Ojo:** el isotipo que aparece dentro de las imágenes de banner no es
 exactamente el del sitio —la «A» y la gota están dibujadas distinto—. Conviene
