@@ -130,10 +130,12 @@
     </section>
 
     <!-- ===== Nuestra historia =====
-         Donde el sitio real pone la foto del tote va aquí la misma pieza,
-         pero en imagen fija: se renderizó del modelo 3D al doble de tamaño
-         y se recortó al contenido, así que se ve nítida en cualquier
-         pantalla y no depende de WebGL ni de descargar Three.js. -->
+         Donde el sitio real pone la foto del tote va aquí la fotografía que
+         mandó el cliente, tal cual: vertical, con su propio fondo gris y sin
+         recortar. Se sirve en WebP a 1x y 2x con JPG de reserva, así que se
+         ve nítida en cualquier pantalla, y es imagen fija: no depende de
+         WebGL ni de descargar Three.js. El render 3D que había antes se
+         guarda como img/tote-bidestilada-1000l-render*. -->
     <section class="seccion" id="nosotros">
       <div class="contenedor historia__grid">
         <div class="historia__texto">
@@ -146,9 +148,9 @@
             <source
               type="image/webp"
               srcset="img/tote-bidestilada-1000l.webp 1x, img/tote-bidestilada-1000l@2x.webp 2x" />
-            <img src="img/tote-bidestilada-1000l.png"
+            <img src="img/tote-bidestilada-1000l.jpg"
                  alt="Tote de 1000 litros de agua bidestilada de Aguas Especiales"
-                 width="940" height="780" loading="lazy" decoding="async" />
+                 width="960" height="1112" loading="lazy" decoding="async" />
           </picture>
         </div>
       </div>

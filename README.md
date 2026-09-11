@@ -47,7 +47,7 @@ Pagina AguasEspeciales/
 │   └── cat/                            # Imágenes de categoría (webp + jpg)
 │   └── producto/                       # Envases de 1 L, recortados (webp + png)
 │   └── render-agua-*.webp/.png         # Imágenes de respaldo, sacadas del propio 3D
-│   └── tote-bidestilada-1000l*          # Foto fija del tote en «Nuestra historia» (1x, 2x y PNG)
+│   └── tote-bidestilada-1000l*          # Foto del tote en «Nuestra historia» (webp 1x y 2x, jpg de reserva)
 ├── css/
 │   ├── styles.css                      # Sistema de diseño + tema claro/oscuro
 │   ├── pages.css                       # Catálogo, servicios y páginas de producto
@@ -103,9 +103,12 @@ dentro del propio menú, no flotando.
 
 **El tote va en «Nuestra historia»**, que es justo donde el sitio real pone la
 foto del tote, y va en **imagen fija**: se quitó el visor 3D que se giraba con
-el ratón. La imagen sale del propio modelo —se renderizó a 4512 px, se recortó
-al contenido y se bajó a 940 px (1x) y 1880 px (2x)—, así que se ve igual de
-nítida en pantallas normales y de retina. Con eso `final.html` ya no carga
+el ratón. Desde el 10 de septiembre de 2026 es la **fotografía que mandó el
+cliente**, tal cual: 960×1112, vertical y con su propio fondo gris, sin recortar
+ni quitarle el fondo. Se sirve en WebP a 480 px (1x) y 960 px (2x), con JPG de
+reserva. Por ser vertical mide más de alto que el render que había antes, que
+era un recorte transparente del propio modelo 3D y se conserva como
+`img/tote-bidestilada-1000l-render*`. Con eso `final.html` ya no carga
 `js/viewer3d.js` ni los 687 KB de Three.js: se ve lo mismo en cualquier
 teléfono, sin WebGL y sin esperar a que descargue nada.
 
@@ -264,20 +267,22 @@ Sin JavaScript se ve el primer banner y ya: ni carrusel roto ni hueco.
 
 ## 🖼️ Imágenes de categoría
 
-Siete categorías tienen imagen propia. Cinco —**aguas para laboratorio**,
-**soluciones acuosas especiales**, **agua acondicionada para chillers**,
-**reactivos** y **kits**— salen de los banners que entregó el cliente en PDF,
-extraídos con PyMuPDF y **recortados para dejar fuera el título**: el cuadro ya
+Siete categorías tienen imagen propia. Cuatro —**aguas para laboratorio**,
+**agua acondicionada para chillers**, **reactivos** y **kits**— salen de los
+banners que entregó el cliente en PDF, extraídos con PyMuPDF y **recortados
+para dejar fuera el título**: el cuadro ya
 escribe el nombre de la categoría, y a 215 px de ancho ese texto no se leería de
-todas formas. Las otras dos —**agua purificada** y **aguas especiales**— llevan
+todas formas. **Soluciones acuosas**, en cambio, sale de una imagen vertical
+aparte que mandó el cliente el 10 de septiembre de 2026 (ver «El cuadro de
+soluciones acuosas cambió solo», más abajo). Las otras dos —**agua purificada** y **aguas especiales**— llevan
 su envase sobre un degradado, porque de esas dos familias lo que hay es el
 envase y no un banner. Todas en WebP con JPG de reserva.
 
 El hueco es 4:3 duro (`aspect-ratio: 4 / 3` con `object-fit: cover`), así que lo
-que no sea 4:3 lo recorta el navegador por su cuenta y por donde caiga. Cinco de
-las siete lo son; **`aguas-acondicionadas` (900×670) y `soluciones-acuosas`
-(720×519) no**, y llevan tiempo recortándose solas unos píxeles. No es grave,
-pero si algún día se regeneran, que salgan 4:3 exacto.
+que no sea 4:3 lo recorta el navegador por su cuenta y por donde caiga. Seis de
+las siete lo son; **`aguas-acondicionadas` (900×670) no**, y lleva tiempo
+recortándose sola unos píxeles. No es grave, pero si algún día se regenera, que
+salga 4:3 exacto.
 
 El recorte se ancla **abajo a la derecha y empieza por debajo del título**, que
 es lo que de verdad lo deja fuera: el titular y la bajada viven arriba a la
@@ -302,19 +307,28 @@ cuadros miden lo mismo y ninguno queda hueco. Para añadir una imagen nueva:
 deja `img/cat/<id-de-categoria>.webp` y `.jpg`, y suma el id al arreglo
 `IMAGENES` de `js/catalogo-datos.js`. Nada más.
 
-**Historial de estos dos banners.** Ninguna versión se ha borrado nunca: la que
-sale se queda en disco con un sufijo que dice **qué era**, no que sea vieja.
+**Historial de las imágenes cambiadas.** Ninguna versión se ha borrado nunca: la
+que sale se queda en disco con un sufijo que dice **qué era**, no que sea vieja.
 
 | Fecha | Qué entró | Dónde quedó lo que salió |
 |---|---|---|
-| 3 sep 2026 | Reactivos, versión fotográfica con caja blanca | `reactivos-ilustracion.*` |
-| 8 sep 2026 | Reactivos, misma escena con caja de cartón (1264×843) | `reactivos-caja-blanca.*` |
-| 8 sep 2026 | Kits, versión fotográfica con maletín gris (1024×683) | `kits-ilustracion.*` |
+| 3 sep 2026 | Reactivos, versión fotográfica con caja blanca | `reactivos-ilustracion.*` (banner y cuadro) |
+| 8 sep 2026 | Reactivos, misma escena con caja de cartón (1264×843) | `reactivos-caja-blanca.*` (banner y cuadro) |
+| 8 sep 2026 | Kits, versión fotográfica con maletín gris (1024×683) | `kits-ilustracion.*` (banner y cuadro) |
+| 10 sep 2026 | Soluciones acuosas, panel de control y bombas (764×573) | `img/cat/soluciones-acuosas-tanque.*` (solo el cuadro) |
+| 10 sep 2026 | Tote de «Nuestra historia», fotografía del cliente (960×1112) | `img/tote-bidestilada-1000l-render*` |
 
-El sufijo va en las dos carpetas a la vez —`img/banner/` e `img/cat/`— y en los
-dos formatos, `.jpg` y `.webp`. Las copias quedan huérfanas a propósito: no las
-referencia ningún HTML ni JS, solo esta tabla. Para volver a una basta con
-renombrarla al nombre canónico; no hay que tocar código.
+En reactivos y kits el sufijo va en las dos carpetas a la vez —`img/banner/` e
+`img/cat/`— y en los dos formatos, `.jpg` y `.webp`. Las copias quedan
+huérfanas a propósito: no las referencia ningún HTML ni JS, solo esta tabla.
+
+**Para volver a una versión anterior** en reactivos, kits y soluciones acuosas
+basta con renombrarla al nombre canónico: los nombres y formatos coinciden y no
+hay que tocar código. **Con el tote no basta.** El render guardado es PNG
+transparente de 940×780 y la foto actual es JPG de 960×1112, así que además de
+renombrar los tres `-render*` hay que cambiar en `final.html` el `src` del
+`<img>` a `.png` y su `width`/`height` a 940 y 780. Si no, los navegadores con
+WebP enseñan el render y los demás la foto, y la caja salta de alto al cargar.
 
 **Los dos banners del 8 de septiembre traen erratas en las etiquetas** y se
 subieron así a petición del cliente. En el de reactivos: `AOUAS` y `ABUAS` por
@@ -323,6 +337,15 @@ peor: `REACTION TITULAHON` por REACTIVO TITULADOR, `AGORA PEYECHLLS` donde
 debería ir el isotipo, y `Use Laooratorio` por Uso Laboratorio. En el carrusel
 la lámina se pinta a 780 px de ancho y casi nada de eso se lee, pero la caja
 grande del maletín sí. Las versiones respaldadas tienen el texto correcto.
+
+**El cuadro de soluciones acuosas cambió solo, sin su banner.** La imagen del
+10 de septiembre es vertical (765×1024) y el carrusel es 3:2, así que no
+sustituye al banner: el carrusel sigue con la escena del tanque negro y el
+cuadro enseña el panel de control con las bombas. El recorte es la franja de 260
+a 833 px de alto, por debajo del titular, a resolución nativa. El panel dice
+`SOLUCIONES DISEÑAGAS CON PRECISIÓN` (por DISEÑADAS) y lleva una gota que no es
+el isotipo del sitio; a tamaño de cuadro ese texto mide unos 3 px y no se lee.
+Se subió así.
 
 **El AgNO₃ sigue mal, y viene de antes.** La etiqueta grande dice «REACTIVO
 CLORURO DE PLATA / AgNO₃»: el AgNO₃ es nitrato de plata; el cloruro es AgCl.
@@ -478,8 +501,8 @@ Las páginas de **agua purificada** y **agua desmineralizada** muestran el envas
 
 **Para regenerar las imágenes de respaldo**: salen del propio modelo, así que siempre coinciden con el 3D. Se obtienen llamando a `instantanea(ancho, alto, giro)` sobre el visor y guardando el PNG resultante.
 
-**La foto fija del tote de `final.html`** (`img/tote-bidestilada-1000l*`) salió de
-ahí mismo: `instantanea(4512, 4354, 0.30)` en `tote-preview.html`, recorte al
+**El render del tote que usó `final.html` hasta el 10 de septiembre de 2026**
+(hoy `img/tote-bidestilada-1000l-render*`) salió de ahí mismo: `instantanea(4512, 4354, 0.30)` en `tote-preview.html`, recorte al
 contenido con un 2 % de aire y reescalado a 940 y 1880 px. El reescalado se hace
 en **alfa premultiplicado**; hecho en RGBA normal, los píxeles transparentes
 —que vienen en negro— tiñen los bordes y el tote queda con un halo sucio.
@@ -567,7 +590,10 @@ particulares del cliente».
   agua bidestilada, **pH 7.5 – 8.5** y **conductividad máximo 15 µS**, que es lo
   que dice la hoja técnica. Se dejaron las de la hoja para que no queden dos
   cifras del mismo producto peleadas. Falta decidir si la etiqueta impresa está
-  desactualizada o si la hoja lo está.
+  desactualizada o si la hoja lo está. La foto del tote que entró el 10 de
+  septiembre de 2026 ya no trae cifras en la etiqueta —solo uso, lote y fecha—,
+  así que en la portada el choque desaparece; sigue vivo en el tote 3D de la
+  versión C, que imprime las cifras de la hoja.
 - **Los datos de contacto no coinciden entre los dos sitios.** El pie de
   `aguasespeciales.com.mx` publica **Xochicalco 10, Cerro Grande, 52920 Cdad.
   López Mateos**, teléfono **55 5305 3590** y correo **ventas@tensos.com** —otro

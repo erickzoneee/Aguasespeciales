@@ -11,7 +11,7 @@
    verde, para comparar.
 
    Estructura:
-     1. Tokens          6. Historia y el tote 3D
+     1. Tokens          6. Historia y la foto del tote
      2. Base            7. Diferenciadores
      3. Cabecera        8. Contacto
      4. Botones         9. Pie
@@ -234,8 +234,9 @@ p { margin: 0 0 18px; }
 .historia__grid > * { min-width: 0; }
 .historia__texto p { text-align: justify; }
 
-/* La foto del tote va recortada al contenido: sin margen transparente
-   alrededor, el envase ocupa toda la caja y la etiqueta se lee. El archivo
+/* La foto del tote es una fotografía con su propio fondo gris, no un recorte
+   transparente: se enseña entera y en rectángulo, como la entregó el cliente.
+   Es vertical, así que a este ancho mide más de alto que de ancho. El archivo
    se sirve a 1x y 2x, así que en pantallas de retina sigue definido. */
 .historia__foto { width: min(460px, 100%); margin: 0 auto; }
 .historia__foto picture { display: block; }
