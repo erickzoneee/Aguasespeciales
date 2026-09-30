@@ -438,29 +438,6 @@ p { margin: 0 0 18px; }
   .prod-tile__lista { display: none; }
 }
 
-/* ---------- Banner de producto de la portada ---------- */
-.banner { background: var(--suave); }
-.banner__cab { text-align: center; margin-bottom: 36px; }
-.banner__cab p { color: var(--apagado); max-width: 60ch; margin: 0 auto; }
-.banner__grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
-.banner__caja {
-  position: relative; display: block; overflow: hidden;
-  border-radius: var(--radio); background: var(--blanco);
-  border: 1px solid var(--linea); box-shadow: var(--sombra-sm);
-  text-decoration: none; color: inherit;
-  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
-}
-.banner__caja:hover { transform: translateY(-4px); border-color: var(--cian); box-shadow: var(--sombra); }
-.banner__caja img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; transition: transform .4s ease; }
-.banner__caja:hover img { transform: scale(1.05); }
-.banner__pie { display: flex; flex-direction: column; gap: 3px; padding: 15px 18px 17px; }
-.banner__pie strong { font-size: .98rem; color: var(--tinta); }
-.banner__pie small { font-size: .8rem; color: var(--apagado); line-height: 1.4; }
-.banner__todo { display: flex; width: fit-content; margin: 34px auto 0; }
-@media (prefers-reduced-motion: reduce) {
-  .banner__caja:hover, .banner__caja:hover img { transform: none; }
-}
-
 /* ---------- Carrusel de portada ----------
    Los banners se ven completos («contain») y no recortados: el texto vive a
    la izquierda y el producto a la derecha, así que cualquier recorte a lo

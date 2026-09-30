@@ -78,7 +78,7 @@ Es la que queda. Son dos páginas:
 
 | Archivo | Qué es |
 |---|---|
-| `final.html` | Portada: héroe, «Calidad controlada», Nuestra historia con la foto del tote, los cuatro diferenciadores y contacto |
+| `final.html` | Portada: carrusel, héroe, «Calidad controlada», Nuestra historia con la foto del tote, los cuatro diferenciadores y contacto |
 | `final-productos.html` | Las categorías en cuadro; al abrir una, lo que hay dentro también en cuadro |
 
 **Cómo se armó.** Se tomó la portada de la versión B (la recreación de
@@ -86,6 +86,14 @@ Es la que queda. Son dos páginas:
 testimonios: fuera testimonios, fuera el botón de cotización y fuera el
 formulario de WPForms. En su lugar quedó una sección de contacto de **tres
 botones y nada más** —WhatsApp, llamar y correo— sin un solo campo que llenar.
+
+**«Lo que producimos» ya no está.** Era una banda con cuatro cuadros de
+categoría (purificada, laboratorio, soluciones acuosas y acondicionada) y el
+botón «Ver todo el catálogo», entre los diferenciadores y el contacto. Se quitó
+el 30 de septiembre de 2026 a petición del cliente, junto con sus reglas
+`.banner*` de `css/final.css`. El catálogo sigue a un toque: desde el menú
+«Productos» y desde cada banner del carrusel. Si algún día vuelve, está entera
+en el historial de git, en el commit anterior a su retirada.
 
 **Servicios ya no es una página aparte.** Los cuatro análisis son la **categoría
 10** del mismo catálogo, con la lista de lo que determina cada uno. Se navegan
@@ -165,6 +173,29 @@ producto `foto: "img/producto/<lo-que-sea>"` en `js/catalog.js`. El catálogo le
 pone las extensiones. Si el producto además tiene modelo 3D, la foto manda en el
 cuadro y el render se queda en su página, girando.
 
+**Tres envases cambiaron el 30 de septiembre de 2026.** El cliente mandó en PDF
+las etiquetas nuevas de **agua ácida** y **agua básica**, que ahora llevan un
+recuadro de «PRECAUCIÓN» (amarillo en la ácida, verde en la básica), y un render
+nuevo del **agua purificada**. Las tres venían sobre fondo blanco; se recortaron
+igual que las otras diez: botella opaca, fondo transparente y la sombra del
+suelo fuera. El recorte va por renglones y en espejo sobre el eje de la
+botella: la etiqueta blanca de la purificada no tiene borde contra el fondo
+blanco en un costado, y la sombra cae solo hacia la derecha.
+
+**La básica llegó como captura del celular**, no como archivo: 450×575, con los
+botones «Editar» y compartir del visor de fotos y una sombra gris que oscurece
+la base. Por decisión del cliente se subió limpiándola: se deshizo esa sombra
+renglón por renglón, midiéndola en el fondo libre junto a la botella, y los
+botones quedan fuera del recorte (el de «Editar» toca el borde de la base en
+un par de píxeles que a tamaño de tarjeta no se distinguen). La etiqueta y el envase no se tocaron. Va a su tamaño nativo, 292×585,
+sin estirar: se ve un poco menos nítida que las demás, que salen de originales
+de 1100×1400. **Si el cliente manda el archivo original, conviene
+sustituirla.**
+
+Las versiones anteriores siguen en disco: `agua-acida-sin-precaucion.*`,
+`agua-basica-sin-precaucion.*` y `agua-purificada-primer-render.*`. Para volver
+a una basta con renombrarla al nombre canónico; el catálogo no guarda medidas.
+
 Tampoco se copió lo que su tienda muestra hoy: **29 de sus 30 productos dicen
 «AGOTADO»** y **todos los precios son $0.00**. Eso no es diseño, es
 configuración que nadie terminó, y le dice a cada visitante que no hay nada que
@@ -235,9 +266,19 @@ de los dos. El alto se fija por escalón (520 / 400 px, y 3:2 en teléfono) y el
 ancho lo sigue, que es lo que mantiene el marco quieto entre diapositivas.
 
 **Las cinco láminas no miden lo mismo en píxeles y da igual**, mientras sigan
-siendo 3:2. Tres van a 1400×933, reactivos a 1264×843 y kits a 1024×683: cada
-archivo llega con el tamaño que entregó el cliente y no se estira, porque
-inflarlo no añade detalle. El marco no se mueve porque el CSS lo manda entero
+siendo 3:2. Dos van a 1400×933, soluciones acuosas a 1536×1024, reactivos a
+1264×843 y kits a 1024×683: cada archivo llega con el tamaño que entregó el
+cliente y no se estira, porque inflarlo no añade detalle.
+
+**Soluciones acuosas es la única lámina armada.** La foto del cliente es
+vertical (765×1024) y el carrusel es 3:2. Desde el 30 de septiembre de 2026 va
+**completa y sin recortar** en el centro de un lienzo de 1536×1024, a su
+resolución nativa, y los lados se rellenan con la misma foto ampliada,
+desenfocada y aclarada hacia el celeste de la página, con una sombra suave
+que la separa del relleno. Así ocupa en el marco lo mismo que las demás
+láminas. El cliente eligió esta forma entre tres: foto angosta con bandas
+blancas, esta, o recortada a 3:2 (con el título grande, pero sin las bombas
+de abajo). El marco no se mueve porque el CSS lo manda entero
 —alto en píxeles y ancho al 100 %— y en teléfono la proporción se declara a
 mano con `aspect-ratio: 3 / 2`, no se hereda de los atributos de la imagen.
 Aun así, el `width` y el `height` de cada `<img>` describen su archivo de
@@ -273,8 +314,8 @@ banners que entregó el cliente en PDF, extraídos con PyMuPDF y **recortados
 para dejar fuera el título**: el cuadro ya
 escribe el nombre de la categoría, y a 215 px de ancho ese texto no se leería de
 todas formas. **Soluciones acuosas**, en cambio, sale de una imagen vertical
-aparte que mandó el cliente el 10 de septiembre de 2026 (ver «El cuadro de
-soluciones acuosas cambió solo», más abajo). Las otras dos —**agua purificada** y **aguas especiales**— llevan
+aparte que mandó el cliente el 10 de septiembre de 2026 (ver «Soluciones
+acuosas: primero cambió el cuadro y después el banner», más abajo). Las otras dos —**agua purificada** y **aguas especiales**— llevan
 su envase sobre un degradado, porque de esas dos familias lo que hay es el
 envase y no un banner. Todas en WebP con JPG de reserva.
 
@@ -317,14 +358,20 @@ que sale se queda en disco con un sufijo que dice **qué era**, no que sea vieja
 | 8 sep 2026 | Kits, versión fotográfica con maletín gris (1024×683) | `kits-ilustracion.*` (banner y cuadro) |
 | 10 sep 2026 | Soluciones acuosas, panel de control y bombas (764×573) | `img/cat/soluciones-acuosas-tanque.*` (solo el cuadro) |
 | 10 sep 2026 | Tote de «Nuestra historia», fotografía del cliente (960×1112) | `img/tote-bidestilada-1000l-render*` |
+| 30 sep 2026 | Banner de soluciones acuosas: la foto del panel, completa sobre fondo difuminado (1536×1024) | `img/banner/soluciones-acuosas-tanque.*` |
+| 30 sep 2026 | Cuadro de agua purificada: el render nuevo de la botella sobre el mismo degradado | `img/cat/agua-purificada-render3d.*` |
+| 30 sep 2026 | Envases de agua purificada, ácida y básica (ver «El catálogo en cuadros») | `img/producto/*-primer-render.*` y `*-sin-precaucion.*` |
 
 En reactivos y kits el sufijo va en las dos carpetas a la vez —`img/banner/` e
 `img/cat/`— y en los dos formatos, `.jpg` y `.webp`. Las copias quedan
 huérfanas a propósito: no las referencia ningún HTML ni JS, solo esta tabla.
 
-**Para volver a una versión anterior** en reactivos, kits y soluciones acuosas
-basta con renombrarla al nombre canónico: los nombres y formatos coinciden y no
-hay que tocar código. **Con el tote no basta.** El render guardado es PNG
+**Para volver a una versión anterior** en reactivos, kits, el cuadro de
+soluciones acuosas y el de agua purificada basta con renombrarla al nombre
+canónico: los nombres y formatos coinciden y no hay que tocar código. **El
+banner de soluciones acuosas pide un paso más:** el del tanque mide 1400×933 y
+el actual 1536×1024, así que al renombrar hay que devolver también el `width`
+y el `height` de su `<img>` en `final.html`. **Con el tote no basta.** El render guardado es PNG
 transparente de 940×780 y la foto actual es JPG de 960×1112, así que además de
 renombrar los tres `-render*` hay que cambiar en `final.html` el `src` del
 `<img>` a `.png` y su `width`/`height` a 940 y 780. Si no, los navegadores con
@@ -338,14 +385,15 @@ debería ir el isotipo, y `Use Laooratorio` por Uso Laboratorio. En el carrusel
 la lámina se pinta a 780 px de ancho y casi nada de eso se lee, pero la caja
 grande del maletín sí. Las versiones respaldadas tienen el texto correcto.
 
-**El cuadro de soluciones acuosas cambió solo, sin su banner.** La imagen del
-10 de septiembre es vertical (765×1024) y el carrusel es 3:2, así que no
-sustituye al banner: el carrusel sigue con la escena del tanque negro y el
-cuadro enseña el panel de control con las bombas. El recorte es la franja de 260
-a 833 px de alto, por debajo del titular, a resolución nativa. El panel dice
+**Soluciones acuosas: primero cambió el cuadro y después el banner.** La imagen
+del 10 de septiembre es vertical (765×1024). Ese día entró solo en el cuadro,
+con la franja de 260 a 833 px de alto, por debajo del titular y a resolución
+nativa, y el carrusel siguió con la escena del tanque negro. El 30 de
+septiembre el cliente la pidió también en el banner, y entró completa sobre
+fondo difuminado (ver «El carrusel de la portada»). El panel dice
 `SOLUCIONES DISEÑAGAS CON PRECISIÓN` (por DISEÑADAS) y lleva una gota que no es
-el isotipo del sitio; a tamaño de cuadro ese texto mide unos 3 px y no se lee.
-Se subió así.
+el isotipo del sitio. Ese texto mide unos 3 px en el cuadro y unos 5 en el
+banner a tamaño de escritorio, así que no se lee. Se subió así.
 
 **El AgNO₃ sigue mal, y viene de antes.** La etiqueta grande dice «REACTIVO
 CLORURO DE PLATA / AgNO₃»: el AgNO₃ es nitrato de plata; el cloruro es AgCl.
