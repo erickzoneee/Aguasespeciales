@@ -11,11 +11,11 @@
    verde, para comparar.
 
    Estructura:
-     1. Tokens          6. Historia y la foto del tote
-     2. Base            7. Diferenciadores
+     1. Tokens          6. Diferenciadores
+     2. Base            7. Historia y el tote
      3. Cabecera        8. Contacto
      4. Botones         9. Pie
-     5. Hero           10. Catálogo en cuadros
+     5. Portada        10. Catálogo en cuadros
    ========================================================= */
 
 /* ---------- 1. Tokens ---------- */
@@ -165,11 +165,22 @@ p { margin: 0 0 18px; }
 
 /* Submenú: al pasar el cursor por una categoría se despliegan sus productos.
    Se abre hacia la izquierda porque el menú vive en la mitad derecha de la
-   cabecera y hacia la derecha se saldría de la pantalla. */
+   cabecera y hacia la derecha se saldría de la pantalla.
+
+   Qué categoría está abierta lo decide js/menu-productos.js con la clase
+   .is-abierta, no :hover. Con :hover el submenú se cerraba solo: al cruzar
+   el hueco entre la categoría y su lista se perdía el :hover, y con él el
+   pointer-events, así que la lista ya no recibía el cursor al llegar; y en
+   diagonal el cursor pasaba por encima de otras categorías y cambiaba de
+   lista. El JavaScript espera un momento si el cursor va hacia la lista, y
+   el puente de abajo tapa el hueco. Con teclado sigue mandando :focus-within. */
 .menu-cat { position: relative; }
+.menu-cat.is-abierta::before {
+  content: ""; position: absolute; top: -10px; bottom: -10px; right: 100%; width: 16px;
+}
 .menu-cat > a svg { width: 11px; height: 11px; flex: 0 0 auto; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; opacity: .5; }
-.menu-cat:hover > a, .menu-cat:focus-within > a { background: var(--tinte); color: var(--azul-fuerte); }
-.menu-cat:hover > a svg, .menu-cat:focus-within > a svg { opacity: 1; }
+.menu-cat.is-abierta > a, .menu-cat:focus-within > a { background: var(--tinte); color: var(--azul-fuerte); }
+.menu-cat.is-abierta > a svg, .menu-cat:focus-within > a svg { opacity: 1; }
 
 .menu-sub {
   position: absolute; right: calc(100% + 6px); top: -8px;
@@ -179,7 +190,7 @@ p { margin: 0 0 18px; }
   opacity: 0; visibility: hidden; pointer-events: none;
   transition: opacity .18s ease, visibility .18s ease;
 }
-.menu-cat:hover .menu-sub, .menu-cat:focus-within .menu-sub { opacity: 1; visibility: visible; pointer-events: auto; }
+.menu-cat.is-abierta .menu-sub, .menu-cat:focus-within .menu-sub { opacity: 1; visibility: visible; pointer-events: auto; }
 .menu-sub { max-height: min(420px, 70vh); overflow-y: auto; }
 .menu-sub__tit { display: block; padding: 0 10px 8px; margin-bottom: 6px; border-bottom: 1px solid var(--linea); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--azul-fuerte); font-weight: 700; }
 .menu-sub a { padding: 7px 10px; font-size: .78rem; font-weight: 400; }
@@ -216,42 +227,128 @@ p { margin: 0 0 18px; }
 .btn--linea:hover { border-color: var(--cian); }
 .btn svg { width: 18px; height: 18px; flex: 0 0 auto; }
 
-/* ---------- 5. Hero ---------- */
-.hero { padding: 60px 0 44px; }
-.hero__grid { display: grid; gap: 40px; align-items: center; }
+/* ---------- 5. Portada ----------
+   Rediseño sobre la referencia del cliente (30 sep 2026). Blanco con ondas
+   y gotas de agua, títulos en azul marino y acentos celestes. Estos colores
+   solo viven aquí: el menú, el catálogo y el contacto siguen con los suyos.
+   Las ondas y las gotas son SVG de img/deco/, puro adorno: van en <span>
+   vacíos con aria-hidden y pointer-events: none, detrás del contenido. */
+.portada {
+  --marino: #0b1d4f;
+  --cielo: #2f93d8;
+  --cielo-claro: #7cc0ee;
+  --texto-portada: #52698a;
+  position: relative; overflow: hidden; overflow: clip;
+  background: var(--blanco);
+}
+.portada h1, .portada h2, .portada h3 { color: var(--marino); }
+.portada p { color: var(--texto-portada); }
+
+.deco { position: absolute; pointer-events: none; z-index: 0; background-repeat: no-repeat; background-size: 100% 100%; }
+.deco--olas-hero { top: -40px; right: -8%; width: 72%; height: 300px; background-image: url("../img/deco/olas.svg"); transform: scaleY(-1); opacity: .95; }
+.deco--gotas-hero { top: 18px; right: 4%; width: 300px; height: 158px; background-image: url("../img/deco/gotas.svg"); background-size: contain; opacity: .9; }
+.deco--olas-historia { left: 0; right: 0; bottom: -10px; height: 240px; background-image: url("../img/deco/olas.svg"); opacity: .9; }
+/* olas.svg rellena hasta su borde de abajo, que es lo que se quiere al pie de
+   una sección. Aquí la banda queda entre dos secciones, así que se desvanece
+   hacia abajo en vez de acabar en una línea recta. */
+.deco--olas-difs {
+  left: 0; right: 0; bottom: -90px; height: 260px; background-image: url("../img/deco/olas.svg"); opacity: .7;
+  -webkit-mask-image: linear-gradient(to bottom, #000 35%, transparent 92%);
+  mask-image: linear-gradient(to bottom, #000 35%, transparent 92%);
+}
+.deco--gotas-difs { right: 7%; bottom: 0; width: 190px; height: 100px; background-image: url("../img/deco/gotas.svg"); background-size: contain; opacity: .75; }
+.deco--gotas-historia { left: 30%; bottom: 36px; width: 170px; height: 90px; background-image: url("../img/deco/gotas.svg"); background-size: contain; opacity: .8; }
+.portada .contenedor { position: relative; z-index: 1; }
+
+/* La rayita celeste que va encima del titular del héroe y de la historia */
+.acento { display: block; width: 60px; height: 3px; border-radius: 3px; margin-bottom: 20px; background: linear-gradient(90deg, var(--cielo), var(--cielo-claro)); }
+
+/* Héroe: titular a la izquierda y la foto del agua a la derecha, con una
+   tarjeta celeste desfasada detrás, como en la referencia. */
+.hero { position: relative; padding: 72px 0 56px; }
+.hero__grid { display: grid; gap: 44px; align-items: center; }
 @media (min-width: 769px) { .hero__grid { grid-template-columns: 1fr 1fr; } }
-.hero__pie { color: var(--apagado); font-size: .86rem; margin: 0; }
-.hero__foto img { width: 100%; border-radius: var(--radio); object-fit: cover; max-height: 420px; box-shadow: var(--sombra); }
+.hero h1 { font-size: clamp(1.6rem, 3.3vw, 2.2rem); line-height: 1.2; margin-bottom: 18px; }
+.portada .hero__pie { font-size: .84rem; margin: 0; color: var(--texto-portada); }
+.hero__foto { position: relative; margin: 14px 18px 0 0; }
+.hero__foto::before {
+  content: ""; position: absolute; top: -14px; right: -18px; bottom: 36px; left: 18px;
+  border-radius: 18px; background: linear-gradient(160deg, #9bcdf8 0%, #cfe7fc 100%);
+}
+.hero__foto img {
+  position: relative; width: 100%; aspect-ratio: 3 / 2; object-fit: cover;
+  border-radius: 14px; border: 3px solid #fff;
+  box-shadow: 0 24px 44px -24px rgba(19, 74, 132, .55);
+}
 
-/* ---------- Banda de titulares ---------- */
-.banda { text-align: center; }
-.banda p { max-width: 62ch; margin: 0 auto 34px; color: var(--apagado); }
-.banda h2:last-of-type { margin-bottom: 0; }
+/* Calidad controlada: recuadro celeste con degradado y líneas de onda */
+.calidad { padding: 8px 0 12px; }
+.calidad__caja {
+  position: relative; overflow: hidden; text-align: center;
+  padding: 52px 28px; border-radius: 18px; border: 1px solid #cbe6f8;
+  background:
+    url("../img/deco/lineas.svg") right bottom / 46% 72% no-repeat,
+    linear-gradient(100deg, #f2fbff 0%, #e4f4fe 48%, #c4e6fc 100%);
+}
+.calidad__caja h2 { margin-bottom: 12px; font-size: clamp(1.3rem, 2.8vw, 1.7rem); }
+.portada .calidad__caja p { max-width: 62ch; margin: 0 auto; }
 
-/* ---------- 6. Historia y la foto del tote ---------- */
+/* ---------- 6. Diferenciadores ---------- */
+.difs-seccion { position: relative; padding: 72px 0 72px; }
+.titulo-centro { text-align: center; margin-bottom: 40px; }
+.titulo-centro::after {
+  content: ""; display: block; width: 56px; height: 3px; border-radius: 3px;
+  margin: 16px auto 0; background: linear-gradient(90deg, var(--cielo), var(--cielo-claro));
+}
+.difs { display: grid; gap: 22px; }
+@media (min-width: 700px) { .difs { grid-template-columns: 1fr 1fr; } }
+.dif {
+  background: var(--blanco); border: 1px solid #dcecf5;
+  border-radius: 16px; padding: 28px 28px 30px;
+  box-shadow: 0 14px 34px -24px rgba(19, 74, 132, .35);
+}
+.dif__ico { display: grid; place-items: center; width: 54px; height: 54px; border-radius: 14px; background: #dcf1fa; color: #0e6f93; margin-bottom: 20px; }
+.dif__ico svg { width: 27px; height: 27px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.dif h3 { margin: 0 0 10px; font-size: 1.08rem; }
+.portada .dif p { margin: 0; font-size: .92rem; }
+
+/* ---------- 7. Historia y el tote ----------
+   El tote es la foto del cliente recortada, sobre un cuadro celeste y unas
+   ondas de agua. El recorte es transparente, así que el cuadro y las ondas
+   se ven alrededor y por los huecos de la jaula. */
+.historia { position: relative; padding: 56px 0 96px; }
 .historia__grid { display: grid; gap: 44px; align-items: center; }
 @media (min-width: 769px) { .historia__grid { grid-template-columns: 1fr 1fr; } }
 .historia__grid > * { min-width: 0; }
-.historia__texto p { text-align: justify; }
-
-/* La foto del tote es una fotografía con su propio fondo gris, no un recorte
-   transparente: se enseña entera y en rectángulo, como la entregó el cliente.
-   Es vertical, así que a este ancho mide más de alto que de ancho. El archivo
-   se sirve a 1x y 2x, así que en pantallas de retina sigue definido. */
-.historia__foto { width: min(460px, 100%); margin: 0 auto; }
-.historia__foto picture { display: block; }
-.historia__foto img { display: block; width: 100%; height: auto; }
-
-/* ---------- 7. Diferenciadores ---------- */
-.difs { display: grid; gap: 26px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
-.dif {
-  background: var(--blanco); border: 1px solid var(--linea);
-  border-radius: var(--radio); padding: 28px 26px; box-shadow: var(--sombra-sm);
+.historia__texto p { text-align: left; }
+.historia__foto {
+  position: relative; width: min(460px, 100%); margin: 0 auto;
+  padding: 36px 40px 54px; border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, .9);
+  background: linear-gradient(180deg, #e4f4fe 0%, #d2ebfc 100%);
+  box-shadow: 0 24px 50px -30px rgba(19, 74, 132, .45), inset 0 0 0 1px #cfe7f8;
 }
-.dif__ico { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 14px; background: var(--tinte); color: var(--azul-fuerte); margin-bottom: 16px; }
-.dif__ico svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-.dif h3 { margin: 0 0 8px; font-size: 1.05rem; }
-.dif p { margin: 0; color: var(--apagado); font-size: .92rem; }
+/* Las ondas quedan centradas en la base de la tarima, más anchas que ella,
+   para que asomen a los lados y por debajo como en la referencia. */
+.historia__foto::after {
+  content: ""; position: absolute; left: 2%; right: 2%; bottom: 10px; height: 22%;
+  background: url("../img/deco/ondas-agua.svg") center / 100% 100% no-repeat;
+}
+.historia__foto picture { position: relative; z-index: 1; display: block; }
+.historia__foto img {
+  display: block; width: 100%; height: auto;
+  filter: drop-shadow(0 16px 14px rgba(19, 74, 132, .22));
+}
+
+@media (max-width: 768px) {
+  .hero { padding: 48px 0 40px; }
+  .deco--olas-hero { width: 120%; right: -30%; height: 220px; }
+  .deco--gotas-hero { width: 190px; height: 100px; top: 6px; }
+  .calidad__caja { padding: 38px 20px; }
+  .difs-seccion { padding: 56px 0 40px; }
+  .historia { padding: 40px 0 80px; }
+  .historia__foto { padding: 24px 26px 40px; }
+}
 
 /* ---------- 8. Contacto ----------
    Sobre azul marino, que es como se veía antes y es el color de la marca.

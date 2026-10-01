@@ -47,7 +47,9 @@ Pagina AguasEspeciales/
 │   └── cat/                            # Imágenes de categoría (webp + jpg)
 │   └── producto/                       # Envases de 1 L, recortados (webp + png)
 │   └── render-agua-*.webp/.png         # Imágenes de respaldo, sacadas del propio 3D
-│   └── tote-bidestilada-1000l*          # Foto del tote en «Nuestra historia» (webp 1x y 2x, jpg de reserva)
+│   └── tote-bidestilada-1000l-recorte*  # Tote de «Nuestra historia», sin fondo (webp 1x y 2x, png de reserva)
+│   └── tote-bidestilada-1000l*          # La foto del tote completa, con su fondo (webp 1x y 2x, jpg)
+│   └── deco/                           # Ondas y gotas de agua de la portada (SVG, puro adorno)
 ├── css/
 │   ├── styles.css                      # Sistema de diseño + tema claro/oscuro
 │   ├── pages.css                       # Catálogo, servicios y páginas de producto
@@ -78,7 +80,7 @@ Es la que queda. Son dos páginas:
 
 | Archivo | Qué es |
 |---|---|
-| `final.html` | Portada: carrusel, héroe, «Calidad controlada», Nuestra historia con la foto del tote, los cuatro diferenciadores y contacto |
+| `final.html` | Portada: carrusel, héroe, «Calidad controlada», los cuatro diferenciadores, Nuestra historia con el tote y contacto |
 | `final-productos.html` | Las categorías en cuadro; al abrir una, lo que hay dentro también en cuadro |
 
 **Cómo se armó.** Se tomó la portada de la versión B (la recreación de
@@ -109,18 +111,81 @@ añade una categoría, aparece sola en el menú, en el índice lateral y en los
 cuadros. No hay tres listas que mantener. En teléfono el desplegable se abre
 dentro del propio menú, no flotando.
 
-**El tote va en «Nuestra historia»**, que es justo donde el sitio real pone la
-foto del tote, y va en **imagen fija**: se quitó el visor 3D que se giraba con
-el ratón. Desde el 10 de septiembre de 2026 es la **fotografía que mandó el
-cliente**, tal cual: 960×1112, vertical y con su propio fondo gris, sin recortar
-ni quitarle el fondo. Se sirve en WebP a 480 px (1x) y 960 px (2x), con JPG de
-reserva. Por ser vertical mide más de alto que el render que había antes, que
-era un recorte transparente del propio modelo 3D y se conserva como
-`img/tote-bidestilada-1000l-render*`. Con eso `final.html` ya no carga
-`js/viewer3d.js` ni los 687 KB de Three.js: se ve lo mismo en cualquier
-teléfono, sin WebGL y sin esperar a que descargue nada.
+**El submenú ya no se cierra solo** (30 sep 2026). Antes lo abría el `:hover`
+del CSS y se cerraba «luego luego» por dos motivos. Entre la categoría y su
+lista hay un hueco de 6 px; al cruzarlo se perdía el `:hover`, y con él el
+`pointer-events` de la lista, que ya no recibía el cursor al llegar. Y si el
+cursor iba en diagonal hacia un producto de abajo, pasaba por encima de las
+categorías siguientes y la lista cambiaba a la de otra. Ahora decide
+`js/menu-productos.js`, con la clase `.is-abierta`, y lo hace como los menús de
+las tiendas grandes: si el cursor va hacia la lista abierta (está dentro del
+triángulo que forman su posición de hace un instante y las dos esquinas del
+borde cercano de la lista), espera 320 ms antes de cambiar de categoría; si
+baja en vertical, cambia al instante. Un pseudoelemento de 16 px tapa el
+hueco. Con teclado sigue mandando `:focus-within`. Comprobado moviendo el
+cursor de «Kits» en diagonal hasta «Ver la categoría», cruzando «Material» y
+«Envases»: la lista de kits aguanta, y bajando en vertical cambia al momento.
+
+Ojo: como el CSS ya no abre los submenús por sí solo, el CSS y el JavaScript
+tienen que ir de la misma versión. Con el servidor de Python en local el
+navegador puede quedarse con el script viejo en caché y entonces no se abre
+ningún submenú; basta con recargar sin caché. Vercel sirve con
+`must-revalidate`, así que en producción no pasa.
+
+**El tote va en «Nuestra historia»** y va en **imagen fija**: se quitó el
+visor 3D que se giraba con el ratón, así que `final.html` no carga
+`js/viewer3d.js` ni los 687 KB de Three.js. Es la **fotografía que mandó el
+cliente** el 10 de septiembre de 2026. Hasta el 30 de septiembre se enseñó tal
+cual, con su fondo gris y en rectángulo; con el rediseño va **recortada**, sin
+fondo, sobre un cuadro celeste con ondas de agua, como en la referencia del
+cliente, que eligió esa opción. El tote y su etiqueta no se tocaron. Ver
+«Rediseño de la portada» más abajo. La foto completa con su fondo sigue en
+`img/tote-bidestilada-1000l.*` (WebP 1x y 2x y JPG), y el render del 3D en
+`img/tote-bidestilada-1000l-render*`.
 
 El visor que se puede girar sigue vivo en la versión C y en `tote-preview.html`.
+
+## 🎨 Rediseño de la portada (30 sep 2026)
+
+El cliente mandó una referencia de cómo quería la portada y se rehízo sobre
+ella, con el carrusel arriba de todo como estaba. Lo que cambió:
+
+| Parte | Antes | Ahora |
+|---|---|---|
+| Orden | Héroe, titulares, historia, diferenciadores | Héroe, «Calidad controlada», diferenciadores, historia |
+| Héroe | Titular y foto en rectángulo | Rayita celeste encima del titular, y la foto del agua con marco blanco y una tarjeta celeste desfasada detrás |
+| «Calidad controlada» | Titular suelto sobre blanco | Recuadro celeste con degradado y líneas de onda |
+| Diferenciadores | Cuatro en fila | Dos por dos, iconos nuevos (diana, escudo, microscopio, planta) y título centrado con subrayado |
+| Historia | Texto justificado y foto con fondo gris | Texto a la izquierda y el tote recortado sobre un cuadro celeste con ondas de agua |
+| Fondo | Blanco liso | Blanco con ondas y gotas de agua |
+
+**Los colores nuevos solo viven en la portada.** Títulos en azul marino
+(`#0b1d4f`), acentos en celeste (`#2f93d8` a `#7cc0ee`) y texto gris azulado,
+medidos sobre la referencia. Son variables de `.portada` en `css/final.css`, no
+de `:root`: el menú, el catálogo, el contacto y el pie siguen con los suyos.
+La letra sigue siendo Roboto, la del resto del sitio.
+
+**Las ondas y las gotas son SVG**, en `img/deco/`: `olas.svg` (arriba a la
+derecha del héroe, volteada; entre los diferenciadores y la historia,
+desvanecida hacia abajo con una máscara porque ahí no se apoya en ningún
+borde; y al pie de la historia), `gotas.svg`,
+`lineas.svg` (dentro del recuadro de calidad) y `ondas-agua.svg` (bajo el
+tote). Pesan menos de 2 KB cada uno, se ven nítidas a cualquier tamaño y van en
+`<span>` vacíos con `aria-hidden` y `pointer-events: none`, así que ni los
+lectores de pantalla ni el ratón se enteran de ellas.
+
+**La foto del héroe es la misma de antes** (`img/real-hero.jpg`): la de la
+referencia es esa misma agua con burbujas. Su texto alternativo decía «Planta
+de producción», que no es lo que enseña; ahora la describe.
+
+**Cómo se recortó el tote.** La foto tiene fondo gris claro y la jaula es gris
+metálica, con poco contraste. Se saca la silueta renglón por renglón, desde
+la barra más exterior de cada lado, y en espejo sobre el eje del tote, porque
+a la derecha hay una esquina de pared que confunde el borde. Los huecos entre
+las curvas de la jaula que dejan ver la pared se vuelven transparentes, y
+debajo de la tarima no queda suelo. Los huecos de la propia tarima se
+conservan: son parte de la foto. Queda en 882×1094 y se sirve en WebP a 1x y
+2x (30 y 66 KB) con PNG de reserva.
 
 ## 🔀 Tres versiones para comparar
 
@@ -265,10 +330,19 @@ izquierda y el producto a la derecha — cualquier recorte a lo ancho se come un
 de los dos. El alto se fija por escalón (520 / 400 px, y 3:2 en teléfono) y el
 ancho lo sigue, que es lo que mantiene el marco quieto entre diapositivas.
 
-**Las cinco láminas no miden lo mismo en píxeles y da igual**, mientras sigan
-siendo 3:2. Dos van a 1400×933, soluciones acuosas a 1536×1024, reactivos a
-1264×843 y kits a 1024×683: cada archivo llega con el tamaño que entregó el
-cliente y no se estira, porque inflarlo no añade detalle.
+**Las cinco láminas no miden lo mismo en píxeles y da igual.** Dos van a
+1400×933, soluciones acuosas a 1536×1024, reactivos a 1264×843, kits a
+1024×683 y agua acondicionada a 1522×1033: cada archivo llega con el tamaño
+que entregó el cliente y no se estira, porque inflarlo no añade detalle. Todas
+son 3:2 salvo agua acondicionada, que es un poco más alta (1,47:1); con
+`contain` eso deja una banda blanca de unos 7 px a cada lado de la lámina, que
+en escritorio cae dentro del blanco del marco y en teléfono apenas se nota. El
+marco no se mueve porque el CSS lo manda entero —alto en píxeles y ancho al
+100 %— y en teléfono la proporción se declara a mano con `aspect-ratio: 3 / 2`,
+no se hereda de los atributos de la imagen. Aun así, el `width` y el `height`
+de cada `<img>` describen su archivo de verdad: si algún día se quita esa
+altura fija, la reserva de espacio seguirá saliendo bien. **Si cambias una
+imagen, corrige también esos dos atributos.**
 
 **Soluciones acuosas es la única lámina armada.** La foto del cliente es
 vertical (765×1024) y el carrusel es 3:2. Desde el 30 de septiembre de 2026 va
@@ -278,12 +352,12 @@ desenfocada y aclarada hacia el celeste de la página, con una sombra suave
 que la separa del relleno. Así ocupa en el marco lo mismo que las demás
 láminas. El cliente eligió esta forma entre tres: foto angosta con bandas
 blancas, esta, o recortada a 3:2 (con el título grande, pero sin las bombas
-de abajo). El marco no se mueve porque el CSS lo manda entero
-—alto en píxeles y ancho al 100 %— y en teléfono la proporción se declara a
-mano con `aspect-ratio: 3 / 2`, no se hereda de los atributos de la imagen.
-Aun así, el `width` y el `height` de cada `<img>` describen su archivo de
-verdad: si algún día se quita esa altura fija, la reserva de espacio seguirá
-saliendo bien. **Si cambias una imagen, corrige también esos dos atributos.**
+de abajo).
+
+**Agua acondicionada pasó a ser una fotografía** el 30 de septiembre de 2026:
+la sala de máquinas con el tote, el chiller y las tuberías azules, en lugar de
+la ilustración, que queda como `aguas-acondicionadas-ilustracion.*` en
+`img/banner/` y en `img/cat/`. Sus textos no traen erratas.
 
 Se para solo en cuatro situaciones, y las cuatro importan:
 
@@ -320,10 +394,14 @@ su envase sobre un degradado, porque de esas dos familias lo que hay es el
 envase y no un banner. Todas en WebP con JPG de reserva.
 
 El hueco es 4:3 duro (`aspect-ratio: 4 / 3` con `object-fit: cover`), así que lo
-que no sea 4:3 lo recorta el navegador por su cuenta y por donde caiga. Seis de
-las siete lo son; **`aguas-acondicionadas` (900×670) no**, y lleva tiempo
-recortándose sola unos píxeles. No es grave, pero si algún día se regenera, que
-salga 4:3 exacto.
+que no sea 4:3 lo recorta el navegador por su cuenta y por donde caiga. Las
+siete lo son. La última que no lo era, la ilustración de `aguas-acondicionadas`
+(900×670), se sustituyó el 30 de septiembre de 2026 por un recorte de la foto
+nueva a 804×603, 4:3 exacto y a resolución nativa: el tote, el chiller y las
+tuberías, desde x = 366 y y = 430. Arranca a la derecha de las viñetas y por
+debajo de la bajada, y lo bastante abajo para que no se cuele el letrero
+«AGUA ACONDICIONADA» de la tubería: en un primer recorte, a 382, asomaba
+«ACO» en la esquina.
 
 El recorte se ancla **abajo a la derecha y empieza por debajo del título**, que
 es lo que de verdad lo deja fuera: el titular y la bajada viven arriba a la
@@ -361,6 +439,7 @@ que sale se queda en disco con un sufijo que dice **qué era**, no que sea vieja
 | 30 sep 2026 | Banner de soluciones acuosas: la foto del panel, completa sobre fondo difuminado (1536×1024) | `img/banner/soluciones-acuosas-tanque.*` |
 | 30 sep 2026 | Cuadro de agua purificada: el render nuevo de la botella sobre el mismo degradado | `img/cat/agua-purificada-render3d.*` |
 | 30 sep 2026 | Envases de agua purificada, ácida y básica (ver «El catálogo en cuadros») | `img/producto/*-primer-render.*` y `*-sin-precaucion.*` |
+| 30 sep 2026 | Agua acondicionada, fotografía de la sala de máquinas (1522×1033; cuadro de 804×603) | `aguas-acondicionadas-ilustracion.*` (banner y cuadro) |
 
 En reactivos y kits el sufijo va en las dos carpetas a la vez —`img/banner/` e
 `img/cat/`— y en los dos formatos, `.jpg` y `.webp`. Las copias quedan

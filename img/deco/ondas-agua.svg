@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 160">
+  <!-- Ondas concéntricas en el agua, bajo el tote de «Nuestra historia».
+       Decorativas. Se ven en perspectiva: elipses muy aplanadas. -->
+  <defs>
+    <radialGradient id="s" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#7fbde6" stop-opacity=".55"/>
+      <stop offset=".6" stop-color="#a9d5f3" stop-opacity=".25"/>
+      <stop offset="1" stop-color="#cfe8fb" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="300" cy="80" rx="300" ry="80" fill="url(#s)"/>
+  <g fill="none" stroke-linecap="round">
+    <ellipse cx="300" cy="80" rx="285" ry="70" stroke="#ffffff" stroke-opacity=".55" stroke-width="2"/>
+    <ellipse cx="300" cy="80" rx="240" ry="56" stroke="#ffffff" stroke-opacity=".75" stroke-width="2.5"/>
+    <ellipse cx="300" cy="80" rx="240" ry="56" stroke="#8cc6ee" stroke-opacity=".35" stroke-width="1" transform="translate(0 3)"/>
+    <ellipse cx="300" cy="80" rx="190" ry="42" stroke="#ffffff" stroke-opacity=".85" stroke-width="2.5"/>
+    <ellipse cx="300" cy="80" rx="190" ry="42" stroke="#8cc6ee" stroke-opacity=".4" stroke-width="1" transform="translate(0 3)"/>
+  </g>
+</svg>

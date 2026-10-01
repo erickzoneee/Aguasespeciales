@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 220">
+  <!-- Gotas sueltas. Cada una es un círculo celeste con su brillo blanco
+       arriba a la izquierda. Decorativas. -->
+  <defs>
+    <radialGradient id="g" cx=".38" cy=".34" r=".7">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset=".45" stop-color="#e4f3fd"/>
+      <stop offset="1" stop-color="#9ccff2"/>
+    </radialGradient>
+    <g id="d"><circle r="1" fill="url(#g)" stroke="#7fbfea" stroke-width=".12" stroke-opacity=".8"/></g>
+  </defs>
+  <use href="#d" transform="translate(40 30) scale(6)"/>
+  <use href="#d" transform="translate(96 62) scale(3.5)"/>
+  <use href="#d" transform="translate(150 22) scale(4.5)"/>
+  <use href="#d" transform="translate(212 58) scale(2.6)"/>
+  <use href="#d" transform="translate(262 18) scale(5.2)"/>
+  <use href="#d" transform="translate(318 50) scale(3.2)"/>
+  <use href="#d" transform="translate(372 28) scale(4)"/>
+  <use href="#d" transform="translate(356 96) scale(2.4)"/>
+  <use href="#d" transform="translate(300 120) scale(3.6)"/>
+  <use href="#d" transform="translate(396 150) scale(2.8)"/>
+  <use href="#d" transform="translate(236 104) scale(2)"/>
+</svg>
