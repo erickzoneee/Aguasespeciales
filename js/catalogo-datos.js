@@ -1,7 +1,7 @@
 /* =========================================================
    AGUAS ESPECIALES — Categorías del catálogo
    ---------------------------------------------------------
-   Las nueve categorías de producto más los servicios de análisis, que
+   Las ocho categorías de producto más los servicios de análisis, que
    ahora viven dentro de Productos y no en una página aparte.
 
    Vive en su propio archivo porque lo leen dos: el catálogo en cuadros
@@ -41,11 +41,13 @@
   /* Categorías con imagen propia. Casi todas salen de los banners que
      entregó el cliente, recortados para dejar fuera el título —que el cuadro
      ya escribe— y quedarse con la parte de producto; «agua purificada» y
-     «aguas especiales» llevan su envase sobre el mismo degradado. Las que no
+     «aguas especiales» llevan su envase sobre el mismo degradado, y los
+     servicios, la foto del laboratorio que mandó el cliente. Las que no
      tienen imagen llevan su icono sobre un fondo tintado: así todos los
      cuadros miden lo mismo y ninguno queda hueco. */
   const IMAGENES = ["agua-purificada", "aguas-especiales", "aguas-laboratorio",
-                    "soluciones-acuosas", "aguas-acondicionadas", "reactivos", "kits"];
+                    "soluciones-acuosas", "aguas-acondicionadas", "reactivos", "kits",
+                    "servicios-analisis"];
 
   /* El número se calcula por posición y no se escribe a mano. Antes venía de
      js/catalog.js, y al añadir una categoría había que renumerar las nueve

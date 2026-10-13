@@ -498,6 +498,9 @@ p { margin: 0 0 18px; }
    abajo—. Contra el bloque de un absoluto sí lo resuelve. */
 .prod-tile__foto { position: relative; aspect-ratio: 4 / 3; background: var(--suave); display: grid; place-items: center; overflow: hidden; }
 .prod-tile__foto img { position: absolute; top: 5%; left: 5%; width: 90%; height: 90%; object-fit: contain; }
+/* Una fotografía (soluciones acuosas) llena el recuadro de borde a borde,
+   como en el cuadro de su categoría; el margen del 5 % es para los envases. */
+.prod-tile__foto--escena img { top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
 .prod-tile__foto--icono { background: linear-gradient(150deg, var(--tinte), var(--suave)); }
 .prod-tile__foto--icono span { font-size: 1.9rem; line-height: 1; opacity: .85; }
 .prod-tile__cuerpo { display: flex; flex-direction: column; gap: 6px; flex: 1; padding: 0 16px; }

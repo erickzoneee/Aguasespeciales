@@ -308,7 +308,7 @@
   const form = $("#quoteForm");
   if (form) {
     /* Preselección desde otra página. El nombre del producto casi nunca
-       coincide letra por letra con una casilla —solo 2 de los 58 del
+       coincide letra por letra con una casilla —solo 2 de los 50 del
        catálogo—, así que si falla la coincidencia exacta se busca por
        familia. Y si tampoco hay familia, no se anuncia que se marcó algo:
        el aviso anterior aseguraba que sí y era falso casi siempre. */
@@ -319,7 +319,6 @@
       [/buffer|amortiguad/i, "Soluciones buffer de pH"],
       [/\bkit/i, "Kits para análisis de agua"],
       [/reactivo/i, "Reactivos para análisis de agua"],
-      [/envase|garraf|bid[oó]n|tambor|tote/i, "Envases plásticos"],
       [/material|equipo|bureta|matraz|pipeta|medidor|balanza/i, "Material y equipo de laboratorio"],
       [/tipo\s*(i{1,3}|iv)\b|grado\s*[123]\b|laboratorio/i, "Agua para laboratorio (ASTM / ISO)"],
       [/acondicionad|chiller|tensos/i, "Agua acondicionada para chillers"],

@@ -25,7 +25,16 @@
      href:  cuando el producto tiene página de detalle propia
      foto:  ruta sin extensión de la foto de producto; el catálogo le pone
             .webp y .png. Solo la llevan los que tienen render de etiqueta.
+     escena: ruta sin extensión de una fotografía que llena el recuadro del
+            cuadro (.webp y .jpg), en vez de un envase flotando. La llevan
+            los tres de soluciones acuosas, con la foto de su categoría.
+
+     «Envases plásticos» y «Presentaciones de agua» se quitaron del sitio el
+     13 de octubre de 2026 a petición del cliente. Lo que traían está en el
+     README, en «Categorías retiradas».
   -------------------------------------------------------- */
+  const ESCENA_SOLUCIONES = "img/cat/soluciones-acuosas";
+
   const CATEGORIES = [
     {
       id: "agua-purificada",
@@ -95,9 +104,9 @@
       name: "Soluciones acuosas especiales",
       lead: "Soluciones preparadas a la concentración que tú indiques.",
       items: [
-        { name: "Salmuera al 2%" },
-        { name: "Salmuera en concentración solicitada por el cliente" },
-        { name: "Soluciones acuosas preparadas bajo especificación" },
+        { name: "Salmuera al 2%", escena: ESCENA_SOLUCIONES },
+        { name: "Salmuera en concentración solicitada por el cliente", escena: ESCENA_SOLUCIONES },
+        { name: "Soluciones acuosas preparadas bajo especificación", escena: ESCENA_SOLUCIONES },
       ],
     },
     {
@@ -210,36 +219,6 @@
         {
           name: "Medidor multiparamétrico portátil",
           note: "Mide pH, conductividad, STD/TDS y temperatura.",
-        },
-      ],
-    },
-    {
-      id: "envases",
-      num: "08",
-      group: "equipo",
-      icon: "🧴",
-      name: "Envases plásticos",
-      lead: "Disponibles en existencia y vendidos por unidad.",
-      items: [
-        { name: "Frasco gotero plástico de 40 mL" },
-        { name: "Envase plástico de 250 mL con tapa" },
-        { name: "Envase plástico de 500 mL con tapa" },
-      ],
-    },
-    {
-      id: "presentaciones",
-      num: "09",
-      group: "aguas",
-      icon: "📦",
-      name: "Presentaciones de agua",
-      lead: "Del garrafón al tote de mil litros, con la opción de llenar tus propios recipientes.",
-      items: [
-        { name: "Garrafón de 19 litros" },
-        { name: "Porrón de 20 litros" },
-        { name: "Porrón de 50 litros" },
-        { name: "Contenedor IBC o tote de 1,000 litros" },
-        {
-          name: "Llenado de recipientes propiedad del cliente",
         },
       ],
     },

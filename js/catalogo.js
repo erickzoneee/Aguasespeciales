@@ -1,7 +1,7 @@
 /* =========================================================
    AGUAS ESPECIALES — Catálogo en cuadros (versión C)
    ---------------------------------------------------------
-   Dos niveles, como pidió el cliente: al entrar se ven las nueve
+   Dos niveles, como pidió el cliente: al entrar se ven las
    categorías en cuadro, y al abrir una salen sus productos también en
    cuadro. El índice lateral hace lo mismo que los cuadros, para quien
    ya sabe lo que busca.
@@ -15,6 +15,10 @@
    categoría: antes compartían fotos de banco repetidas hasta nueve veces,
    y una tienda donde la misma foto sale nueve veces seguidas se ve peor
    sin fotos que con ellas.
+
+   La excepción la pidió el cliente el 13 de octubre de 2026: los tres de
+   soluciones acuosas llevan la foto de su categoría (campo «escena»), que
+   llena el recuadro en vez de flotar como un envase.
    ========================================================= */
 (function () {
   "use strict";
@@ -85,7 +89,17 @@
       ? { webp: item.foto + ".webp", png: item.foto + ".png",
           alt: "Envase de 1 L de " + item.name.toLowerCase() }
       : render;
-    const cabecera = foto
+    /* La escena es la misma foto en varios cuadros seguidos y no enseña ese
+       producto en concreto: va con alt vacío para que el lector de pantalla
+       no la repita tres veces. El nombre ya lo dice el <h3>. */
+    const cabecera = item.escena
+      ? `<div class="prod-tile__foto prod-tile__foto--escena">
+           <picture>
+             <source srcset="${esc(item.escena)}.webp" type="image/webp" />
+             <img src="${esc(item.escena)}.jpg" alt="" loading="lazy" decoding="async" />
+           </picture>
+         </div>`
+      : foto
       ? `<div class="prod-tile__foto">
            <picture>
              <source srcset="${esc(foto.webp)}" type="image/webp" />
@@ -240,8 +254,8 @@
     });
   }
 
-  /* Arranque: si la URL trae una categoría se abre; si no, se ven los
-     nueve cuadros, que es el mapa de lo que se vende. */
+  /* Arranque: si la URL trae una categoría se abre; si no, se ven todos
+     los cuadros, que es el mapa de lo que se vende. */
   const desdeUrl = decodeURIComponent(location.hash.slice(1));
   if (desdeUrl && CATEGORIAS.some((c) => c.id === desdeUrl)) {
     abre(desdeUrl, false);

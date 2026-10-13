@@ -207,6 +207,8 @@ html[data-theme="dark"] .prod-sub { color: var(--c-aqua); }
    aspect-ratio el navegador no resuelve el porcentaje y el envase se salía
    por abajo. Ver la misma nota en css/final.css. */
 .prod-tile__foto img { position: absolute; top: 5%; left: 5%; width: 90%; height: 90%; object-fit: contain; }
+/* Una fotografía (soluciones acuosas) llena el recuadro de borde a borde. */
+.prod-tile__foto--escena img { top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
 .prod-tile__cuerpo { display: flex; flex-direction: column; gap: 6px; flex: 1; padding: 0 16px; }
 /* Cabecera de los cuadros sin render: el icono de su categoría sobre un
    fondo tintado. Así todos los cuadros miden lo mismo y ninguno queda hueco. */
