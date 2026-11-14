@@ -21,6 +21,7 @@ Abre **`index.html`** en tu navegador. No requiere instalación ni servidor.
 Pagina AguasEspeciales/
 ├── final.html                          # ⭐ VERSIÓN FINAL — portada
 ├── final-productos.html                # ⭐ VERSIÓN FINAL — productos y servicios
+├── agua-*.html                         # ⭐ VERSIÓN FINAL — una página por agua con hoja técnica (8)
 ├── index.html                          # Portada — VERSIÓN A (la maqueta)
 ├── version-real.html                   # Portada — VERSIÓN B (recreación de aguasespeciales.com.mx)
 ├── version-combinada.html              # Portada — VERSIÓN C (la mezcla, con el tote en 3D)
@@ -34,8 +35,14 @@ Pagina AguasEspeciales/
 ├── fichas/                             # Hojas imprimibles (tamaño carta)
 │   ├── ht-agua-desmineralizada.html    # Hoja técnica          HT-AE-01
 │   ├── he-agua-desmineralizada.html    # Hoja de especificac.  HE-AE-04
-│   ├── ht-agua-bidestilada.html        # Hoja técnica          HT-AE-02
-│   └── he-agua-bidestilada.html        # Hoja de especificac.  HE-AE-05
+│   ├── ht-agua-bidestilada.html        # Hoja técnica          HT-AE-02 (v02)
+│   ├── he-agua-bidestilada.html        # Hoja de especificac.  HE-AE-05 (v02)
+│   └── pdf/                            # Las hojas del cliente en PDF, y en vista/ su imagen WebP
+├── herramientas/
+│   ├── vista-hojas.py                  # PDF de una hoja → su vista WebP para el visor
+│   ├── paginas-agua.py                 # Escribe las 8 agua-*.html
+│   ├── recorte-frascos.py              # Frascos de reactivo sin fondo
+│   └── logotipo.py
 ├── img/
 │   ├── logo-aguas-especiales.svg       # Isotipo a todo color (imprenta, proveedores)
 │   ├── favicon.svg                     # Isotipo macizo, legible a 16 px
@@ -45,7 +52,8 @@ Pagina AguasEspeciales/
 │   ├── real-tote.jpg                   # Foto del tote: respaldo del modelo 3D
 │   └── banner/                         # Banners de portada, completos (webp + jpg)
 │   └── cat/                            # Imágenes de categoría (webp + jpg)
-│   └── producto/                       # Envases de 1 L, recortados (webp + png)
+│   └── producto/                       # Envases de 1 L y frascos de reactivo, recortados (webp + png)
+│   └── servicio/                       # Fotos de los servicios de análisis, 4:3 (webp + jpg)
 │   └── render-agua-*.webp/.png         # Imágenes de respaldo, sacadas del propio 3D
 │   └── tote-bidestilada-1000l-recorte*  # Tote de «Nuestra historia», sin fondo (webp 1x y 2x, png de reserva)
 │   └── tote-bidestilada-1000l*          # La foto del tote completa, con su fondo (webp 1x y 2x, jpg)
@@ -56,6 +64,7 @@ Pagina AguasEspeciales/
 │   ├── ficha.css                       # Hojas imprimibles (siempre en claro)
 │   ├── version-real.css                # Versión B y base de la final
 │   ├── final.css                       # ⭐ Solo la versión final
+│   ├── agua.css                        # ⭐ Solo las páginas agua-*.html (va después de final.css)
 │   └── version-combinada.css           # Solo versión C
 └── js/
     ├── catalog.js                      # ⭐ Datos del catálogo y especificaciones
@@ -76,12 +85,13 @@ Pagina AguasEspeciales/
 
 ## ⭐ La versión final
 
-Es la que queda. Son dos páginas:
+Es la que queda. Son dos páginas, más las de cada agua:
 
 | Archivo | Qué es |
 |---|---|
 | `final.html` | Portada: carrusel, héroe, «Calidad controlada», los cuatro diferenciadores, Nuestra historia con el tote y contacto |
 | `final-productos.html` | Las categorías en cuadro; al abrir una, lo que hay dentro también en cuadro |
+| `agua-*.html` | Una página por agua con su hoja técnica para ver y descargar (8, desde el 14 nov 2026). Ver «Las páginas de cada agua» |
 
 **Cómo se armó.** Se tomó la portada de la versión B (la recreación de
 `aguasespeciales.com.mx`, que es la cara que se eligió) y se cortó en los
@@ -255,7 +265,9 @@ función y si no había que pasar ocho enlaces antes de ver nada.
 
 **Qué cuadros llevan foto.** Las **trece aguas de envase de 1 L** —las tres de
 «agua purificada» y las diez de «aguas especiales»— llevan el render de su
-etiqueta, que entregó el cliente en PDF. El resto no lleva foto, sino un bloque
+etiqueta, que entregó el cliente en PDF. Desde el 14 de noviembre de 2026 los
+**doce reactivos** llevan la foto de su frasco y los **cuatro servicios** la
+suya (ver «Reactivos y servicios con foto»). El resto no lleva foto, sino un bloque
 con el icono de su categoría, y no es por pereza: la tienda del sitio real tiene
 30 productos con foto pero solo **11 imágenes distintas** —una misma foto de
 banco se repite en nueve reactivos seguidos, otra en los tres análisis, otra en
@@ -306,6 +318,38 @@ Tampoco se copió lo que su tienda muestra hoy: **29 de sus 30 productos dicen
 configuración que nadie terminó, y le dice a cada visitante que no hay nada que
 vender.
 
+### Reactivos y servicios con foto (14 nov 2026)
+
+**Los doce reactivos.** El cliente mandó un PDF de doce páginas con un frasco
+ámbar por página (1254×1254, sobre blanco o gris muy claro), uno por cada
+reactivo del catálogo, sin que sobre ni falte ninguno. Van **sin fondo, como
+las aguas**: `img/producto/reactivo-<nombre>.webp` y `.png`, a 840 px de alto
+como los envases, con PNG de paleta de reserva. Los recorta
+`herramientas/recorte-frascos.py`, y su cabecera explica cómo: la etiqueta es
+blanca y toca el fondo por los costados, así que en su franja la silueta se fija
+al ancho del cuerpo; y el pie del frasco es vidrio casi negro sin color, que se
+conserva, mientras que la sombra del suelo, gris claro, sale. Se comprobó que
+ningún renglón del cuerpo quede más angosto que el frasco ni con huecos.
+
+Las etiquetas dicen menos que el catálogo: «Solución tituladora **para dureza
+total**» donde el catálogo dice «Solución tituladora de dureza, **EDTA**», o
+«Polvo indicador para dureza total» sin «Eriocromo Negro T». **Manda el nombre
+del catálogo**, que es el que se cotiza, y el texto alternativo describe lo que
+dice el frasco. Los dos de polvo vienen en frasco de boca ancha; los demás, en
+frasco de cuello. No se vio ninguna errata en las doce etiquetas.
+
+**Los cuatro servicios.** Llegaron tres imágenes cuadradas con el título
+impreso arriba: «Análisis fisicoquímicos», «Análisis microbiológicos» y
+«Muestreo en sitio». Van recortadas a **4:3 por debajo del título**, como los
+banners de categoría, porque el cuadro ya escribe el nombre:
+`img/servicio/<nombre>.webp` y `.jpg`, a 900×675. El recorte arranca en
+y = 314 (muestreo), 284 (microbiológicos) y 272 (fisicoquímicos): ahí el título
+ya terminó (el rabo de la «q» llega a 255) y la punta de la gota, que empieza
+en 298, queda dentro. **Fisicoquímicos va en el básico y en el ampliado**,
+porque son tres fotos para cuatro servicios. Se pintan con el campo `escena`
+(llenan el recuadro, `alt=""`), y solo en el catálogo de la versión final: la
+maqueta enseña los servicios en lista, sin fotos.
+
 ## 📄 Las hojas mandan sobre la web
 
 Las páginas de producto ya **no llevan tablas de especificaciones**. Se muestra
@@ -321,16 +365,144 @@ traga el scroll: al pasar el dedo por encima se mueve el documento y no la
 página. Cada hoja se rasteriza a 150 dpi y se sirve en WebP; el visor de la hoja
 principal pasó de 2.3 MB a 158 KB. Los botones abren y descargan el PDF real.
 
-Para añadir una hoja: deja el PDF en `fichas/pdf/`, genera sus páginas en
-`fichas/pdf/vista/<nombre>-pN.webp`, apunta el número de páginas en el objeto
-`PAGINAS` de `js/hojas.js` y súmala al arreglo `sheets` del agua en
-`js/catalog.js`.
+Para añadir una hoja: deja el PDF en `fichas/pdf/`, genera sus páginas con
+`python herramientas/vista-hojas.py fichas/pdf/<nombre>.pdf` (las deja en
+`fichas/pdf/vista/<nombre>-pN.webp` a 150 ppp), apunta el número de páginas en
+el objeto `PAGINAS` de `js/hojas.js` si tiene más de una y súmala al arreglo
+`sheets` del agua en `js/catalog.js`. Antes de publicarla, **compara sus cifras
+con `WATERS`**: ver «Las hojas del 14 de noviembre».
 
 **Ojo con dos cosas de la hoja oficial:** en «Aplicaciones» aparece *hospitales y
 esterilización de equipos*, y la sección 8 se titula *Calidad garantizada*. Las
 dos cosas se habían retirado del texto del sitio a propósito. Publicar el
 documento tal cual las devuelve, pero ahí son palabras del cliente en su propio
-documento, no copy nuestro. Conviene que lo sepa.
+documento, no copy nuestro. Conviene que lo sepa. Las ocho hojas del 14 de
+noviembre traen las dos cosas igual.
+
+## 📑 Las hojas del 14 de noviembre (2026)
+
+El cliente mandó **ocho hojas técnicas** en PDF, cada una una sola imagen de
+1043×1508: agua purificada Nivel 1, suave, desmineralizada, destilada,
+bidestilada, tridestilada, desionizada y libre de sílice. Todas usan la misma
+plantilla que la HT-AE-01. Ninguna trae código, versión ni fecha impresos, así
+que no se les inventó ninguno: en el sitio salen como «Hoja técnica (PDF)».
+
+| Agua | Conductividad (25 °C) | pH | Qué cambia frente a la plantilla |
+|---|---|---|---|
+| Tridestilada | ≤ 1.0 µS/cm | 5.0 – 7.0 | — |
+| Desionizada | ≤ 1.0 µS/cm | 5.0 – 7.0 | — |
+| Libre de sílice | ≤ 1.0 µS/cm | 5.0 – 7.0 | Sílice «0 mg/L» |
+| Purificada Nivel 1 | ≤ 1.5 µS/cm | 5.0 – 7.0 | — |
+| Bidestilada | ≤ 1.5 µS/cm | 5.0 – 7.0 | — |
+| Destilada | ≤ 2.0 µS/cm | 5.0 – 7.0 | — |
+| Desmineralizada | ≤ 2.5 µS/cm | 5.0 – 7.0 | Es la HT-AE-01, byte a byte |
+| Suave | 150 µS/cm | 6.8 – 7.8 | Solo 9 filas; dureza 0 mg/L; TDS «No especificado» |
+
+El resto de la tabla fisicoquímica (TDS ≤ 1.25 mg/L; dureza, cloruros,
+sulfatos y sodio ≤ 1 mg/L; sílice ≤ 0.5; hierro ≤ 0.1; color ≤ 5 UC; turbidez
+≤ 1 NTU) y la microbiológica entera son iguales en todas, salvo lo que dice la
+última columna. Todo está en `WATERS`, en `js/catalog.js`.
+
+**Cómo se verificaron las cifras.** Se transcribieron a mano y, por separado,
+ocho agentes las transcribieron a ciegas, uno por hoja y sin ver la otra
+transcripción. Se compararon por programa: 280 celdas, 279 idénticas. La única
+diferencia es que la HT-AE-01 escribe «Silice» sin acento; en la web dice
+«Sílice». De paso salió un error viejo: en `WATERS`, la apariencia del agua
+desmineralizada decía «incoloro, libre de…» y la hoja dice «incoloro,
+**inodoro y** libre de…». Ya está corregido.
+
+**Se publicaron tal cual, por decisión del cliente**, aunque traen cosas
+raras. Quedan anotadas aquí para no volver a preguntarlas:
+
+- **Destilada, bidestilada y tridestilada** describen el proceso como
+  «ósmosis inversa e intercambio iónico», en el texto y en el diagrama de la
+  sección 7, no como destilación. Es el texto de la plantilla. Para no repetirlo
+  ni contradecirlo, **el texto de la web no nombra ningún proceso** en ninguna
+  agua: lo que lo describe es la hoja.
+- **Libre de sílice** pone «Sílice (SiO₂) **0 mg/L**», un valor absoluto donde
+  las demás ponen «≤ 0.5 mg/L».
+- **Suave** pone «Conductividad **150 µS/cm**» y «Dureza total **0 mg/L**», los
+  dos sin «≤», y el TDS como «No especificado».
+- Las ocho conservan «Hospitales y esterilización de equipos» en aplicaciones y
+  el título «Calidad garantizada» en la sección 8 (ver arriba).
+
+**Bidestilada cambió de cifras.** Hasta ese día el sitio publicaba pH 7.5–8.5,
+conductividad máxima 15 µS y «doble destilación», y la hoja nueva dice
+**pH 5.0–7.0 y ≤ 1.5 µS/cm**. El cliente decidió que manda la nueva, en todo el
+sitio: `WATERS` (y con eso las tablas de las hojas imprimibles), la etiqueta
+del tote 3D de la versión C (`js/tote3d.js`), la descripción de
+`producto-agua-bidestilada.html` y las propias **HT-AE-02 y HE-AE-05**. Estas
+dos se reescribieron con la descripción, características, aplicaciones y
+proceso de la hoja nueva, ganaron la tabla microbiológica que antes «estaba
+disponible bajo solicitud» y pasaron a **versión 02**, con fecha de revisión
+14/11/2026. Si el control de documentos lo lleva de otra forma, se cambia el
+encabezado de las dos. Las firmas de la HE-AE-05 decían «Fecha: 05/06/2025», la
+de la v01; una v02 no puede estar firmada antes de existir, así que esas dos
+fechas quedaron en blanco («Fecha: ____________») para llenarse al firmar.
+
+**El tote 3D de la versión C** imprime las cifras en su etiqueta, y su imagen de
+respaldo (`img/render-tote-bidestilada.*`, la que se ve en teléfono, sin WebGL y
+mientras carga el 3D) las traía dibujadas. Se volvió a sacar del propio modelo,
+con su método `instantanea(940, 907)`, en Edge sin ventana: se probó con la
+tarjeta gráfica y con render por software y salen iguales (diferencia media de
+0.57 sobre 255). Se ve distinta de la anterior —otro encuadre, el tanque más
+lechoso— porque el modelo cambió el 3 de septiembre a las 17:19 y el respaldo
+era de las 15:03 de ese día: ya no coincidía con él. La anterior queda como
+`img/render-tote-bidestilada-hoja-anterior.*`.
+
+**Las hojas imprimibles vuelven a la versión final.** Su «← Volver a…» y los
+enlaces de reserva sin JavaScript llevan a `agua-*.html`, y el logotipo a
+`final.html`; antes mandaban a la maqueta A aunque se abrieran desde la página
+final. Y la página de la maqueta `producto-agua-purificada.html` cambió su texto
+de «Base confiable para procesos e higiene» por el de la hoja Nivel 1 que ahora
+enseña, sin nombrar el proceso; la tarjeta de bidestilada de
+`version-combinada.html` dejó de decir «Doble destilación».
+
+**Cinco PDF dejaron de enlazarse**, porque contradecían la hoja técnica de su
+propia agua en la misma página: de bidestilada, los parámetros FQ y la hoja
+extendida Tensos (pH 7.5–8.5, 15 µS); de desmineralizada, los parámetros FQ,
+la hoja extendida y el certificado de calidad (pH 5.5–7.5, TDS 1.4 ppm, cuando
+la HT-AE-01 dice 5.0–7.0 y 1.25 mg/L). **No se borró ninguno**: siguen en
+`fichas/pdf/` con sus vistas, y su número de páginas sigue en `PAGINAS` de
+`js/hojas.js`. Para devolver uno basta con volver a ponerlo en `sheets`.
+
+**Agua purificada conserva su nombre** y lleva la hoja de «Agua purificada
+Nivel 1», a petición del cliente. Su página lo aclara en una línea. Hasta ese
+día no tenía hoja ni especificaciones.
+
+Las hojas en HTML ya no ofrecen «Descargar»: descargado, un `.html` se abre sin
+su hoja de estilos y sale en crudo. Ahora dicen «Abrir e imprimir», y desde ahí
+su propio botón las guarda como PDF.
+
+## 💧 Las páginas de cada agua (versión final)
+
+Cada una de las ocho aguas con hoja tiene página propia con el diseño de la
+versión final: `agua-purificada.html`, `agua-suave.html`,
+`agua-desmineralizada.html`, `agua-destilada.html`, `agua-bidestilada.html`,
+`agua-tridestilada.html`, `agua-desionizada.html` y
+`agua-libre-de-silice.html`. Llevan la cabecera y el menú «Productos» de
+`final.html`, el envase de 1 L, un párrafo, **Cotizar por WhatsApp** y
+**Descargar hoja técnica**; debajo, la hoja en imagen con «Ver» y «Descargar»,
+y al final el contacto de tres botones y el pie de la final.
+
+**No llevan ni una cifra.** La hoja se pinta desde `WATERS` con
+`js/hojas.js`, así que si mañana cambia una hoja no hay que tocar las páginas.
+Tampoco nombran el proceso (ver arriba). Sin JavaScript queda un enlace para
+abrir y otro para descargar el PDF.
+
+**Las escribe `herramientas/paginas-agua.py`.** Los textos (renglón bajo el
+título y párrafo) están en su lista `AGUAS`; para cambiar algo en las ocho se
+cambia ahí y se corre `python herramientas/paginas-agua.py`. Lo que se edite a
+mano en un `agua-*.html` se pierde al regenerar. Los estilos que son solo de
+estas páginas (el encabezado con el envase y el visor de la hoja) están en
+`css/agua.css`.
+
+**Quién enlaza a cuál.** En `js/catalog.js` cada agua lleva `pagina` (la
+página final) y las tres de siempre, además, `href` (su página de la maqueta).
+El catálogo final, el de la versión C y el menú «Productos» van a `pagina`. La
+maqueta A va a `href` y, si no hay, a `pagina`: así sigue con sus tres páginas
+de producto, **que no se tocaron** salvo para corregir cifras que contradecían
+la hoja, y sus cinco aguas nuevas también tienen adónde ir.
 
 ## 🧊 Por qué la etiqueta del tote no se veía
 
@@ -507,6 +679,7 @@ que sale se queda en disco con un sufijo que dice **qué era**, no que sea vieja
 | 30 sep 2026 | Agua acondicionada, fotografía de la sala de máquinas (1522×1033; cuadro de 804×603) | `aguas-acondicionadas-ilustracion.*` (banner y cuadro) |
 | 13 oct 2026 | Soluciones acuosas, banner del cliente con la sala de bombas, los tambos y el tanque (1514×1039; cuadro de 832×624) | `soluciones-acuosas-panel.*` (banner y cuadro) |
 | 13 oct 2026 | Servicios de análisis, fotografía de laboratorio (cuadro de 900×675) | — (antes era el icono 🔬) |
+| 14 nov 2026 | Respaldo del tote 3D de la versión C, sacado otra vez del modelo con las cifras de la hoja nueva de bidestilada | `img/render-tote-bidestilada-hoja-anterior.*` |
 
 En reactivos y kits el sufijo va en las dos carpetas a la vez —`img/banner/` e
 `img/cat/`— y en los dos formatos, `.jpg` y `.webp`. Las copias quedan
@@ -791,7 +964,10 @@ particulares del cliente».
   desactualizada o si la hoja lo está. La foto del tote que entró el 10 de
   septiembre de 2026 ya no trae cifras en la etiqueta —solo uso, lote y fecha—,
   así que en la portada el choque desaparece; sigue vivo en el tote 3D de la
-  versión C, que imprime las cifras de la hoja.
+  versión C, que imprime las cifras de la hoja. **Actualización 14/11/2026:** la
+  hoja nueva de bidestilada dice pH 5.0–7.0 y ≤ 1.5 µS/cm, y el sitio y el tote
+  3D ya publican eso. Las cifras de aquella etiqueta (pH 7.0; 0.6–1 µS/cm) caben
+  dentro, así que el choque prácticamente desaparece.
 - **Los datos de contacto no coinciden entre los dos sitios.** El pie de
   `aguasespeciales.com.mx` publica **Xochicalco 10, Cerro Grande, 52920 Cdad.
   López Mateos**, teléfono **55 5305 3590** y correo **ventas@tensos.com** —otro
@@ -805,12 +981,12 @@ particulares del cliente».
 - **Testimonios de la versión B.** La sección está armada y vacía, esperando
   testimonios reales de clientes industriales.
 
-- **Subtítulo de la etiqueta de agua purificada.** Las dos fotos originales tenían impreso «AGUA DESMINERALIZADA». En la botella PET se rehízo el nombre de producto para que diga **AGUA PURIFICADA**, pero se dejó intacto el resto de la etiqueta: sigue diciendo *«ALTA PUREZA · BAJA CONDUCTIVIDAD»*, que es una afirmación propia del agua desmineralizada. Si el agua purificada necesita otro descriptor, indícalo y se cambia. La tipografía es Montserrat Bold, muy parecida a la original pero no idéntica: conviene revisarla antes de darla por buena.
+- **Subtítulo de la etiqueta de agua purificada.** Las dos fotos originales tenían impreso «AGUA DESMINERALIZADA». En la botella PET se rehízo el nombre de producto para que diga **AGUA PURIFICADA**, pero se dejó intacto el resto de la etiqueta: sigue diciendo *«ALTA PUREZA · BAJA CONDUCTIVIDAD»*. Se dudaba de que eso valiera para el agua purificada; la hoja de agua purificada Nivel 1 del 14/11/2026 lleva justo ese subtítulo, así que la duda queda resuelta. La tipografía es Montserrat Bold, muy parecida a la original pero no idéntica: conviene revisarla antes de darla por buena.
 - **Domicilio completo.** En las hojas que sirvieron de base, la calle y el número quedan tapados por un botón de la imagen. El sitio dice *«Francisco Chilpan, Tultitlán, Estado de México, C.P. 54940»*; falta completar calle y número, y ajustar el mapa.
-- **Número de WhatsApp.** Los botones apuntan a **55 5899 0125**. Confirma que ese número (y no el 55 5899 6566) tenga WhatsApp activo.
-- **Códigos de las hojas de agua bidestilada.** HT-AE-01 y HE-AE-04 vienen de los documentos originales. Para bidestilada se asignaron **HT-AE-02** y **HE-AE-05**; confirma que correspondan a tu control de documentos.
-- **Microbiológicos de agua bidestilada.** No se proporcionaron; las hojas dicen «disponibles bajo solicitud».
-- **Agua purificada.** Su página no lleva tabla de especificaciones ni descarga hasta que se definan los parámetros.
+- **Número de WhatsApp.** Hoy todos los botones de WhatsApp abren el chat con el **55 8790 8943** (`CONTACT.whatsapp` en `js/catalog.js`). Pero en la sección de contacto de `final.html` el botón verde dice «WhatsApp **55 5305 3590**», que es el teléfono fijo: el número que se lee no es el que abre. Las páginas `agua-*.html` dicen solo «Escribir por WhatsApp» para no repetir el choque. Falta confirmar cuál de los dos tiene WhatsApp y corregir el rótulo de la portada.
+- **Códigos de las hojas de agua bidestilada.** HT-AE-01 y HE-AE-04 vienen de los documentos originales. Para bidestilada se asignaron **HT-AE-02** y **HE-AE-05**; confirma que correspondan a tu control de documentos. El 14/11/2026 pasaron a **versión 02**, con las cifras de la hoja nueva. Las ocho hojas que llegaron ese día no traen código; si control de documentos les asigna uno, se pone en `sheets` y sale en la página.
+- **Microbiológicos de agua bidestilada.** Resuelto el 14/11/2026: la hoja nueva los trae y las hojas HT-AE-02 y HE-AE-05 ya los muestran.
+- **Agua purificada.** Resuelto el 14/11/2026: lleva la hoja de agua purificada Nivel 1, con especificaciones y descarga.
 - **Testimonios.** Los dos que había eran del sector médico (una clínica de diálisis
   y un laboratorio clínico). Se retiró el de diálisis y quedó uno solo, así que el
   carrusel oculta sus controles automáticamente. Hacen falta testimonios reales de
@@ -826,6 +1002,9 @@ particulares del cliente».
 - **Especificaciones de agua desmineralizada.** Se actualizaron el 18/08/2026 con los
   valores de la hoja técnica HT-AE-01 v01 que envió Erick (pH 5.0–7.0, conductividad
   ≤ 10 µS/cm, TDS ≤ 10 mg/L, y los parámetros nuevos de sodio, hierro y turbidez).
+  *Ojo:* la HT-AE-01 publicada dice **≤ 2.5 µS/cm** y **TDS ≤ 1.25 mg/L**, y eso es lo
+  que está en `WATERS`; el ≤ 10 se quedó en la descripción para buscadores de
+  `producto-agua-desmineralizada.html` hasta el 14/11/2026, cuando se corrigió.
   Sustituyen a las cifras anteriores, que venían de un documento previo con el mismo
   código y versión. Si el control de documentos exige subir la versión a 02 o poner
   fecha de revisión, dilo y se cambia el encabezado de las hojas.

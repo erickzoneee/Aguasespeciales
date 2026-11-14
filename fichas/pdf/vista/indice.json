@@ -7,6 +7,14 @@
    "kb": 106
   }
  ],
+ "hoja-tecnica-agua-bidestilada": [
+  {
+   "src": "fichas/pdf/vista/hoja-tecnica-agua-bidestilada-p1.webp",
+   "w": 1043,
+   "h": 1508,
+   "kb": 221
+  }
+ ],
  "hoja-tecnica-agua-bidestilada-tensos": [
   {
    "src": "fichas/pdf/vista/hoja-tecnica-agua-bidestilada-tensos-p1.webp",
@@ -21,6 +29,14 @@
    "kb": 72
   }
  ],
+ "hoja-tecnica-agua-desionizada": [
+  {
+   "src": "fichas/pdf/vista/hoja-tecnica-agua-desionizada-p1.webp",
+   "w": 1043,
+   "h": 1508,
+   "kb": 222
+  }
+ ],
  "hoja-tecnica-agua-desmineralizada-tensos": [
   {
    "src": "fichas/pdf/vista/hoja-tecnica-agua-desmineralizada-tensos-p1.webp",
@@ -33,6 +49,46 @@
    "w": 1241,
    "h": 1754,
    "kb": 71
+  }
+ ],
+ "hoja-tecnica-agua-destilada": [
+  {
+   "src": "fichas/pdf/vista/hoja-tecnica-agua-destilada-p1.webp",
+   "w": 1043,
+   "h": 1508,
+   "kb": 221
+  }
+ ],
+ "hoja-tecnica-agua-libre-de-silice": [
+  {
+   "src": "fichas/pdf/vista/hoja-tecnica-agua-libre-de-silice-p1.webp",
+   "w": 1043,
+   "h": 1508,
+   "kb": 221
+  }
+ ],
+ "hoja-tecnica-agua-purificada-nivel-1": [
+  {
+   "src": "fichas/pdf/vista/hoja-tecnica-agua-purificada-nivel-1-p1.webp",
+   "w": 1043,
+   "h": 1508,
+   "kb": 224
+  }
+ ],
+ "hoja-tecnica-agua-suave": [
+  {
+   "src": "fichas/pdf/vista/hoja-tecnica-agua-suave-p1.webp",
+   "w": 1043,
+   "h": 1508,
+   "kb": 205
+  }
+ ],
+ "hoja-tecnica-agua-tridestilada": [
+  {
+   "src": "fichas/pdf/vista/hoja-tecnica-agua-tridestilada-p1.webp",
+   "w": 1043,
+   "h": 1508,
+   "kb": 222
   }
  ],
  "ht-ae-01-agua-desmineralizada": [

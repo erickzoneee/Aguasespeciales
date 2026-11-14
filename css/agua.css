@@ -1,0 +1,117 @@
+/* =========================================================
+   AGUAS ESPECIALES — Página de cada agua (versión final)
+   ---------------------------------------------------------
+   Se carga después de css/final.css y solo en agua-*.html. Usa sus
+   tokens (azules, radios, sombras) y sus piezas: cabecera, botones,
+   contacto, pie y botón de WhatsApp. Aquí solo va lo que es de estas
+   páginas: el encabezado con el envase y el visor de la hoja técnica.
+
+   Las páginas las escribe herramientas/paginas-agua.py; para cambiar
+   algo en las ocho, se cambia ahí y se vuelven a generar.
+   ========================================================= */
+
+/* ---------- Encabezado: nombre y texto a la izquierda, envase a la derecha ---------- */
+.agua-cab { padding: 40px 0 48px; }
+.agua-cab__grid { display: grid; gap: 34px; align-items: center; }
+@media (min-width: 769px) { .agua-cab__grid { grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); } }
+
+.agua-cab__ojo {
+  display: inline-block; margin-bottom: 12px;
+  font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--menta);
+}
+.agua-cab h1 { margin-bottom: 8px; }
+.agua-cab .agua-cab__sub { color: #fff; font-weight: 500; margin-bottom: 16px; font-size: 1.02rem; }
+.agua-cab .agua-cab__nota { font-size: .86rem; color: #9fc4d4; margin-top: -10px; }
+
+.agua-cab__acciones { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
+/* Botón de contorno claro, para el fondo azul marino */
+.btn--claro { background: none; border-color: rgba(255, 255, 255, .45); color: #fff; box-shadow: none; }
+.btn--claro:hover { border-color: var(--menta); color: var(--menta); }
+/* El anillo de foco general es azul oscuro y sobre el azul marino no se ve. */
+.agua-cab :focus-visible { outline-color: var(--menta); }
+.btn svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* El envase va sobre una tarjeta clara, como en los cuadros del catálogo.
+   El alto lo fija la tarjeta y el envase entra entero («contain»): una
+   botella redonda es más angosta que el frasco cuadrado. */
+.agua-foto {
+  margin: 0; border-radius: 18px; padding: 22px;
+  background: radial-gradient(120% 90% at 50% 20%, #ffffff 0%, var(--suave) 55%, var(--tinte) 100%);
+  box-shadow: 0 24px 44px -26px rgba(0, 0, 0, .55);
+  display: grid; place-items: center; aspect-ratio: 4 / 3.4;
+}
+.agua-foto img { width: 100%; height: 100%; max-height: 360px; object-fit: contain; }
+@media (max-width: 768px) {
+  .agua-cab { padding: 30px 0 36px; }
+  .agua-foto { max-width: 340px; width: 100%; margin: 0 auto; }
+  .agua-foto img { max-height: 260px; }
+}
+
+/* ---------- La hoja técnica ---------- */
+.agua-hoja { padding: 64px 0 72px; }
+.agua-hoja__cab { max-width: 760px; margin: 0 auto 26px; text-align: center; }
+.agua-hoja__ojo {
+  display: block; margin-bottom: 8px;
+  font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--azul-fuerte);
+}
+.agua-hoja__cab h2 { margin-bottom: 10px; }
+.agua-hoja__cab p { color: var(--apagado); margin: 0; font-size: .95rem; }
+.agua-hoja__visor { max-width: 860px; margin: 0 auto; }
+
+/* El visor lo arma js/hojas.js. Mismas clases que en las páginas de la
+   maqueta (css/pages.css), con los colores de la versión final. */
+.hoja {
+  border: 1px solid var(--linea); border-radius: var(--radio);
+  background: var(--blanco); overflow: hidden; box-shadow: var(--sombra-sm);
+}
+.hoja__cab {
+  display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between;
+  padding: 18px 20px; border-bottom: 1px solid var(--linea); background: var(--suave);
+}
+.hoja__cab strong { color: var(--tinta); font-size: .98rem; }
+.hoja__cab p { margin: 4px 0 0; color: var(--apagado); font-size: .84rem; max-width: 60ch; line-height: 1.5; }
+.hoja__cod {
+  display: inline-block; margin-left: 8px; padding: 2px 9px; border-radius: 999px;
+  background: var(--tinte); color: var(--azul-fuerte);
+  font-size: .7rem; font-weight: 700; letter-spacing: .06em;
+}
+.hoja__acciones { display: flex; flex-wrap: wrap; gap: 9px; }
+.hoja__btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 10px 16px; min-height: 44px; border-radius: 999px;
+  border: 1px solid var(--cian); color: var(--azul-fuerte); background: var(--blanco);
+  font-weight: 700; font-size: .82rem; text-decoration: none;
+  transition: background .2s, color .2s, border-color .2s;
+}
+.hoja__btn:hover { background: var(--tinte); }
+.hoja__btn--baja { background: var(--azul); border-color: var(--azul); color: #fff; }
+.hoja__btn--baja:hover { background: var(--azul-marino); border-color: var(--azul-marino); }
+.hoja__btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* La hoja rasterizada se ve completa, sin scroll propio que compita con el
+   de la página. */
+.hoja__pag { display: block; width: 100%; height: auto; background: #fff; }
+.hoja__pag + .hoja__pag { border-top: 1px solid var(--linea); }
+
+.hoja__otras { margin: 30px 0 12px; font-size: 1.02rem; }
+.hoja-lista { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.hoja-lista li {
+  display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between;
+  padding: 14px 18px; border: 1px solid var(--linea); border-radius: 12px; background: var(--blanco);
+}
+.hoja-lista strong { color: var(--tinta); font-size: .92rem; }
+.hoja-lista p { margin: 4px 0 0; color: var(--apagado); font-size: .82rem; max-width: 56ch; line-height: 1.5; }
+
+.hoja-vacia { display: grid; gap: 16px; justify-items: start; padding: 24px; border: 1px dashed var(--linea); border-radius: var(--radio); }
+.hoja-vacia p { margin: 0; color: var(--apagado); }
+
+/* Sin JavaScript no hay visor: quedan los dos enlaces al PDF. */
+.agua-hoja__sinjs { text-align: center; color: var(--apagado); }
+.agua-hoja__sinjs a { color: var(--azul-fuerte); font-weight: 700; }
+
+@media (max-width: 560px) {
+  .hoja__cab { padding: 16px; }
+  .hoja__acciones { width: 100%; }
+  .hoja__btn { flex: 1 1 auto; justify-content: center; }
+  .hoja-lista li { padding: 14px; }
+}

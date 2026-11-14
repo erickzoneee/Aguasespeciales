@@ -88,8 +88,10 @@ const AGUA = new THREE.Color(0xffffff);
 const DATOS = {
   producto: "Agua Bidestilada",
   lineas: [
-    ["Conductividad", "Máximo 15 µS/cm a 25 °C"],
-    ["pH", "7.5 – 8.5"],
+    /* Hoja técnica de agua bidestilada del 14 de noviembre de 2026. Antes
+       decía «Máximo 15 µS/cm a 25 °C» y «7.5 – 8.5», de la hoja anterior. */
+    ["Conductividad", "≤ 1.5 µS/cm a 25 °C"],
+    ["pH", "5.0 – 7.0"],
     ["Uso", "Laboratorio, farmacéutica, industrial"],
   ],
   pie: ["Lote", "Fecha"],

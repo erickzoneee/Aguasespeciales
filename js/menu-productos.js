@@ -40,7 +40,7 @@
       <div class="menu-sub">
         <span class="menu-sub__tit">${esc(c.name)}</span>
         ${visibles.map((i) => `
-          <a href="${esc(i.href || (DESTINO + "#" + c.id))}">${esc(i.name)}</a>`).join("")}
+          <a href="${esc(i.pagina || i.href || (DESTINO + "#" + c.id))}">${esc(i.name)}</a>`).join("")}
         ${resto > 0
           ? `<a class="menu-sub__mas" href="${esc(DESTINO)}#${esc(c.id)}">Ver los ${lista.length} ${CHEVRON}</a>`
           : `<a class="menu-sub__mas" href="${esc(DESTINO)}#${esc(c.id)}">Ver la categoría ${CHEVRON}</a>`}

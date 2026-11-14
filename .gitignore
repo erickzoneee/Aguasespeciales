@@ -16,3 +16,6 @@ node_modules/
 
 # Permisos locales del agente (no son del sitio)
 .claude/settings.local.json
+
+# Caché de Python de herramientas/
+__pycache__/

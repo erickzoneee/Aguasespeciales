@@ -38,7 +38,11 @@
   }
 
   /* Cuántas páginas tiene cada hoja rasterizada. Se escribe aquí y no se
-     descubre sola porque el sitio es estático: no hay a quién preguntarle. */
+     descubre sola porque el sitio es estático: no hay a quién preguntarle.
+     Las que no aparecen tienen una sola página (así las ocho hojas del 14 de
+     noviembre de 2026). Las cinco de abajo ya no se enlazan desde ninguna
+     página —contradecían la hoja técnica de su agua—, pero sus PDF y vistas
+     siguen en fichas/pdf/ y aquí queda su número por si vuelven. */
   const PAGINAS = {
     "ht-ae-01-agua-desmineralizada": 1,
     "hoja-tecnica-agua-desmineralizada-tensos": 2,
@@ -55,7 +59,14 @@
     return Array.from({ length: n }, (_, i) => `fichas/pdf/vista/${base}-p${i + 1}.webp`);
   }
 
+  /* Un PDF se ve o se descarga. Una hoja en HTML no: descargada, se abre
+     sin su hoja de estilos y sale en crudo. Esa se abre aparte, y desde ahí
+     su propio botón la imprime o la guarda como PDF. */
   function acciones(h) {
+    if (!esPdf(h)) {
+      return `
+      <a class="hoja__btn hoja__btn--baja" href="${esc(h.href)}" target="_blank" rel="noopener">${OJO} Abrir e imprimir</a>`;
+    }
     const nombre = h.href.split("/").pop();
     return `
       <a class="hoja__btn" href="${esc(h.href)}" target="_blank" rel="noopener">${OJO} Ver</a>

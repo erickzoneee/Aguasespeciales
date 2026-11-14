@@ -42,8 +42,11 @@
 
   const itemHTML = (item, catName) => {
     const search = norm([item.name, item.note || "", catName].join(" "));
-    const link = item.href
-      ? `<a class="item__link" href="${esc(item.href)}">Ver producto ${ARROW}</a>`
+    /* La maqueta sigue con sus tres páginas de producto (href); las aguas
+       que solo tienen página en el diseño final (pagina) van a esa. */
+    const destino = item.href || item.pagina;
+    const link = destino
+      ? `<a class="item__link" href="${esc(destino)}">Ver producto ${ARROW}</a>`
       : "";
     const note = item.note ? `<span class="item__note">${esc(item.note)}</span>` : "";
     const actions = (link || perItemQuote)

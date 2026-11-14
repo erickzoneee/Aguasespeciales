@@ -87,7 +87,7 @@
     const render = item.href && RENDERS[item.href];
     const foto = item.foto
       ? { webp: item.foto + ".webp", png: item.foto + ".png",
-          alt: "Envase de 1 L de " + item.name.toLowerCase() }
+          alt: item.alt || "Envase de 1 L de " + item.name.toLowerCase() }
       : render;
     /* La escena es la misma foto en varios cuadros seguidos y no enseña ese
        producto en concreto: va con alt vacío para que el lector de pantalla
@@ -109,8 +109,11 @@
       : `<div class="prod-tile__foto prod-tile__foto--icono" aria-hidden="true">
            <span>${cat.icon}</span>
          </div>`;
-    const ver = item.href
-      ? `<a class="prod-tile__ver" href="${esc(item.href)}">Ver producto ${FLECHA}</a>`
+    /* «pagina» es la página del producto con el diseño de la versión final;
+       «href», la de la maqueta. Aquí manda la final. */
+    const destino = item.pagina || item.href;
+    const ver = destino
+      ? `<a class="prod-tile__ver" href="${esc(destino)}">Ver producto ${FLECHA}</a>`
       : "";
     const nota = item.note ? `<p>${esc(item.note)}</p>` : "";
     /* Los servicios traen la lista de lo que determinan. Se muestran los

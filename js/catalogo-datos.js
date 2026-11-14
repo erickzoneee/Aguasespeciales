@@ -34,6 +34,7 @@
     items: CAT.services.map((s) => ({
       name: s.name,
       note: s.lead,
+      escena: s.escena,
       lista: itemsPlanos(s).map((i) => i.name),
     })),
   };

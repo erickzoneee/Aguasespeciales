@@ -22,9 +22,16 @@
   /* ---------- Categorías de producto ----------
      group: sirve para los filtros ("aguas" | "reactivos" | "equipo")
      items: lista simple  ·  groups: subcategorías con su propia lista
-     href:  cuando el producto tiene página de detalle propia
+     href:  cuando el producto tiene página de detalle propia en el diseño de
+            la maqueta (versión A). Solo la llevan las tres aguas de siempre.
+     pagina: la página del producto en el diseño de la versión final
+            (agua-*.html). La usan el catálogo final, el de la versión C y el
+            menú «Productos»; la maqueta A sigue con href y, si no hay,
+            también va a esta. Ver «Las páginas de cada agua» en el README.
      foto:  ruta sin extensión de la foto de producto; el catálogo le pone
-            .webp y .png. Solo la llevan los que tienen render de etiqueta.
+            .webp y .png. La llevan las trece aguas y los doce reactivos.
+     alt:   texto alternativo de la foto, cuando «Envase de 1 L de …» no
+            describe lo que se ve (los frascos de reactivo).
      escena: ruta sin extensión de una fotografía que llena el recuadro del
             cuadro (.webp y .jpg), en vez de un envase flotando. La llevan
             los tres de soluciones acuosas, con la foto de su categoría.
@@ -35,6 +42,14 @@
   -------------------------------------------------------- */
   const ESCENA_SOLUCIONES = "img/cat/soluciones-acuosas";
 
+  /* Los doce reactivos llevan la foto de su frasco, que mandó el cliente el
+     14 de noviembre de 2026 (un PDF con una imagen por reactivo). Van sin
+     fondo, como las aguas. La etiqueta del frasco dice menos que el nombre
+     del catálogo («Solución tituladora para dureza total» y no «…, EDTA»):
+     manda el nombre de aquí, que es el que se cotiza. */
+  const reactivo = (name, archivo, alt) =>
+    ({ name, foto: "img/producto/reactivo-" + archivo, alt });
+
   const CATEGORIES = [
     {
       id: "agua-purificada",
@@ -44,7 +59,7 @@
       name: "Agua purificada",
       lead: "Agua de uso general para procesos, limpieza de equipos y formulación, en los grados de mineralización que cada proceso necesita.",
       items: [
-        { name: "Agua purificada", href: "producto-agua-purificada.html", foto: "img/producto/agua-purificada" },
+        { name: "Agua purificada", href: "producto-agua-purificada.html", pagina: "agua-purificada.html", foto: "img/producto/agua-purificada" },
         { name: "Agua baja en sales", foto: "img/producto/agua-baja-en-sales" },
         { name: "Agua equilibrada", foto: "img/producto/agua-equilibrada" },
       ],
@@ -57,13 +72,13 @@
       name: "Aguas especiales",
       lead: "Aguas producidas bajo especificación, desde purificada hasta tridestilada, con el perfil iónico que tu proceso necesita.",
       items: [
-        { name: "Agua suave", foto: "img/producto/agua-suave" },
-        { name: "Agua desmineralizada", href: "producto-agua-desmineralizada.html", foto: "img/producto/agua-desmineralizada" },
-        { name: "Agua destilada", foto: "img/producto/agua-destilada" },
-        { name: "Agua bidestilada", href: "producto-agua-bidestilada.html", foto: "img/producto/agua-bidestilada" },
-        { name: "Agua tridestilada", foto: "img/producto/agua-tridestilada" },
-        { name: "Agua desionizada", foto: "img/producto/agua-desionizada" },
-        { name: "Agua libre de sílice", foto: "img/producto/agua-libre-de-silice" },
+        { name: "Agua suave", pagina: "agua-suave.html", foto: "img/producto/agua-suave" },
+        { name: "Agua desmineralizada", href: "producto-agua-desmineralizada.html", pagina: "agua-desmineralizada.html", foto: "img/producto/agua-desmineralizada" },
+        { name: "Agua destilada", pagina: "agua-destilada.html", foto: "img/producto/agua-destilada" },
+        { name: "Agua bidestilada", href: "producto-agua-bidestilada.html", pagina: "agua-bidestilada.html", foto: "img/producto/agua-bidestilada" },
+        { name: "Agua tridestilada", pagina: "agua-tridestilada.html", foto: "img/producto/agua-tridestilada" },
+        { name: "Agua desionizada", pagina: "agua-desionizada.html", foto: "img/producto/agua-desionizada" },
+        { name: "Agua libre de sílice", pagina: "agua-libre-de-silice.html", foto: "img/producto/agua-libre-de-silice" },
         { name: "Agua ácida", foto: "img/producto/agua-acida" },
         { name: "Agua básica", foto: "img/producto/agua-basica" },
         { name: "Agua preparada bajo especificación del cliente", foto: "img/producto/agua-bajo-especificacion" },
@@ -139,33 +154,33 @@
           title: "Soluciones buffer de pH",
           note: "Fabricación propia, presentación de 1 litro. Se venden por separado.",
           items: [
-            { name: "Solución buffer pH 4" },
-            { name: "Solución buffer pH 7" },
-            { name: "Solución buffer pH 10" },
+            reactivo("Solución buffer pH 4", "buffer-ph-4", "Frasco ámbar de solución buffer pH 4"),
+            reactivo("Solución buffer pH 7", "buffer-ph-7", "Frasco ámbar de solución buffer pH 7"),
+            reactivo("Solución buffer pH 10", "buffer-ph-10", "Frasco ámbar de solución buffer pH 10"),
           ],
         },
         {
           title: "Reactivos para análisis de dureza",
           items: [
-            { name: "Polvo indicador de dureza total, Eriocromo Negro T" },
-            { name: "Solución buffer para dureza total" },
-            { name: "Polvo indicador de dureza de calcio" },
-            { name: "Solución tituladora de dureza, EDTA" },
+            reactivo("Polvo indicador de dureza total, Eriocromo Negro T", "polvo-dureza-total", "Frasco ámbar de boca ancha de polvo indicador para dureza total"),
+            reactivo("Solución buffer para dureza total", "buffer-dureza-total", "Frasco ámbar de solución buffer para dureza total"),
+            reactivo("Polvo indicador de dureza de calcio", "polvo-dureza-calcio", "Frasco ámbar de boca ancha de polvo indicador de dureza de calcio"),
+            reactivo("Solución tituladora de dureza, EDTA", "titulador-dureza", "Frasco ámbar de solución tituladora para dureza total"),
           ],
         },
         {
           title: "Reactivos para análisis de alcalinidad",
           items: [
-            { name: "Solución indicadora de fenolftaleína" },
-            { name: "Solución indicadora de anaranjado de metilo" },
-            { name: "Solución tituladora de alcalinidad, ácido sulfúrico 0.02 N" },
+            reactivo("Solución indicadora de fenolftaleína", "indicador-fenolftaleina", "Frasco ámbar de solución indicadora de alcalinidad, fenolftaleína"),
+            reactivo("Solución indicadora de anaranjado de metilo", "indicador-anaranjado-metilo", "Frasco ámbar de solución indicadora de alcalinidad, anaranjado de metilo"),
+            reactivo("Solución tituladora de alcalinidad, ácido sulfúrico 0.02 N", "titulador-alcalinidad", "Frasco ámbar de solución tituladora de alcalinidad"),
           ],
         },
         {
           title: "Reactivos para análisis de cloruros",
           items: [
-            { name: "Solución tituladora de cloruros, nitrato de plata 0.0171 N" },
-            { name: "Solución indicadora de cloruros, cromato de potasio al 10% m/v" },
+            reactivo("Solución tituladora de cloruros, nitrato de plata 0.0171 N", "titulador-cloruros", "Frasco ámbar de solución tituladora de cloruros"),
+            reactivo("Solución indicadora de cloruros, cromato de potasio al 10% m/v", "indicador-cloruros", "Frasco ámbar de solución indicadora de cloruros"),
           ],
         },
       ],
@@ -224,13 +239,18 @@
     },
   ];
 
-  /* ---------- Servicios ---------- */
+  /* ---------- Servicios ----------
+     escena: la foto del servicio que mandó el cliente el 14 de noviembre de
+     2026, recortada a 4:3 sin el título que trae impreso (el cuadro ya lo
+     escribe). Son tres fotos para cuatro servicios: los dos fisicoquímicos
+     comparten la suya. Solo la pinta el catálogo de la versión final. */
   const SERVICES = [
     {
       id: "analisis-basico",
       num: "01",
       icon: "🧾",
       name: "Análisis fisicoquímico básico de agua",
+      escena: "img/servicio/analisis-fisicoquimicos",
       lead: "El panorama completo del agua que entra a tu proceso, con balance iónico incluido.",
       groups: [
         {
@@ -270,6 +290,7 @@
       num: "02",
       icon: "📈",
       name: "Análisis fisicoquímico ampliado de agua",
+      escena: "img/servicio/analisis-fisicoquimicos",
       lead: "Incluye todo el análisis básico y suma cuatro determinaciones adicionales.",
       groups: [
         {
@@ -292,6 +313,7 @@
       num: "03",
       icon: "🦠",
       name: "Análisis microbiológicos de agua",
+      escena: "img/servicio/analisis-microbiologicos",
       lead: "Se ofrecen individualmente o como paquete completo.",
       items: [
         { name: "Hongos y levaduras" },
@@ -305,6 +327,7 @@
       num: "04",
       icon: "🚚",
       name: "Toma de muestra en sitio",
+      escena: "img/servicio/muestreo-en-sitio",
       lead: "Vamos por la muestra para que el resultado represente de verdad tu agua. Servicio con costo adicional.",
       items: [
         { name: "Recipiente adecuado" },
@@ -318,23 +341,48 @@
   ];
 
   /* ---------- Especificaciones de las aguas con página propia ----------
-     ÚNICA fuente de los valores numéricos. La página del producto y sus dos
-     hojas descargables leen de aquí, así que un cambio en esta tabla se
-     refleja en los tres documentos y nunca quedan cifras contradictorias.
-     specs: null  → la página no muestra tabla (solo el texto de specsNote)
+     ÚNICA fuente de los valores numéricos en la web. Las hojas imprimibles de
+     fichas/ (HT y HE) pintan sus tablas desde aquí, y las páginas de cada
+     agua enseñan la hoja oficial del cliente en imagen (js/hojas.js).
+
+     Las cifras se transcribieron de las hojas que mandó el cliente y se
+     verificaron con una segunda transcripción a ciegas, celda por celda
+     (280 celdas, 0 diferencias de cifra). Si llega una hoja nueva, se compara
+     contra esto antes de publicarla: mismo nombre no garantiza mismas cifras.
+
+     Lo que traen las hojas tal cual, aunque parezca raro, está anotado en el
+     README («Las hojas del 14 de noviembre»): la sílice «0 mg/L» sin «≤», la
+     conductividad del agua suave sin «≤», y el proceso de ósmosis inversa e
+     intercambio iónico en destilada, bidestilada y tridestilada.
+
+     specs: null  → la hoja imprimible no muestra tabla (solo specsNote)
      micro:  null → sin tabla microbiológica (se muestra microNote si existe)
+     sheets: []   → la página dice que no hay hoja publicada y ofrece pedirla
+     page:   la página de la maqueta (versión A), si la hay
+     pagina: la página de la versión final
   -------------------------------------------------------- */
+
+  /* La tabla microbiológica es idéntica en las ocho hojas. */
+  const MICRO_HOJAS = [
+    ["Mesófilos aerobios", "< 100 UFC/mL"],
+    ["Hongos y levaduras", "< 1 UFC/100 mL"],
+    ["Pseudomonas aeruginosa", "No detectada en 100 mL"],
+    ["Coliformes totales", "No detectados en 100 mL"],
+  ];
+
   const WATERS = {
     "agua-desmineralizada": {
       slug: "agua-desmineralizada",
       name: "Agua desmineralizada",
       tagline: "Alta pureza y baja conductividad",
       page: "producto-agua-desmineralizada.html",
-      /* Valores de la hoja técnica HT-AE-01 v01 (05/06/2025). Al editarlos aquí
-         se actualizan a la vez la página de producto, la hoja técnica y la de
-         especificaciones: nunca pueden quedar cifras contradictorias. */
+      pagina: "agua-desmineralizada.html",
+      /* Hoja técnica HT-AE-01 v01 (05/06/2025). La del 14 de noviembre de 2026 es
+         el mismo archivo, byte a byte. Ese día salieron de la lista tres PDF
+         que decían pH 5.5–7.5 y TDS 1.4 ppm (parámetros FQ, hoja extendida y
+         certificado); siguen en fichas/pdf/ pero ya no se enlazan. */
       specs: [
-        ["Apariencia", "Líquido transparente, incoloro, libre de partículas visibles"],
+        ["Apariencia", "Líquido transparente, incoloro, inodoro y libre de partículas visibles"],
         ["pH (a 25 °C)", "5.0 – 7.0"],
         ["Conductividad (a 25 °C)", "≤ 2.5 µS/cm"],
         ["Sólidos totales disueltos (TDS)", "≤ 1.25 mg/L"],
@@ -348,12 +396,7 @@
         ["Olor", "Inodoro"],
         ["Turbidez", "≤ 1 NTU"],
       ],
-      micro: [
-        ["Mesófilos aerobios", "< 100 UFC/mL"],
-        ["Hongos y levaduras", "< 1 UFC/100 mL"],
-        ["Pseudomonas aeruginosa", "No detectada en 100 mL"],
-        ["Coliformes totales", "No detectados en 100 mL"],
-      ],
+      micro: MICRO_HOJAS,
       sheets: [
         {
           type: "Hoja técnica",
@@ -373,75 +416,52 @@
           href: "fichas/pdf/ht-ae-01-agua-desmineralizada.pdf",
           desc: "La hoja técnica oficial, tal como la emite control de calidad.",
         },
-        {
-          type: "Parámetros fisicoquímicos (PDF)",
-          code: "FQ",
-          href: "fichas/pdf/parametros-fq-agua-desmineralizada.pdf",
-          desc: "Tabla de parámetros fisicoquímicos con membrete y datos fiscales.",
-        },
-        {
-          type: "Hoja técnica extendida (PDF)",
-          code: "—",
-          href: "fichas/pdf/hoja-tecnica-agua-desmineralizada-tensos.pdf",
-          desc: "Proceso de tratamiento, áreas de aplicación, almacenamiento y embalaje.",
-        },
-        {
-          type: "Certificado de calidad (PDF)",
-          code: "—",
-          href: "fichas/pdf/certificado-calidad-agua-desmineralizada.pdf",
-          desc: "Formato por lote, con el método y la especificación de cada determinación.",
-        },
       ],
     },
 
     "agua-bidestilada": {
       slug: "agua-bidestilada",
       name: "Agua bidestilada",
-      tagline: "Doble destilación para uso analítico",
+      tagline: "Alta pureza y baja conductividad",
       page: "producto-agua-bidestilada.html",
+      pagina: "agua-bidestilada.html",
+      /* Hoja del 14 de noviembre de 2026, sin código ni versión impresos. Sustituye a la de
+         pH 7.5–8.5 y máximo 15 µS: sus dos PDF (parámetros FQ y hoja extendida
+         Tensos) siguen en fichas/pdf/ pero ya no se enlazan. */
       specs: [
-        ["Apariencia", "Líquido transparente"],
-        ["pH", "7.5 – 8.5"],
-        ["Conductividad", "Máximo 15 µS"],
-        ["Sólidos totales disueltos", "Máximo 1.05 ppm"],
-        ["Dureza", "Ausente"],
-        ["Calcio", "Ausente"],
-        ["Magnesio", "Ausente"],
-        ["Sílice", "Ausente"],
-        ["Sulfatos", "Ausente"],
-        ["Cloruros", "Ausente"],
-        ["Color", "Ausente"],
-        ["Olor", "Ausente"],
-        ["Sedimentos", "Ausente"],
-        ["Amonio", "Ausente"],
-        ["Anhídrido carbónico libre", "Ausente"],
+        ["Apariencia", "Líquido transparente, incoloro, inodoro y libre de partículas visibles"],
+        ["pH (a 25 °C)", "5.0 – 7.0"],
+        ["Conductividad (a 25 °C)", "≤ 1.5 µS/cm"],
+        ["Sólidos totales disueltos (TDS)", "≤ 1.25 mg/L"],
+        ["Dureza total (como CaCO₃)", "≤ 1 mg/L"],
+        ["Cloruros (Cl⁻)", "≤ 1 mg/L"],
+        ["Sulfatos (SO₄²⁻)", "≤ 1 mg/L"],
+        ["Sodio (Na⁺)", "≤ 1 mg/L"],
+        ["Sílice (SiO₂)", "≤ 0.5 mg/L"],
+        ["Hierro (Fe)", "≤ 0.1 mg/L"],
+        ["Color", "≤ 5 UC (Unidades de Color)"],
+        ["Olor", "Inodoro"],
+        ["Turbidez", "≤ 1 NTU"],
       ],
-      micro: null,
-      microNote: "Especificaciones microbiológicas disponibles bajo solicitud.",
+      micro: MICRO_HOJAS,
       sheets: [
+        {
+          type: "Hoja técnica (PDF)",
+          code: "—",
+          href: "fichas/pdf/hoja-tecnica-agua-bidestilada.pdf",
+          desc: "Descripción, características, aplicaciones, presentación, almacenamiento, especificaciones fisicoquímicas y microbiológicas, y proceso de producción.",
+        },
         {
           type: "Hoja técnica",
           code: "HT-AE-02",
           href: "fichas/ht-agua-bidestilada.html",
-          desc: "Descripción, beneficios, aplicaciones, presentación, almacenamiento, especificaciones y proceso de producción.",
+          desc: "Versión imprimible, con las mismas cifras que la hoja técnica.",
         },
         {
           type: "Hoja de especificaciones",
           code: "HE-AE-05",
           href: "fichas/he-agua-bidestilada.html",
-          desc: "Tabla fisicoquímica con presentación, almacenamiento y firmas de revisión y autorización.",
-        },
-        {
-          type: "Parámetros fisicoquímicos (PDF)",
-          code: "FQ",
-          href: "fichas/pdf/parametros-fq-agua-bidestilada.pdf",
-          desc: "Tabla de parámetros fisicoquímicos con membrete y datos fiscales.",
-        },
-        {
-          type: "Hoja técnica extendida (PDF)",
-          code: "—",
-          href: "fichas/pdf/hoja-tecnica-agua-bidestilada-tensos.pdf",
-          desc: "Proceso de tratamiento, áreas de aplicación, almacenamiento y embalaje.",
+          desc: "Tablas fisicoquímica y microbiológica con presentación, almacenamiento y firmas de revisión y autorización.",
         },
       ],
     },
@@ -449,13 +469,192 @@
     "agua-purificada": {
       slug: "agua-purificada",
       name: "Agua purificada",
-      tagline: "Base confiable para procesos e higiene",
+      tagline: "Alta pureza y baja conductividad",
       page: "producto-agua-purificada.html",
-      specs: null,
-      specsNote:
-        "Las especificaciones de agua purificada se definen según la aplicación. Solicítanos la hoja de especificaciones correspondiente a tu proceso y te la enviamos con los parámetros que apliquen.",
-      micro: null,
-      sheets: [],
+      pagina: "agua-purificada.html",
+      /* Hoja «Agua purificada Nivel 1». Hoja del 14 de noviembre de 2026, sin código ni versión impresos.
+         El producto conserva el nombre «Agua purificada», a petición del cliente. */
+      specs: [
+        ["Apariencia", "Líquido transparente, incoloro, inodoro y libre de partículas visibles"],
+        ["pH (a 25 °C)", "5.0 – 7.0"],
+        ["Conductividad (a 25 °C)", "≤ 1.5 µS/cm"],
+        ["Sólidos totales disueltos (TDS)", "≤ 1.25 mg/L"],
+        ["Dureza total (como CaCO₃)", "≤ 1 mg/L"],
+        ["Cloruros (Cl⁻)", "≤ 1 mg/L"],
+        ["Sulfatos (SO₄²⁻)", "≤ 1 mg/L"],
+        ["Sodio (Na⁺)", "≤ 1 mg/L"],
+        ["Sílice (SiO₂)", "≤ 0.5 mg/L"],
+        ["Hierro (Fe)", "≤ 0.1 mg/L"],
+        ["Color", "≤ 5 UC (Unidades de Color)"],
+        ["Olor", "Inodoro"],
+        ["Turbidez", "≤ 1 NTU"],
+      ],
+      micro: MICRO_HOJAS,
+      sheets: [
+        {
+          type: "Hoja técnica (PDF)",
+          code: "—",
+          href: "fichas/pdf/hoja-tecnica-agua-purificada-nivel-1.pdf",
+          desc: "Hoja de agua purificada Nivel 1. Descripción, características, aplicaciones, presentación, almacenamiento, especificaciones fisicoquímicas y microbiológicas, y proceso de producción.",
+        },
+      ],
+    },
+
+    "agua-suave": {
+      slug: "agua-suave",
+      name: "Agua suave",
+      tagline: "Agua tratada para reducir la dureza",
+      pagina: "agua-suave.html",
+      /* Hoja del 14 de noviembre de 2026, sin código ni versión impresos. Trae menos filas que las
+         demás: no especifica cloruros, sulfatos, sodio ni sílice. */
+      specs: [
+        ["Apariencia", "Líquido transparente, incoloro, inodoro y libre de partículas visibles"],
+        ["pH (a 25 °C)", "6.8 - 7.8"],
+        ["Conductividad (a 25 °C)", "150 µS/cm"],
+        ["Sólidos totales disueltos (TDS)", "No especificado"],
+        ["Dureza total (como CaCO₃)", "0 mg/L"],
+        ["Hierro (Fe)", "≤ 0.1 mg/L"],
+        ["Color", "≤ 5 UC (Unidades de Color)"],
+        ["Olor", "Inodoro"],
+        ["Turbidez", "≤ 1 NTU"],
+      ],
+      micro: MICRO_HOJAS,
+      sheets: [
+        {
+          type: "Hoja técnica (PDF)",
+          code: "—",
+          href: "fichas/pdf/hoja-tecnica-agua-suave.pdf",
+          desc: "Descripción, características, aplicaciones, presentación, almacenamiento, especificaciones fisicoquímicas y microbiológicas, y proceso de producción.",
+        },
+      ],
+    },
+
+    "agua-destilada": {
+      slug: "agua-destilada",
+      name: "Agua destilada",
+      tagline: "Alta pureza y baja conductividad",
+      pagina: "agua-destilada.html",
+      /* Hoja del 14 de noviembre de 2026, sin código ni versión impresos. */
+      specs: [
+        ["Apariencia", "Líquido transparente, incoloro, inodoro y libre de partículas visibles"],
+        ["pH (a 25 °C)", "5.0 – 7.0"],
+        ["Conductividad (a 25 °C)", "≤ 2.0 µS/cm"],
+        ["Sólidos totales disueltos (TDS)", "≤ 1.25 mg/L"],
+        ["Dureza total (como CaCO₃)", "≤ 1 mg/L"],
+        ["Cloruros (Cl⁻)", "≤ 1 mg/L"],
+        ["Sulfatos (SO₄²⁻)", "≤ 1 mg/L"],
+        ["Sodio (Na⁺)", "≤ 1 mg/L"],
+        ["Sílice (SiO₂)", "≤ 0.5 mg/L"],
+        ["Hierro (Fe)", "≤ 0.1 mg/L"],
+        ["Color", "≤ 5 UC (Unidades de Color)"],
+        ["Olor", "Inodoro"],
+        ["Turbidez", "≤ 1 NTU"],
+      ],
+      micro: MICRO_HOJAS,
+      sheets: [
+        {
+          type: "Hoja técnica (PDF)",
+          code: "—",
+          href: "fichas/pdf/hoja-tecnica-agua-destilada.pdf",
+          desc: "Descripción, características, aplicaciones, presentación, almacenamiento, especificaciones fisicoquímicas y microbiológicas, y proceso de producción.",
+        },
+      ],
+    },
+
+    "agua-tridestilada": {
+      slug: "agua-tridestilada",
+      name: "Agua tridestilada",
+      tagline: "Alta pureza y baja conductividad",
+      pagina: "agua-tridestilada.html",
+      /* Hoja del 14 de noviembre de 2026, sin código ni versión impresos. */
+      specs: [
+        ["Apariencia", "Líquido transparente, incoloro, inodoro y libre de partículas visibles"],
+        ["pH (a 25 °C)", "5.0 – 7.0"],
+        ["Conductividad (a 25 °C)", "≤ 1.0 µS/cm"],
+        ["Sólidos totales disueltos (TDS)", "≤ 1.25 mg/L"],
+        ["Dureza total (como CaCO₃)", "≤ 1 mg/L"],
+        ["Cloruros (Cl⁻)", "≤ 1 mg/L"],
+        ["Sulfatos (SO₄²⁻)", "≤ 1 mg/L"],
+        ["Sodio (Na⁺)", "≤ 1 mg/L"],
+        ["Sílice (SiO₂)", "≤ 0.5 mg/L"],
+        ["Hierro (Fe)", "≤ 0.1 mg/L"],
+        ["Color", "≤ 5 UC (Unidades de Color)"],
+        ["Olor", "Inodoro"],
+        ["Turbidez", "≤ 1 NTU"],
+      ],
+      micro: MICRO_HOJAS,
+      sheets: [
+        {
+          type: "Hoja técnica (PDF)",
+          code: "—",
+          href: "fichas/pdf/hoja-tecnica-agua-tridestilada.pdf",
+          desc: "Descripción, características, aplicaciones, presentación, almacenamiento, especificaciones fisicoquímicas y microbiológicas, y proceso de producción.",
+        },
+      ],
+    },
+
+    "agua-desionizada": {
+      slug: "agua-desionizada",
+      name: "Agua desionizada",
+      tagline: "Alta pureza y baja conductividad",
+      pagina: "agua-desionizada.html",
+      /* Hoja del 14 de noviembre de 2026, sin código ni versión impresos. */
+      specs: [
+        ["Apariencia", "Líquido transparente, incoloro, inodoro y libre de partículas visibles"],
+        ["pH (a 25 °C)", "5.0 – 7.0"],
+        ["Conductividad (a 25 °C)", "≤ 1.0 µS/cm"],
+        ["Sólidos totales disueltos (TDS)", "≤ 1.25 mg/L"],
+        ["Dureza total (como CaCO₃)", "≤ 1 mg/L"],
+        ["Cloruros (Cl⁻)", "≤ 1 mg/L"],
+        ["Sulfatos (SO₄²⁻)", "≤ 1 mg/L"],
+        ["Sodio (Na⁺)", "≤ 1 mg/L"],
+        ["Sílice (SiO₂)", "≤ 0.5 mg/L"],
+        ["Hierro (Fe)", "≤ 0.1 mg/L"],
+        ["Color", "≤ 5 UC (Unidades de Color)"],
+        ["Olor", "Inodoro"],
+        ["Turbidez", "≤ 1 NTU"],
+      ],
+      micro: MICRO_HOJAS,
+      sheets: [
+        {
+          type: "Hoja técnica (PDF)",
+          code: "—",
+          href: "fichas/pdf/hoja-tecnica-agua-desionizada.pdf",
+          desc: "Descripción, características, aplicaciones, presentación, almacenamiento, especificaciones fisicoquímicas y microbiológicas, y proceso de producción.",
+        },
+      ],
+    },
+
+    "agua-libre-de-silice": {
+      slug: "agua-libre-de-silice",
+      name: "Agua libre de sílice",
+      tagline: "Alta pureza y baja conductividad",
+      pagina: "agua-libre-de-silice.html",
+      /* Hoja del 14 de noviembre de 2026, sin código ni versión impresos. */
+      specs: [
+        ["Apariencia", "Líquido transparente, incoloro, inodoro y libre de partículas visibles"],
+        ["pH (a 25 °C)", "5.0 – 7.0"],
+        ["Conductividad (a 25 °C)", "≤ 1.0 µS/cm"],
+        ["Sólidos totales disueltos (TDS)", "≤ 1.25 mg/L"],
+        ["Dureza total (como CaCO₃)", "≤ 1 mg/L"],
+        ["Cloruros (Cl⁻)", "≤ 1 mg/L"],
+        ["Sulfatos (SO₄²⁻)", "≤ 1 mg/L"],
+        ["Sodio (Na⁺)", "≤ 1 mg/L"],
+        ["Sílice (SiO₂)", "0 mg/L"],
+        ["Hierro (Fe)", "≤ 0.1 mg/L"],
+        ["Color", "≤ 5 UC (Unidades de Color)"],
+        ["Olor", "Inodoro"],
+        ["Turbidez", "≤ 1 NTU"],
+      ],
+      micro: MICRO_HOJAS,
+      sheets: [
+        {
+          type: "Hoja técnica (PDF)",
+          code: "—",
+          href: "fichas/pdf/hoja-tecnica-agua-libre-de-silice.pdf",
+          desc: "Descripción, características, aplicaciones, presentación, almacenamiento, especificaciones fisicoquímicas y microbiológicas, y proceso de producción.",
+        },
+      ],
     },
   };
 
