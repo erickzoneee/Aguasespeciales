@@ -27,7 +27,7 @@ Pagina AguasEspeciales/
 ├── version-combinada.html              # Portada — VERSIÓN C (la mezcla, con el tote en 3D)
 ├── catalogo.html                       # Catálogo en cuadros — solo VERSIÓN C
 ├── tote-preview.html                   # Banco de pruebas del tote 3D (no forma parte del sitio)
-├── productos.html                      # Catálogo completo (8 categorías, 50 productos)
+├── productos.html                      # Catálogo completo (7 categorías, 43 productos)
 ├── servicios.html                      # 4 servicios de análisis
 ├── producto-agua-purificada.html       # Ficha de producto
 ├── producto-agua-desmineralizada.html  # Ficha de producto
@@ -108,7 +108,7 @@ el 30 de septiembre de 2026 a petición del cliente, junto con sus reglas
 en el historial de git, en el commit anterior a su retirada.
 
 **Servicios ya no es una página aparte.** Los cuatro análisis son la **categoría
-09** del mismo catálogo, con la lista de lo que determina cada uno. Se navegan
+08** del mismo catálogo (la 09 hasta el 16 de noviembre de 2026), con la lista de lo que determina cada uno. Se navegan
 igual que todo lo demás. Desde el 13 de octubre de 2026 su cuadro lleva la
 fotografía del laboratorio que mandó el cliente (ver «Imágenes de categoría»).
 
@@ -131,6 +131,19 @@ vuelven (el código entero está en el historial de git, en el commit
 |---|---|---|---|
 | Envases plásticos | `envases` · equipo · 🧴 | «Disponibles en existencia y vendidos por unidad.» | Frasco gotero plástico de 40 mL · Envase plástico de 250 mL con tapa · Envase plástico de 500 mL con tapa |
 | Presentaciones de agua | `presentaciones` · aguas · 📦 | «Del garrafón al tote de mil litros, con la opción de llenar tus propios recipientes.» | Garrafón de 19 litros · Porrón de 20 litros · Porrón de 50 litros · Contenedor IBC o tote de 1,000 litros · Llenado de recipientes propiedad del cliente |
+| Material y equipo de laboratorio *(16 nov 2026)* | `material-equipo` · equipo · ⚗️ | «Material volumétrico e instrumentación para acompañar tus análisis.» | Pipeta de 10 mL · Pera de succión automática · Bureta automática · Bureta automática ámbar · Matraz Erlenmeyer de 250 mL · Probeta de 50 mL · Medidor multiparamétrico portátil (nota: «Mide pH, conductividad, STD/TDS y temperatura.») |
+
+**Material y equipo de laboratorio** salió el 16 de noviembre de 2026, también
+a petición del cliente y de todo el sitio, con el mismo criterio: de
+`js/catalog.js` (y con eso de la versión final, su menú, su buscador y las
+maquetas), el filtro «Material y equipo» de la versión A, que se habría
+quedado vacío, la casilla «Material y equipo» de los cotizadores de las
+versiones A y C, la regla de `js/main.js` que la marcaba al llegar desde
+«bureta», «pipeta», «matraz» o «medidor», y los textos que decían «ocho
+categorías… kits y equipo», que ahora dicen siete. Servicios pasó de la 09 a la
+08. **Los kits no cambiaron:** «Kit con bureta automática» sigue igual, porque
+la bureta viene dentro del kit; buscar «bureta» ahora encuentra los kits. El
+código entero está en el historial de git, en el commit `01cda0c`.
 
 **No se tocó lo que habla del envase del agua, no de la categoría:** las
 hojas técnicas y de especificaciones de `fichas/` siguen diciendo que el agua
@@ -237,7 +250,7 @@ se decida cuál queda.
 | `index.html` | **Versión A** — la maqueta | Lo que ya estaba, más los arreglos de usabilidad de abajo |
 | `version-real.html` | **Versión B** — recreación de `aguasespeciales.com.mx` | El sitio real (WordPress + Astra + Elementor), reconstruido en estático |
 | `version-combinada.html` | **Versión C** — la mezcla | Estructura corta de B + sistema de diseño de A + el tote en 3D |
-| `catalogo.html` | Catálogo de la versión C | Las ocho categorías en cuadro; al abrir una, sus productos también en cuadro |
+| `catalogo.html` | Catálogo de la versión C | Las siete categorías en cuadro; al abrir una, sus productos también en cuadro |
 
 **Qué se corrigió al recrear la versión B.** El original tenía tres sistemas de
 botón distintos, dos anchos de contenedor que no coincidían (1200 px del tema y
@@ -258,7 +271,7 @@ armada pero vacía: reescribirlos sería inventarlos.
 ## 🔳 El catálogo en cuadros (versión C)
 
 `catalogo.html` presenta el mismo catálogo de `js/catalog.js` en dos niveles: al
-entrar se ven las **ocho categorías en cuadro**, y al abrir una salen **sus
+entrar se ven las **siete categorías en cuadro**, y al abrir una salen **sus
 productos también en cuadro**. El índice lateral hace lo mismo, para quien ya
 sabe lo que busca; en teléfono se oculta, porque los cuadros ya cumplen esa
 función y si no había que pasar ocho enlaces antes de ver nada.
@@ -600,7 +613,7 @@ Sin JavaScript se ve el primer banner y ya: ni carrusel roto ni hueco.
 
 ## 🖼️ Imágenes de categoría
 
-Ocho de las nueve categorías tienen imagen propia. Cinco —**aguas para
+Las ocho categorías tienen imagen propia. Cinco —**aguas para
 laboratorio**, **soluciones acuosas**, **agua acondicionada para chillers**,
 **reactivos** y **kits**— salen de los banners que entregó el cliente (los
 primeros llegaron en PDF y se extrajeron con PyMuPDF) y van
@@ -658,8 +671,10 @@ un móvil bueno. Estirar un recorte de 656 px hasta los 900 px que tenían los
 anteriores no añade un solo detalle y sí funde los bordes: medido, la nitidez
 del de kits caía a menos de un tercio.
 
-La que queda, **material y equipo de laboratorio**, lleva su icono sobre un
-fondo tintado, así que todos los cuadros miden lo mismo y ninguno queda hueco. Para añadir una imagen nueva:
+La única que no tenía, **material y equipo de laboratorio**, llevaba su icono
+sobre un fondo tintado; salió del sitio el 16 de noviembre de 2026, así que hoy
+todas tienen imagen. El bloque del icono sigue en `js/catalogo.js` para la
+categoría que llegue sin imagen. Para añadir una imagen nueva:
 deja `img/cat/<id-de-categoria>.webp` y `.jpg`, y suma el id al arreglo
 `IMAGENES` de `js/catalogo-datos.js`. Nada más.
 

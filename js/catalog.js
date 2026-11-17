@@ -20,7 +20,8 @@
   };
 
   /* ---------- Categorías de producto ----------
-     group: sirve para los filtros ("aguas" | "reactivos" | "equipo")
+     group: sirve para los filtros de la maqueta A ("aguas" | "reactivos").
+            Hubo un tercero, "equipo", que se fue con su única categoría.
      items: lista simple  ·  groups: subcategorías con su propia lista
      href:  cuando el producto tiene página de detalle propia en el diseño de
             la maqueta (versión A). Solo la llevan las tres aguas de siempre.
@@ -37,8 +38,9 @@
             los tres de soluciones acuosas, con la foto de su categoría.
 
      «Envases plásticos» y «Presentaciones de agua» se quitaron del sitio el
-     13 de octubre de 2026 a petición del cliente. Lo que traían está en el
-     README, en «Categorías retiradas».
+     13 de octubre de 2026 a petición del cliente, y «Material y equipo de
+     laboratorio» el 16 de noviembre. Lo que traían está en el README, en
+     «Categorías retiradas».
   -------------------------------------------------------- */
   const ESCENA_SOLUCIONES = "img/cat/soluciones-acuosas";
 
@@ -216,26 +218,6 @@
         },
       ],
       footnote: "Todos los reactivos también pueden comprarse por separado.",
-    },
-    {
-      id: "material-equipo",
-      num: "07",
-      group: "equipo",
-      icon: "⚗️",
-      name: "Material y equipo de laboratorio",
-      lead: "Material volumétrico e instrumentación para acompañar tus análisis.",
-      items: [
-        { name: "Pipeta de 10 mL" },
-        { name: "Pera de succión automática" },
-        { name: "Bureta automática" },
-        { name: "Bureta automática ámbar" },
-        { name: "Matraz Erlenmeyer de 250 mL" },
-        { name: "Probeta de 50 mL" },
-        {
-          name: "Medidor multiparamétrico portátil",
-          note: "Mide pH, conductividad, STD/TDS y temperatura.",
-        },
-      ],
     },
   ];
 

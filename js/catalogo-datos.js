@@ -1,7 +1,7 @@
 /* =========================================================
    AGUAS ESPECIALES — Categorías del catálogo
    ---------------------------------------------------------
-   Las ocho categorías de producto más los servicios de análisis, que
+   Las siete categorías de producto más los servicios de análisis, que
    ahora viven dentro de Productos y no en una página aparte.
 
    Vive en su propio archivo porque lo leen dos: el catálogo en cuadros
